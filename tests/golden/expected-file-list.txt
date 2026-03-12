@@ -1,6 +1,8 @@
 .codex/config.toml
 .codex/instructions.md
 ARCHITECTURE.md
+BOOTSTRAP/MANUAL_FINALIZATION.md
+BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md
 IMPLEMENTATION_PLAN.md
 PROJECT_CONTEXT.md
 project.scaffold.json

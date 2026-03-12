@@ -21,6 +21,6 @@ describe('manifest generation', () => {
 
     expect(a.files).toEqual(b.files);
     expect(a.manifest).toEqual(b.manifest);
-    expect(a.manifest.schemaVersion).toBe('1.0.0');
+    expect(a.manifest.schemaVersion).toBe('2.0.0');
   });
 });

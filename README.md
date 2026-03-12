@@ -1,27 +1,58 @@
-## Codex Project Scaffold Manager
+## Codex Project Orchestration Manager
 
-Production-ready Next.js + TypeScript application for deterministic scaffolding of ChatGPT/Codex coding projects. It generates project artifacts, Codex config, prompt packs, and a canonical `project.scaffold.json` manifest.
+Production-oriented Next.js + TypeScript orchestration app for deterministic project bootstrap with explicit support boundaries.
 
-## Features
+## Product scope
 
-- Create new AI coding projects from a dashboard wizard
-- Deterministic scaffold generation (sorted keys, stable artifact order, normalized whitespace)
-- Built-in templates:
-  - Full stack SaaS
-  - Next.js web app
-  - Node API
-  - Python CLI
-  - Research/docs
-  - Security/compliance coding project
-- Generates:
-  - `README.md`, `PROJECT_CONTEXT.md`, `ARCHITECTURE.md`, `IMPLEMENTATION_PLAN.md`
-  - `TASKS/`
-  - `PROMPTS/` (7 prompt files)
-  - `.codex/config.toml`, `.codex/instructions.md`
-  - `project.scaffold.json`
-- Optional repo initialization metadata (git/branch/worktree intent captured in manifest)
-- Export/import manifest support
-- Validation: path safety, zod schema checks, deterministic serialization checks
+### Supported automation (public APIs)
+
+1. Phase 1: deterministic scaffold generation
+2. Phase 2: GitHub repository creation (optional) and optional initial commit push
+3. Phase 2: GitHub repository variable configuration (supported)
+4. Phase 3: bootstrap export pack generation for ChatGPT/Codex manual finalization
+5. Job/result tracking in API + UI with persisted job records
+
+### Unsupported/internal-only (disabled by default)
+
+- Direct creation of internal ChatGPT projects/workspaces/chats
+- Direct seeding of prompts/tasks into ChatGPT internal project state
+
+These are represented as explicit `manual_required`/`disabled` steps in orchestration results. No fake success states.
+
+## Key outputs
+
+- Deterministic scaffold files (`README.md`, `PROJECT_CONTEXT.md`, `ARCHITECTURE.md`, `IMPLEMENTATION_PLAN.md`)
+- Prompt pack and task files
+- `project.scaffold.json` (`schemaVersion: 2.0.0`)
+- `BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md`
+- `BOOTSTRAP/MANUAL_FINALIZATION.md`
+- `scaffold.bundle.json` export artifact
+- Persisted orchestration job record under `.orchestration/jobs/<job-id>.json`
+
+## API overview
+
+- `POST /api/projects` → runs orchestration workflow and returns job + result payload
+- `GET /api/jobs/:jobId` → fetch in-memory job status
+- `POST /api/manifests/export` → deterministic manifest export
+- `POST /api/manifests/import` → manifest import validation
+
+## Environment variables
+
+- `OUTPUT_ROOT`: root directory where generated projects and job records are written (default: `./output`)
+- `ENABLE_UNSUPPORTED_AUTOMATION`: keep `false` for production-safe behavior (default expected)
+
+## GitHub automation requirements
+
+Provide in request payload when enabling GitHub:
+
+- `github.enabled = true`
+- `github.owner`
+- `github.repo`
+- `github.token`
+- `github.pushInitialContent` (optional)
+- `github.variables` (optional)
+
+Secrets are intentionally `manual-only` in-app; variable automation is implemented.
 
 ## Local development
 
@@ -30,9 +61,7 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:3000`.
-
-## Build, lint, tests
+## Quality checks
 
 ```bash
 npm run lint
@@ -41,94 +70,10 @@ npm run test
 npm run build
 ```
 
-## Environment variables
-
-Copy `.env.example` to `.env`.
-
-- `OUTPUT_ROOT`: root directory where generated projects are written (default: `./output`)
-- `ENABLE_UNSUPPORTED_AUTOMATION`: must remain `false` for safe defaults
-
-## CI pipeline
-
-Workflow: `.github/workflows/ci.yml`
-
-Runs on push/PR:
-1. Install dependencies (`npm ci`)
-2. Lint
-3. Typecheck
-4. Tests
-5. Build
-
-## Azure deployment
-
-Workflow: `.github/workflows/azure-deploy.yml` (trigger: push to `main` and manual dispatch).
-
-### Authentication paths (explicit)
-
-#### Local/Codex authentication (interactive Azure CLI)
-
-Use bootstrap scripts locally. These are idempotent and only prompt when no active Azure CLI session exists.
-
-```bash
-./scripts/azure-bootstrap.sh
-```
-
-```powershell
-pwsh ./scripts/azure-bootstrap.ps1
-```
-
-Both scripts use this sequence when unauthenticated:
-
-```bash
-az login --use-device-code
-az account set --subscription 6fd92ebe-3092-45b6-83dd-20aeb921b9d0
-az account show -o table
-```
-
-#### GitHub Actions authentication (non-interactive OIDC)
-
-GitHub-hosted runners use `azure/login@v2` with federated OIDC credentials.
-
-> `az login --use-device-code` is intentionally not used in workflows.
-
-### Deployment target and fallback
-
-1. **Primary:** Azure Container Apps (Consumption) with ACR Basic for image storage.
-2. **Fallback:** Azure App Service (Linux B1) if the Container Apps deployment step fails.
-
-The workflow automatically creates missing resources before deployment.
-
-Both deployment paths use the Next.js standalone runtime layout:
-
-- Runtime root contains `server.js`.
-- Static assets are copied to `.next/static`.
-- `public` is copied only when present in the repository.
-
-### Required GitHub secrets
-
-- `AZURE_CLIENT_ID`
-- `AZURE_TENANT_ID`
-- `AZURE_SUBSCRIPTION_ID`
-- `AZURE_WEBAPP_NAME` (used by the App Service fallback path)
-
-### Optional GitHub repository variables
-
-If omitted, workflow defaults are used.
-
-- `AZURE_RESOURCE_GROUP`
-- `AZURE_LOCATION`
-- `AZURE_CONTAINER_REGISTRY`
-- `AZURE_CONTAINERAPPS_ENV`
-- `AZURE_CONTAINER_APP_NAME`
-- `AZURE_APP_SERVICE_PLAN`
-
 ## Determinism guarantees
 
 - Stable JSON serialization and sorted keys
-- Deterministic file ordering and checksums
-- No runtime timestamps in generated artifacts
-- Explicit `schemaVersion` in `project.scaffold.json`
-
-## Unsupported features
-
-Programmatic creation of internal ChatGPT projects/chats is unsupported and disabled by default.
+- Deterministic file ordering
+- Explicit schema versions for manifest and bundle
+- Normalized whitespace in generated markdown/toml
+- No hidden non-deterministic generation state in scaffold outputs
