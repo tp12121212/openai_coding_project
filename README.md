@@ -98,6 +98,12 @@ GitHub-hosted runners use `azure/login@v2` with federated OIDC credentials.
 
 The workflow automatically creates missing resources before deployment.
 
+Both deployment paths use the Next.js standalone runtime layout:
+
+- Runtime root contains `server.js`.
+- Static assets are copied to `.next/static`.
+- `public` is copied only when present in the repository.
+
 ### Required GitHub secrets
 
 - `AZURE_CLIENT_ID`

@@ -160,7 +160,7 @@ jobs:
           az webapp config set \
             --name "${{ secrets.AZURE_WEBAPP_NAME }}" \
             --resource-group "$AZURE_RESOURCE_GROUP" \
-            --startup-file "node .next/standalone/server.js" \
+            --startup-file "node server.js" \
             --output none
 
           az webapp config appsettings set \
@@ -169,7 +169,18 @@ jobs:
             --settings NODE_ENV=production PORT=8080 \
             --output none
 
-          zip -r app.zip . -x '.git/*' 'node_modules/*'
+          rm -rf app-service-package app.zip
+          mkdir -p app-service-package/.next
+          cp -R .next/standalone/. app-service-package/
+          cp -R .next/static app-service-package/.next/static
+          if [ -d public ]; then
+            cp -R public app-service-package/public
+          fi
+
+          (
+            cd app-service-package
+            zip -r ../app.zip .
+          )
 
           az webapp deploy \
             --name "${{ secrets.AZURE_WEBAPP_NAME }}" \
