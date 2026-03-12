@@ -59,38 +59,62 @@ Runs on push/PR:
 4. Tests
 5. Build
 
-## Azure deployment (Linux App Service, Basic B1)
+## Azure deployment
 
-Workflow: `.github/workflows/deploy-azure.yml` (trigger: push to `main`)
+Workflow: `.github/workflows/azure-deploy.yml` (trigger: push to `main` and manual dispatch).
 
-### Required Azure resources
+### Authentication paths (explicit)
 
-- Resource group
-- App Service plan (`B1` Linux)
-- App Service web app
+#### Local/Codex authentication (interactive Azure CLI)
 
-### Authentication options
+Use bootstrap scripts locally. These are idempotent and only prompt when no active Azure CLI session exists.
 
-Preferred: GitHub OIDC + federated identity with service principal.
-Fallback: publish profile secret.
+```bash
+./scripts/azure-bootstrap.sh
+```
+
+```powershell
+pwsh ./scripts/azure-bootstrap.ps1
+```
+
+Both scripts use this sequence when unauthenticated:
+
+```bash
+az login --use-device-code
+az account set --subscription 6fd92ebe-3092-45b6-83dd-20aeb921b9d0
+az account show -o table
+```
+
+#### GitHub Actions authentication (non-interactive OIDC)
+
+GitHub-hosted runners use `azure/login@v2` with federated OIDC credentials.
+
+> `az login --use-device-code` is intentionally not used in workflows.
+
+### Deployment target and fallback
+
+1. **Primary:** Azure Container Apps (Consumption) with ACR Basic for image storage.
+2. **Fallback:** Azure App Service (Linux B1) if the Container Apps deployment step fails.
+
+The workflow automatically creates missing resources before deployment.
 
 ### Required GitHub secrets
 
-OIDC route:
 - `AZURE_CLIENT_ID`
 - `AZURE_TENANT_ID`
 - `AZURE_SUBSCRIPTION_ID`
-- `AZURE_WEBAPP_NAME`
+- `AZURE_WEBAPP_NAME` (used by the App Service fallback path)
 
-Publish profile route:
-- `AZURE_WEBAPP_PUBLISH_PROFILE`
-- `AZURE_WEBAPP_NAME`
+### Optional GitHub repository variables
 
-### Deployment notes
+If omitted, workflow defaults are used.
 
-- Free tier is intentionally not used for production.
-- B1 provides low-cost production-capable hosting.
-- Configure app settings: `NODE_ENV=production`, `OUTPUT_ROOT=/home/site/wwwroot/output`.
+- `AZURE_RESOURCE_GROUP`
+- `AZURE_LOCATION`
+- `AZURE_CONTAINER_REGISTRY`
+- `AZURE_CONTAINERAPPS_ENV`
+- `AZURE_CONTAINER_APP_NAME`
+- `AZURE_APP_SERVICE_PLAN`
 
 ## Determinism guarantees
 
