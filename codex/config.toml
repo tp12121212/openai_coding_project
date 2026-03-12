@@ -1,0 +1,3 @@
+profile = "strict"
+unsupported_automation = false
+deterministic = true

@@ -1,0 +1,15 @@
+.codex/config.toml
+.codex/instructions.md
+ARCHITECTURE.md
+IMPLEMENTATION_PLAN.md
+PROJECT_CONTEXT.md
+project.scaffold.json
+PROMPTS/01-bootstrap-and-inventory.md
+PROMPTS/02-design-plan.md
+PROMPTS/03-implement-feature.md
+PROMPTS/04-fix-bug.md
+PROMPTS/05-validate-and-test.md
+PROMPTS/06-deep-codebase-review.md
+PROMPTS/07-release-readiness.md
+README.md
+TASKS/00-initial-backlog.md
