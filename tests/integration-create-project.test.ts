@@ -23,7 +23,7 @@ describe('create-project flow', () => {
     );
 
     const manifest = await fs.readFile(result.manifestPath, 'utf8');
-    expect(result.filesWritten.length).toBeGreaterThan(8);
-    expect(manifest).toContain('"schemaVersion": "1.0.0"');
+    expect(result.filesWritten.length).toBeGreaterThan(10);
+    expect(manifest).toContain('"schemaVersion": "2.0.0"');
   });
 });

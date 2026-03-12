@@ -6,9 +6,7 @@ export type BuiltInTemplateId =
   | 'research-docs'
   | 'security-compliance';
 
-export type PromptPackId =
-  | 'default-engineering'
-  | 'security-compliance-focused';
+export type PromptPackId = 'default-engineering' | 'security-compliance-focused';
 
 export interface ArtifactRecord {
   path: string;
@@ -17,7 +15,7 @@ export interface ArtifactRecord {
 }
 
 export interface ScaffoldManifest {
-  schemaVersion: '1.0.0';
+  schemaVersion: '2.0.0';
   project: {
     name: string;
     slug: string;
@@ -36,6 +34,13 @@ export interface ScaffoldManifest {
     branchName: string | null;
     createWorktree: boolean;
     worktreePath: string | null;
+    github: {
+      enabled: boolean;
+      owner: string | null;
+      repo: string | null;
+      private: boolean;
+      pushInitialContent: boolean;
+    };
   };
   codex: {
     profile: 'strict' | 'balanced' | 'rapid';
@@ -43,6 +48,11 @@ export interface ScaffoldManifest {
   };
   prompts: {
     packId: PromptPackId;
+    files: string[];
+  };
+  bootstrapPack: {
+    schemaVersion: '1.0.0';
+    manualFinalizationRequired: true;
     files: string[];
   };
   generatedArtifacts: ArtifactRecord[];

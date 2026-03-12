@@ -31,10 +31,25 @@ export function buildScaffold(request: CreateProjectRequest): ScaffoldResult {
   const slug = slugify(request.projectName);
   const promptFiles = getPromptPack(request.promptPackId);
 
+  const bootstrapInstruction = [
+    '## Supported automation boundary',
+    '- Supported: scaffold generation, GitHub repo creation, optional initial push, repository variables.',
+    '- Unsupported: direct ChatGPT project/workspace creation and chat seeding via public API.',
+    '',
+    '## Manual finalization workflow',
+    '1. Create or open your target ChatGPT/Codex project workspace manually.',
+    '2. Upload or copy files from `PROMPTS/` and `TASKS/`.',
+    '3. Apply `.codex/config.toml` and `.codex/instructions.md` in your coding agent context.',
+    '4. Paste `BOOTSTRAP/MANUAL_FINALIZATION.md` checklist into your starter chat and complete each step.'
+  ].join('\n');
+
   const fileMap: GeneratedFile[] = [
     {
       path: 'README.md',
-      content: renderMarkdown(request.projectName, `${request.description}\n\nTemplate: ${template.name}`)
+      content: renderMarkdown(
+        request.projectName,
+        `${request.description}\n\nTemplate: ${template.name}\n\nThis project was created through the orchestration workflow with explicit supported/unsupported boundaries.`
+      )
     },
     {
       path: 'PROJECT_CONTEXT.md',
@@ -50,21 +65,34 @@ export function buildScaffold(request: CreateProjectRequest): ScaffoldResult {
     },
     {
       path: '.codex/config.toml',
-      content: normalizeWhitespace(
-        [`profile = "${request.codexProfile}"`, 'unsupported_automation = false', 'deterministic = true'].join('\n')
-      ) + '\n'
+      content:
+        normalizeWhitespace(
+          [`profile = "${request.codexProfile}"`, 'unsupported_automation = false', 'deterministic = true'].join(
+            '\n'
+          )
+        ) + '\n'
     },
     {
       path: '.codex/instructions.md',
-      content:
-        renderMarkdown(
-          'Codex Instructions',
-          'Follow existing patterns, inspect modules first, run tests, and explain assumptions.'
-        )
+      content: renderMarkdown(
+        'Codex Instructions',
+        'Follow existing patterns, inspect modules first, run tests, and explain assumptions.'
+      )
     },
     {
       path: 'TASKS/00-initial-backlog.md',
       content: renderMarkdown('Initial Backlog', template.tasks.map((task) => `- [ ] ${task}`).join('\n'))
+    },
+    {
+      path: 'BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md',
+      content: renderMarkdown('Project Bootstrap Pack', bootstrapInstruction)
+    },
+    {
+      path: 'BOOTSTRAP/MANUAL_FINALIZATION.md',
+      content: renderMarkdown(
+        'Manual Finalization Checklist',
+        '- [ ] Create workspace manually in ChatGPT/Codex\n- [ ] Seed prompt pack files\n- [ ] Seed tasks and context files\n- [ ] Start kickoff chat with implementation plan'
+      )
     }
   ];
 
@@ -91,7 +119,7 @@ export function buildScaffold(request: CreateProjectRequest): ScaffoldResult {
     .sort((a, b) => a.path.localeCompare(b.path));
 
   const manifest: ScaffoldManifest = {
-    schemaVersion: '1.0.0',
+    schemaVersion: '2.0.0',
     project: {
       name: request.projectName,
       slug,
@@ -109,7 +137,14 @@ export function buildScaffold(request: CreateProjectRequest): ScaffoldResult {
       createBranch: request.createBranch,
       branchName: request.createBranch ? request.branchName ?? 'feature/bootstrap' : null,
       createWorktree: request.createWorktree,
-      worktreePath: request.createWorktree ? request.worktreePath ?? './worktrees/default' : null
+      worktreePath: request.createWorktree ? request.worktreePath ?? './worktrees/default' : null,
+      github: {
+        enabled: Boolean(request.github?.enabled),
+        owner: request.github?.owner ?? null,
+        repo: request.github?.repo ?? null,
+        private: request.github?.private ?? true,
+        pushInitialContent: Boolean(request.github?.pushInitialContent)
+      }
     },
     codex: {
       profile: request.codexProfile,
@@ -117,7 +152,12 @@ export function buildScaffold(request: CreateProjectRequest): ScaffoldResult {
     },
     prompts: {
       packId: request.promptPackId,
-      files: promptFiles.map((file) => `PROMPTS/${file.fileName}`)
+      files: promptFiles.map((file) => `PROMPTS/${file.fileName}`).sort((a, b) => a.localeCompare(b))
+    },
+    bootstrapPack: {
+      schemaVersion: '1.0.0',
+      manualFinalizationRequired: true,
+      files: ['BOOTSTRAP/MANUAL_FINALIZATION.md', 'BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md']
     },
     generatedArtifacts: artifactRecords,
     validation: {
