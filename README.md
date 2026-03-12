@@ -1,4 +1,4 @@
-### Codex Project Scaffold Manager
+## Codex Project Scaffold Manager
 
 Production-ready Next.js + TypeScript application for deterministic scaffolding of ChatGPT/Codex coding projects. It generates project artifacts, Codex config, prompt packs, and a canonical `project.scaffold.json` manifest.
 
