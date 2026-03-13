@@ -11,7 +11,15 @@ interface ApiJob {
   error?: string;
 }
 
+interface RuntimeConfigStatus {
+  NEXTAUTH_URL: 'present' | 'missing';
+  NEXTAUTH_SECRET: 'present' | 'missing';
+  GITHUB_CLIENT_ID: 'present' | 'missing';
+  GITHUB_CLIENT_SECRET: 'present' | 'missing';
+}
+
 const templates = getBuiltInTemplates();
+const FORM_STORAGE_KEY = 'project-wizard-form-v1';
 
 const defaultForm: CreateProjectRequest = {
   schemaVersion: '3.0.0',
@@ -32,64 +40,136 @@ const defaultForm: CreateProjectRequest = {
   createWorktree: false
 };
 
+function safeStringifyError(error: unknown): string {
+  if (typeof error === 'string') return error;
+  return JSON.stringify(error ?? {}, null, 2);
+}
+
 export function ProjectWizard() {
   const [formState, setFormState] = useState<CreateProjectRequest>(defaultForm);
   const [job, setJob] = useState<ApiJob | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [authenticated, setAuthenticated] = useState(false);
   const [repos, setRepos] = useState<Array<{ full_name: string }>>([]);
+  const [repoSearch, setRepoSearch] = useState('');
+  const [loadingRepos, setLoadingRepos] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [runtimeStatus, setRuntimeStatus] = useState<RuntimeConfigStatus | null>(null);
 
   const selectedTemplate = useMemo(
     () => templates.find((template) => template.id === formState.templateId),
     [formState.templateId]
   );
 
+  const githubRuntimeReady = useMemo(() => {
+    if (!runtimeStatus) return false;
+    return runtimeStatus.NEXTAUTH_SECRET === 'present' && runtimeStatus.GITHUB_CLIENT_ID === 'present' && runtimeStatus.GITHUB_CLIENT_SECRET === 'present';
+  }, [runtimeStatus]);
+
+  useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem(FORM_STORAGE_KEY);
+      if (!raw) return;
+      const parsed = JSON.parse(raw) as Partial<CreateProjectRequest>;
+      setFormState((current) => ({
+        ...current,
+        ...parsed,
+        github: {
+          repoName: parsed.github?.repoName ?? current.github?.repoName ?? defaultForm.github!.repoName,
+          visibility: parsed.github?.visibility ?? current.github?.visibility ?? defaultForm.github!.visibility,
+          description: parsed.github?.description ?? current.github?.description ?? defaultForm.github!.description,
+          existingRepoFullName: parsed.github?.existingRepoFullName ?? current.github?.existingRepoFullName
+        }
+      }));
+    } catch {
+      window.localStorage.removeItem(FORM_STORAGE_KEY);
+    }
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(formState));
+  }, [formState]);
+
   useEffect(() => {
     fetch('/api/auth/session')
       .then((response) => response.json())
       .then((data: { authenticated?: boolean }) => setAuthenticated(Boolean(data.authenticated)))
       .catch(() => setAuthenticated(false));
+
+    fetch('/api/runtime-config-check')
+      .then((response) => response.json())
+      .then((data: RuntimeConfigStatus) => setRuntimeStatus(data))
+      .catch(() => setRuntimeStatus(null));
   }, []);
 
   useEffect(() => {
-    if (formState.deliveryMode !== 'github-existing-repo' || !authenticated) {
+    if (formState.deliveryMode !== 'github-existing-repo' || !authenticated || !githubRuntimeReady) {
       setRepos([]);
       return;
     }
-    fetch('/api/github/repos?page=1')
+
+    const controller = new AbortController();
+    setLoadingRepos(true);
+
+    fetch(`/api/github/repos?page=1&search=${encodeURIComponent(repoSearch.trim())}`, { signal: controller.signal })
       .then((response) => response.json())
       .then((data: { repos?: Array<{ full_name: string }> }) => setRepos((data.repos ?? []).sort((a, b) => a.full_name.localeCompare(b.full_name))))
-      .catch(() => setRepos([]));
-  }, [authenticated, formState.deliveryMode]);
+      .catch(() => setRepos([]))
+      .finally(() => setLoadingRepos(false));
+
+    return () => controller.abort();
+  }, [authenticated, formState.deliveryMode, githubRuntimeReady, repoSearch]);
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (submitting) return;
+
     setError(null);
     setJob(null);
+    setSubmitting(true);
 
-    const res = await fetch('/api/projects', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formState)
-    });
+    try {
+      const res = await fetch('/api/projects', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formState)
+      });
 
-    const body = (await res.json()) as { job?: ApiJob; error?: unknown };
-    if (!res.ok || !body.job) {
-      setError(JSON.stringify(body.error ?? body, null, 2));
-      return;
+      const body = (await res.json()) as { job?: ApiJob; error?: unknown };
+      if (!res.ok || !body.job) {
+        setError(safeStringifyError(body.error ?? body));
+        return;
+      }
+
+      setJob(body.job);
+    } catch {
+      setError('Network error while submitting orchestration request.');
+    } finally {
+      setSubmitting(false);
     }
-
-    setJob(body.job);
   }
+
+  const oauthDisabledReason = githubRuntimeReady
+    ? null
+    : 'GitHub authentication is unavailable: missing NEXTAUTH_SECRET, GITHUB_CLIENT_ID, or GITHUB_CLIENT_SECRET runtime settings.';
+
+  const downloadUrl = job?.state === 'completed' && formState.deliveryMode === 'zip' ? `/api/jobs/${job.id}/download` : null;
 
   return (
     <div className="card-grid">
       <form className="card" onSubmit={submit}>
         <h2>Project Orchestration Wizard</h2>
         <p>GitHub auth: {authenticated ? 'Connected' : 'Not connected'}</p>
-        <div className="button-row">
-          <button type="button" onClick={() => (window.location.href = "/api/auth/signin/github")}>Sign in with GitHub</button>
-          <button type="button" onClick={() => (window.location.href = "/api/auth/signout")}>Sign out</button>
+        {oauthDisabledReason && <p className="warning">{oauthDisabledReason}</p>}
+        <div className="button-row wrap">
+          <button
+            type="button"
+            disabled={!githubRuntimeReady}
+            onClick={() => (window.location.href = `/api/auth/signin/github?callbackUrl=${encodeURIComponent(window.location.href)}`)}
+          >
+            Sign in with GitHub
+          </button>
+          <button type="button" onClick={() => (window.location.href = '/api/auth/signout?callbackUrl=/')}>Sign out</button>
         </div>
 
         <label>Project Name<input required value={formState.projectName} onChange={(e) => setFormState((s) => ({ ...s, projectName: e.target.value }))} /></label>
@@ -127,16 +207,24 @@ export function ProjectWizard() {
         )}
 
         {formState.deliveryMode === 'github-existing-repo' && (
-          <label>
-            Existing Repository
-            <select value={formState.github?.existingRepoFullName ?? ''} onChange={(e) => setFormState((s) => ({ ...s, github: { ...s.github, existingRepoFullName: e.target.value, repoName: s.github?.repoName ?? 'placeholder', visibility: s.github?.visibility ?? 'private' } }))}>
-              <option value="">Select a repository</option>
-              {repos.map((repo) => <option key={repo.full_name} value={repo.full_name}>{repo.full_name}</option>)}
-            </select>
-          </label>
+          <>
+            <label>
+              Search repositories
+              <input value={repoSearch} placeholder="owner/repository" onChange={(e) => setRepoSearch(e.target.value)} />
+            </label>
+            <label>
+              Existing Repository
+              <select value={formState.github?.existingRepoFullName ?? ''} onChange={(e) => setFormState((s) => ({ ...s, github: { ...s.github, existingRepoFullName: e.target.value, repoName: s.github?.repoName ?? 'placeholder', visibility: s.github?.visibility ?? 'private' } }))}>
+                <option value="">{loadingRepos ? 'Loading repositories...' : 'Select a repository'}</option>
+                {repos.map((repo) => <option key={repo.full_name} value={repo.full_name}>{repo.full_name}</option>)}
+              </select>
+            </label>
+          </>
         )}
 
-        <button type="submit" disabled={formState.deliveryMode !== 'zip' && !authenticated}>Run Orchestration</button>
+        <button type="submit" disabled={submitting || ((formState.deliveryMode !== 'zip') && (!authenticated || !githubRuntimeReady))}>
+          {submitting ? 'Running orchestration...' : 'Run Orchestration'}
+        </button>
       </form>
 
       <section className="card">
@@ -145,6 +233,7 @@ export function ProjectWizard() {
           <li>Zip mode works without GitHub login.</li>
           <li>GitHub modes require OAuth login.</li>
           <li>Existing repo mode is PR-only and non-destructive.</li>
+          <li>OAuth flow uses full-page redirects for mobile browser compatibility.</li>
         </ul>
         {templates.map((template) => (
           <article key={template.id} className={template.id === selectedTemplate?.id ? 'active-template' : ''}>
@@ -157,6 +246,11 @@ export function ProjectWizard() {
         <h2>Job / Results</h2>
         {!job && <p>Submit the workflow to view outputs.</p>}
         {job && <pre>{JSON.stringify(job, null, 2)}</pre>}
+        {downloadUrl && (
+          <div className="button-row">
+            <a className="button-link" href={downloadUrl} target="_blank" rel="noreferrer">Download ZIP</a>
+          </div>
+        )}
         {error && <pre className="error">{error}</pre>}
       </section>
     </div>

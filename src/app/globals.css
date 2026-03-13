@@ -3,6 +3,10 @@
   font-family: Inter, system-ui, sans-serif;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   background: #0f172a;
@@ -12,13 +16,13 @@ body {
 main {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1.25rem;
 }
 
 .card-grid {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
 .card {
@@ -26,6 +30,7 @@ main {
   border-radius: 12px;
   padding: 1rem;
   background: #111827;
+  min-width: 0;
 }
 
 label {
@@ -38,16 +43,32 @@ label {
 input,
 textarea,
 select,
-button {
+button,
+.button-link {
+  width: 100%;
   background: #0b1220;
   color: inherit;
   border: 1px solid #334155;
   border-radius: 8px;
-  padding: 0.5rem;
+  padding: 0.7rem;
+  min-height: 44px;
+  font: inherit;
 }
 
-button {
+textarea {
+  min-height: 88px;
+}
+
+button,
+.button-link {
   cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+
+button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
 }
 
 .active-template {
@@ -58,6 +79,7 @@ button {
 pre {
   overflow-x: auto;
   white-space: pre-wrap;
+  word-break: break-word;
   font-size: 0.8rem;
 }
 
@@ -65,5 +87,26 @@ pre {
   color: #fca5a5;
 }
 
-.button-row { display:flex; gap:0.5rem; margin-bottom:0.75rem; }
-.button-row a { border:1px solid #334155; border-radius:8px; padding:0.4rem 0.6rem; text-decoration:none; color:#7dd3fc; }
+.warning {
+  color: #fbbf24;
+}
+
+.button-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.button-row.wrap {
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  main {
+    padding: 1rem;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+}
