@@ -317,9 +317,70 @@ async function createCommitForFiles(token: string, owner: string, repo: string, 
   return commit.sha;
 }
 
+async function initializeRepositoryWithFirstCommit(
+  token: string,
+  owner: string,
+  repo: string,
+  branch: string,
+  files: Array<{ path: string; content: string }>
+): Promise<void> {
+  if (files.length === 0) {
+    return;
+  }
+
+  const orderedFiles = [...files].sort((a, b) => a.path.localeCompare(b.path));
+  const [firstFile, ...remainingFiles] = orderedFiles;
+  if (!firstFile) {
+    return;
+  }
+
+  await githubRequest(`/repos/${owner}/${repo}/contents/${encodeURIComponent(firstFile.path)}`, {
+    method: 'PUT',
+    token,
+    body: JSON.stringify({
+      message: 'Initial scaffold commit',
+      content: Buffer.from(firstFile.content, 'utf8').toString('base64'),
+      branch
+    })
+  });
+
+  if (remainingFiles.length === 0) {
+    return;
+  }
+
+  const initializedHeadSha = await getDefaultBranchHead(token, owner, repo, branch);
+  if (!initializedHeadSha) {
+    throw new Error('Default branch head was not found after initializing repository.');
+  }
+
+  const commitSha = await createCommitForFiles(token, owner, repo, remainingFiles, 'Initial scaffold commit', initializedHeadSha);
+  await githubRequest(`/repos/${owner}/${repo}/git/refs/heads/${encodeURIComponent(branch)}`, {
+    method: 'PATCH',
+    token,
+    body: JSON.stringify({ sha: commitSha, force: false })
+  });
+}
+
 export async function commitToDefaultBranch(token: string, owner: string, repo: string, branch: string, files: Array<{ path: string; content: string }>): Promise<void> {
   const headSha = await getDefaultBranchHead(token, owner, repo, branch);
-  const commitSha = await createCommitForFiles(token, owner, repo, files, 'Initial scaffold commit', headSha);
+  let commitSha: string;
+
+  try {
+    commitSha = await createCommitForFiles(token, owner, repo, files, 'Initial scaffold commit', headSha);
+  } catch (error) {
+    const isEmptyRepositoryBlobError =
+      isGitHubApiError(error) &&
+      error.diagnostics.endpoint === `/repos/${owner}/${repo}/git/blobs` &&
+      error.diagnostics.status === 409 &&
+      (error.diagnostics.message?.toLowerCase().includes('repository is empty') ?? false);
+
+    if (!isEmptyRepositoryBlobError) {
+      throw error;
+    }
+
+    await initializeRepositoryWithFirstCommit(token, owner, repo, branch, files);
+    return;
+  }
 
   if (headSha) {
     await githubRequest(`/repos/${owner}/${repo}/git/refs/heads/${encodeURIComponent(branch)}`, { method: 'PATCH', token, body: JSON.stringify({ sha: commitSha, force: false }) });
