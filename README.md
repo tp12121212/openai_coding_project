@@ -39,6 +39,12 @@ Required environment variables:
 
 Tokens remain server-side in session callbacks and are never sent in client payloads.
 
+OAuth scope requirements:
+
+- `read:user user:email repo` (requested by the GitHub provider).
+- `repo` is required for user repository creation (`POST /user/repos`) and PR/branch/commit APIs used by existing-repo mode.
+- If a user authenticated before scope updates, re-authentication is required to grant newly requested scopes.
+
 If required runtime variables are missing, the app logs a startup/runtime error, disables GitHub auth cleanly, and exposes sanitized status via `/api/runtime-config-check`.
 
 
@@ -50,6 +56,7 @@ If required runtime variables are missing, the app logs a startup/runtime error,
 - `GET /api/runtime-config-check` — sanitized runtime variable presence check.
 - `GET /api/jobs/:jobId/download` — browser-friendly ZIP download endpoint (mobile and desktop compatible).
 - `GET /api/github/repos` — authenticated repository listing with pagination/search params.
+- `GET /api/github/auth-check` — sanitized GitHub auth capability diagnostics (auth state, token presence, inferred repo permissions, scope summary).
 - `GET|POST /api/auth/[...nextauth]` — NextAuth handlers.
 
 ## Local development
