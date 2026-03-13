@@ -27,7 +27,7 @@ Deterministic scaffold generator with GitHub-aware delivery workflows.
 
 ## GitHub authentication
 
-Authentication is powered by NextAuth GitHub OAuth.
+Authentication is powered by NextAuth GitHub OAuth. Runtime values are read from `process.env` only (suitable for Azure App Service app settings).
 
 Required environment variables:
 
@@ -39,11 +39,16 @@ Required environment variables:
 
 Tokens remain server-side in session callbacks and are never sent in client payloads.
 
+If required runtime variables are missing, the app logs a startup/runtime error, disables GitHub auth cleanly, and exposes sanitized status via `/api/runtime-config-check`.
+
+
 ## API overview
 
 - `POST /api/projects` — run orchestration for selected delivery mode.
 - `POST /api/scaffold/zip` — direct deterministic zip export endpoint.
 - `GET /api/auth/session` — auth/session status for UI.
+- `GET /api/runtime-config-check` — sanitized runtime variable presence check.
+- `GET /api/jobs/:jobId/download` — browser-friendly ZIP download endpoint (mobile and desktop compatible).
 - `GET /api/github/repos` — authenticated repository listing with pagination/search params.
 - `GET|POST /api/auth/[...nextauth]` — NextAuth handlers.
 
