@@ -25,6 +25,12 @@ interface TreeResponse {
 interface GitHubErrorResponse {
   message?: string;
   documentation_url?: string;
+  errors?: Array<{
+    resource?: string;
+    field?: string;
+    code?: string;
+    message?: string;
+  }>;
 }
 
 interface ParsedScopeHeaders {
@@ -79,7 +85,7 @@ function parseScopeHeaders(headers: Headers): ParsedScopeHeaders {
 
 function buildDiagnosticSummary(route: string, response: Response, payload?: GitHubErrorResponse): GitHubDiagnosticSummary {
   const scopes = parseScopeHeaders(response.headers);
-  const message = typeof payload?.message === 'string' ? payload.message : undefined;
+  const message = formatGitHubErrorMessage(payload);
   const suspectedAuthIssue = response.status === 401 || response.status === 403 || (response.status === 404 && message === 'Not Found');
 
   return {
@@ -92,6 +98,37 @@ function buildDiagnosticSummary(route: string, response: Response, payload?: Git
     suspectedAuthIssue,
     requestId: response.headers.get('x-github-request-id') ?? undefined
   };
+}
+
+function formatGitHubErrorMessage(payload?: GitHubErrorResponse): string | undefined {
+  const baseMessage = typeof payload?.message === 'string' ? payload.message.trim() : '';
+  const details = (payload?.errors ?? [])
+    .map((error) => {
+      const explicitMessage = typeof error.message === 'string' ? error.message.trim() : '';
+      if (explicitMessage) {
+        return explicitMessage;
+      }
+      const code = typeof error.code === 'string' ? error.code.trim() : '';
+      const field = typeof error.field === 'string' ? error.field.trim() : '';
+      if (code && field) {
+        return `${field}: ${code}`;
+      }
+      if (code) {
+        return code;
+      }
+      return '';
+    })
+    .filter(Boolean);
+
+  if (!baseMessage && details.length === 0) {
+    return undefined;
+  }
+
+  if (details.length === 0) {
+    return baseMessage;
+  }
+
+  return `${baseMessage || 'GitHub API request failed.'} details=${details.join(' | ')}`;
 }
 
 function logGitHubFailure(diagnostics: GitHubDiagnosticSummary): void {
