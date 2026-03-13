@@ -18,6 +18,12 @@ interface RuntimeConfigStatus {
   GITHUB_CLIENT_SECRET: 'present' | 'missing';
 }
 
+interface RuntimeConfigCheckResponse {
+  githubAuthEnabled: boolean;
+  missing: Array<keyof RuntimeConfigStatus>;
+  status: RuntimeConfigStatus;
+}
+
 const templates = getBuiltInTemplates();
 const FORM_STORAGE_KEY = 'project-wizard-form-v1';
 
@@ -54,7 +60,7 @@ export function ProjectWizard() {
   const [repoSearch, setRepoSearch] = useState('');
   const [loadingRepos, setLoadingRepos] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [runtimeStatus, setRuntimeStatus] = useState<RuntimeConfigStatus | null>(null);
+  const [runtimeConfig, setRuntimeConfig] = useState<RuntimeConfigCheckResponse | null>(null);
 
   const selectedTemplate = useMemo(
     () => templates.find((template) => template.id === formState.templateId),
@@ -62,9 +68,9 @@ export function ProjectWizard() {
   );
 
   const githubRuntimeReady = useMemo(() => {
-    if (!runtimeStatus) return false;
-    return runtimeStatus.NEXTAUTH_SECRET === 'present' && runtimeStatus.GITHUB_CLIENT_ID === 'present' && runtimeStatus.GITHUB_CLIENT_SECRET === 'present';
-  }, [runtimeStatus]);
+    if (!runtimeConfig) return false;
+    return runtimeConfig.githubAuthEnabled;
+  }, [runtimeConfig]);
 
   useEffect(() => {
     try {
@@ -98,8 +104,8 @@ export function ProjectWizard() {
 
     fetch('/api/runtime-config-check')
       .then((response) => response.json())
-      .then((data: RuntimeConfigStatus) => setRuntimeStatus(data))
-      .catch(() => setRuntimeStatus(null));
+      .then((data: RuntimeConfigCheckResponse) => setRuntimeConfig(data))
+      .catch(() => setRuntimeConfig(null));
   }, []);
 
   useEffect(() => {
@@ -151,7 +157,7 @@ export function ProjectWizard() {
 
   const oauthDisabledReason = githubRuntimeReady
     ? null
-    : 'GitHub authentication is unavailable: missing NEXTAUTH_SECRET, GITHUB_CLIENT_ID, or GITHUB_CLIENT_SECRET runtime settings.';
+    : `GitHub authentication is unavailable: missing ${runtimeConfig?.missing.join(', ') ?? 'runtime configuration'}.`;
 
   const downloadUrl = job?.state === 'completed' && formState.deliveryMode === 'zip' ? `/api/jobs/${job.id}/download` : null;
 

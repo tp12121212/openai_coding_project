@@ -8,13 +8,13 @@ export const REQUIRED_RUNTIME_ENV_VARS = [
 export type RuntimeEnvVar = (typeof REQUIRED_RUNTIME_ENV_VARS)[number];
 export type RuntimeConfigStatus = Record<RuntimeEnvVar, 'present' | 'missing'>;
 
-function readEnv(name: RuntimeEnvVar): string {
+export function readRuntimeEnv(name: RuntimeEnvVar): string {
   return process.env[name]?.trim() ?? '';
 }
 
 export function getRuntimeConfigStatus(): RuntimeConfigStatus {
   return REQUIRED_RUNTIME_ENV_VARS.reduce((status, key) => {
-    status[key] = readEnv(key) ? 'present' : 'missing';
+    status[key] = readRuntimeEnv(key) ? 'present' : 'missing';
     return status;
   }, {} as RuntimeConfigStatus);
 }
@@ -26,7 +26,7 @@ export function getMissingRuntimeEnvVars(): RuntimeEnvVar[] {
 
 export function canEnableGitHubAuth(): boolean {
   const requiredForAuth: RuntimeEnvVar[] = ['NEXTAUTH_URL', 'NEXTAUTH_SECRET', 'GITHUB_CLIENT_ID', 'GITHUB_CLIENT_SECRET'];
-  return requiredForAuth.every((key) => readEnv(key));
+  return requiredForAuth.every((key) => readRuntimeEnv(key));
 }
 
 let hasLoggedRuntimeConfigError = false;
