@@ -62,4 +62,27 @@ describe('github api integration', () => {
       expect(mapped.diagnostics?.documentationUrl).toContain('create-a-repository-for-the-authenticated-user');
     }
   });
+
+  test('returns actionable repository-name-conflict diagnostics', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () =>
+        new Response(
+          JSON.stringify({
+            message: 'Repository creation failed. name already exists on this account',
+            documentation_url: 'https://docs.github.com/rest/repos/repos#create-a-repository-for-the-authenticated-user'
+          }),
+          { status: 422 }
+        )) as never
+    );
+
+    try {
+      await createRepository('token', { repoName: 'existing-repo', visibility: 'private' });
+    } catch (error) {
+      expect(isGitHubApiError(error)).toBe(true);
+      const mapped = mapGitHubErrorForClient(error);
+      expect(mapped.error).toContain('GitHub API /user/repos failed (422)');
+      expect(mapped.error).toContain('possibleCause=repository name is already in use for this GitHub account');
+    }
+  });
 });

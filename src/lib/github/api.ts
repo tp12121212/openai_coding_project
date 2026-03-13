@@ -149,10 +149,13 @@ export async function githubRequest<T>(route: string, options: GitHubRequestOpti
 export function mapGitHubErrorForClient(error: unknown): { error: string; diagnostics?: GitHubDiagnosticSummary } {
   if (isGitHubApiError(error)) {
     const diagnostics = error.diagnostics;
+    const lowerMessage = diagnostics.message?.toLowerCase() ?? '';
+    const repositoryNameConflict = diagnostics.status === 422 && lowerMessage.includes('name already exists on this account');
     const summary = [
       `GitHub API ${diagnostics.endpoint} failed (${diagnostics.status})`,
       diagnostics.message ? `message=${diagnostics.message}` : null,
       diagnostics.documentationUrl ? `docs=${diagnostics.documentationUrl}` : null,
+      repositoryNameConflict ? 'possibleCause=repository name is already in use for this GitHub account; choose a different repo name or use existing-repo mode.' : null,
       diagnostics.suspectedAuthIssue ? 'possibleCause=token or scope permission issue; re-authentication may be required.' : null
     ]
       .filter(Boolean)
