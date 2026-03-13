@@ -1,4 +1,4 @@
-## Codex Project Orchestration Manager
+### Codex Project Orchestration Manager
 
 Deterministic scaffold generator with GitHub-aware delivery workflows.
 
