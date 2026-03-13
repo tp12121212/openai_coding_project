@@ -1,7 +1,16 @@
 import { NextResponse } from 'next/server';
-import { getRuntimeConfigStatus, logRuntimeConfigValidation } from '@/lib/runtime-config';
+import { canEnableGitHubAuth, getMissingRuntimeEnvVars, getRuntimeConfigStatus, logRuntimeConfigValidation } from '@/lib/runtime-config';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   logRuntimeConfigValidation('runtime config check endpoint');
-  return NextResponse.json(getRuntimeConfigStatus(), { status: 200 });
+  return NextResponse.json(
+    {
+      githubAuthEnabled: canEnableGitHubAuth(),
+      missing: getMissingRuntimeEnvVars(),
+      status: getRuntimeConfigStatus()
+    },
+    { status: 200 }
+  );
 }

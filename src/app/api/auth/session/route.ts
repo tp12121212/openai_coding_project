@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/auth';
+import { getAuthOptions } from '@/auth';
 import { canEnableGitHubAuth, getMissingRuntimeEnvVars } from '@/lib/runtime-config';
 
 export async function GET() {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(getAuthOptions());
   return NextResponse.json({
     authenticated: Boolean(session?.user),
     user: session?.user ?? null,

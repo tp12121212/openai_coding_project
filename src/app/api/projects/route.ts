@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/auth';
+import { getAuthOptions } from '@/auth';
 import { CreateProjectRequestSchema } from '@/lib/generator/schema';
 import { runOrchestration } from '@/lib/orchestration/service';
 
@@ -12,7 +12,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   }
 
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(getAuthOptions());
   const token = session?.githubAccessToken;
 
   if (parsed.data.deliveryMode !== 'zip' && !token) {
