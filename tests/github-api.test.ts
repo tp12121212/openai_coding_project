@@ -69,8 +69,9 @@ describe('github api integration', () => {
       vi.fn(async () =>
         new Response(
           JSON.stringify({
-            message: 'Repository creation failed. name already exists on this account',
-            documentation_url: 'https://docs.github.com/rest/repos/repos#create-a-repository-for-the-authenticated-user'
+            message: 'Repository creation failed.',
+            documentation_url: 'https://docs.github.com/rest/repos/repos#create-a-repository-for-the-authenticated-user',
+            errors: [{ resource: 'Repository', field: 'name', code: 'custom', message: 'name already exists on this account' }]
           }),
           { status: 422 }
         )) as never
