@@ -15,12 +15,12 @@ export interface ArtifactRecord {
 }
 
 export interface ScaffoldManifest {
-  schemaVersion: '2.0.0';
+  schemaVersion: '3.0.0';
   project: {
     name: string;
     slug: string;
-    localPath: string;
     description: string;
+    category: string;
   };
   stack: {
     templateId: BuiltInTemplateId;
@@ -28,23 +28,12 @@ export interface ScaffoldManifest {
     language: string;
     runtime: string;
   };
-  repository: {
-    initializeGit: boolean;
-    createBranch: boolean;
-    branchName: string | null;
-    createWorktree: boolean;
-    worktreePath: string | null;
-    github: {
-      enabled: boolean;
-      owner: string | null;
-      repo: string | null;
-      private: boolean;
-      pushInitialContent: boolean;
-    };
+  delivery: {
+    mode: 'zip' | 'github-new-repo' | 'github-existing-repo';
   };
-  codex: {
-    profile: 'strict' | 'balanced' | 'rapid';
-    unsupportedAutomationEnabled: false;
+  hygiene: {
+    checksVersion: '1.0.0';
+    baselineFiles: string[];
   };
   prompts: {
     packId: PromptPackId;

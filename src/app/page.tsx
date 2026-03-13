@@ -5,8 +5,8 @@ export default function HomePage() {
     <main>
       <h1>Codex Project Orchestration Manager</h1>
       <p>
-        Deterministic project scaffolding with optional GitHub repository automation and explicit manual
-        bootstrap flow for unsupported ChatGPT internal project creation.
+        Deterministic scaffold generation with three delivery modes: zip bundle download, new GitHub repository
+        creation, and non-destructive existing repository PR updates.
       </p>
       <ProjectWizard />
     </main>

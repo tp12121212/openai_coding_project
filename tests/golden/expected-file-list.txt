@@ -1,11 +1,13 @@
 .codex/config.toml
 .codex/instructions.md
+.editorconfig
+.gitignore
 ARCHITECTURE.md
 BOOTSTRAP/MANUAL_FINALIZATION.md
 BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md
 IMPLEMENTATION_PLAN.md
+LICENSE
 PROJECT_CONTEXT.md
-project.scaffold.json
 PROMPTS/01-bootstrap-and-inventory.md
 PROMPTS/02-design-plan.md
 PROMPTS/03-implement-feature.md

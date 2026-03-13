@@ -6,12 +6,14 @@ import { buildScaffold } from '../src/lib/generator/scaffold';
 describe('golden output', () => {
   test('matches expected artifact list', () => {
     const result = buildScaffold({
+      schemaVersion: '3.0.0',
       projectName: 'Golden Project',
       description: 'Golden fixture',
-      localPath: './golden-project',
       templateId: 'nextjs-web-app',
+      category: 'web-platform',
       codexProfile: 'strict',
       promptPackId: 'default-engineering',
+      deliveryMode: 'zip',
       initializeGit: false,
       createBranch: false,
       createWorktree: false

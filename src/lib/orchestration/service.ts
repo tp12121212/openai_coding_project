@@ -1,10 +1,10 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
-import { createProjectScaffold } from '../generator/service';
+import { createProjectScaffold, createZipBuffer } from '../generator/service';
 import { CreateProjectRequest } from '../generator/schema';
 import { stableJSONStringify } from '../utils/deterministic';
-import { createRepository, initializeAndPushRepository, setRepositoryVariables } from '../github/api';
+import { createBranchAndPullRequest, createRepository, commitToDefaultBranch, getRepo } from '../github/api';
 import { OrchestrationJob, persistJob, upsertJob } from './store';
 
 interface OrchestrationStep {
@@ -17,30 +17,26 @@ function nowIso(): string {
   return new Date().toISOString();
 }
 
-async function writeBundle(outputPath: string, filesWritten: string[]): Promise<string> {
-  const bundlePath = path.join(outputPath, 'scaffold.bundle.json');
-  const bundle = {
-    schemaVersion: '1.0.0',
-    files: filesWritten
-  };
-  await fs.writeFile(bundlePath, stableJSONStringify(bundle), 'utf8');
-  return bundlePath;
+function requireGitHubToken(request: CreateProjectRequest, token?: string): string {
+  if (request.deliveryMode === 'zip') {
+    return '';
+  }
+  if (!token) {
+    throw new Error('GitHub authentication is required for this delivery mode.');
+  }
+  return token;
 }
 
 export async function runOrchestration(
   request: CreateProjectRequest,
-  outputRoot: string
+  outputRoot: string,
+  githubToken?: string
 ): Promise<{ job: OrchestrationJob; jobPath: string }> {
   const jobId = randomUUID();
   const steps: OrchestrationStep[] = [
     { id: 'phase-1-scaffold', status: 'pending', detail: 'Generate deterministic scaffold artifacts.' },
-    { id: 'phase-2-github', status: 'pending', detail: 'Create GitHub repository and optional initial push.' },
-    { id: 'phase-3-bootstrap-pack', status: 'pending', detail: 'Generate bootstrap pack and manual finalization.' },
-    {
-      id: 'phase-4-chatgpt-internal',
-      status: process.env.ENABLE_UNSUPPORTED_AUTOMATION === 'true' ? 'pending' : 'disabled',
-      detail: 'Internal ChatGPT project creation is unsupported via public API and disabled by default.'
-    }
+    { id: 'phase-2-delivery', status: 'pending', detail: 'Deliver scaffold via zip or GitHub flow.' },
+    { id: 'phase-3-bootstrap-pack', status: 'pending', detail: 'Generate bootstrap and hygiene metadata.' }
   ];
 
   const baseJob: OrchestrationJob = {
@@ -57,52 +53,54 @@ export async function runOrchestration(
     const scaffold = await createProjectScaffold(request, outputRoot);
     steps[0]!.status = 'completed';
 
-    const bundlePath = await writeBundle(scaffold.outputPath, scaffold.filesWritten);
+    steps[1]!.status = 'running';
+    const zipBuffer = await createZipBuffer(scaffold.files);
+    const zipFileName = `${request.projectName.toLowerCase().replace(/[^a-z0-9]+/g, '-') || 'scaffold'}.zip`;
+    const zipPath = path.join(scaffold.outputPath, zipFileName);
+    await fs.writeFile(zipPath, zipBuffer);
 
-    const githubResult: Record<string, unknown> = {
-      enabled: Boolean(request.github?.enabled),
+    const deliveryResult: Record<string, unknown> = {
+      mode: request.deliveryMode,
+      zipPath,
       repoUrl: null,
-      variablesConfigured: [],
-      secrets: 'manual-only'
+      branchName: null,
+      prUrl: null,
+      filesAdded: [],
+      filesSkipped: [],
+      collisions: []
     };
 
-    if (request.github?.enabled) {
-      steps[1]!.status = 'running';
-      if (!request.github.token) {
-        throw new Error('GitHub token is required when github.enabled=true.');
-      }
-      const repoResult = await createRepository({
-        owner: request.github.owner,
-        repo: request.github.repo,
-        private: request.github.private,
-        description: request.github.description,
-        token: request.github.token
+    if (request.deliveryMode === 'github-new-repo') {
+      const token = requireGitHubToken(request, githubToken);
+      if (!request.github?.repoName) throw new Error('Repo name is required.');
+      const repo = await createRepository(token, {
+        repoName: request.github.repoName,
+        visibility: request.github.visibility,
+        description: request.github.description
       });
-
-      githubResult.repoUrl = repoResult.html_url;
-      const variablesConfigured = await setRepositoryVariables(
-        request.github.token,
-        request.github.owner,
-        request.github.repo,
-        request.github.variables
-      );
-      githubResult.variablesConfigured = variablesConfigured;
-
-      if (request.github.pushInitialContent) {
-        const branchName = request.branchName ?? 'main';
-        await initializeAndPushRepository(scaffold.outputPath, branchName, repoResult.clone_url, request.github.token);
-      }
-      steps[1]!.status = 'completed';
-    } else {
-      steps[1]!.status = 'manual_required';
-      steps[1]!.detail = 'GitHub automation skipped. Exported scaffold can be pushed manually.';
+      await commitToDefaultBranch(token, repo.owner.login, repo.name, repo.default_branch, scaffold.files);
+      deliveryResult.repoUrl = repo.html_url;
+    } else if (request.deliveryMode === 'github-existing-repo') {
+      const token = requireGitHubToken(request, githubToken);
+      if (!request.github?.existingRepoFullName) throw new Error('Existing repository selection is required.');
+      const repo = await getRepo(token, request.github.existingRepoFullName);
+      const prResult = await createBranchAndPullRequest({
+        token,
+        owner: repo.owner.login,
+        repo: repo.name,
+        defaultBranch: repo.default_branch,
+        files: scaffold.files
+      });
+      deliveryResult.repoUrl = repo.html_url;
+      deliveryResult.branchName = prResult.branchName;
+      deliveryResult.prUrl = prResult.prUrl;
+      deliveryResult.filesAdded = prResult.filesAdded;
+      deliveryResult.filesSkipped = prResult.filesSkipped;
+      deliveryResult.collisions = prResult.collisions;
     }
+    steps[1]!.status = 'completed';
 
     steps[2]!.status = 'completed';
-
-    if (steps[3]!.status !== 'disabled') {
-      steps[3]!.status = 'manual_required';
-    }
 
     const completed: OrchestrationJob = {
       ...baseJob,
@@ -112,13 +110,10 @@ export async function runOrchestration(
         steps,
         outputPath: scaffold.outputPath,
         manifestPath: scaffold.manifestPath,
-        bundlePath,
+        bundlePath: zipPath,
         filesWritten: scaffold.filesWritten,
-        github: githubResult,
-        manualFinalization: {
-          required: true,
-          checklistPath: path.join(scaffold.outputPath, 'BOOTSTRAP', 'MANUAL_FINALIZATION.md')
-        }
+        delivery: deliveryResult,
+        hygiene: scaffold.hygiene
       }
     };
 
@@ -131,10 +126,17 @@ export async function runOrchestration(
       state: 'failed',
       updatedAt: nowIso(),
       error: error instanceof Error ? error.message : 'Unknown orchestration error',
-      result: { steps }
+      result: { steps: steps.map((step) => ({ ...step, status: step.status === 'running' ? 'failed' : step.status })) }
     };
+
     upsertJob(failed);
     const jobPath = await persistJob(outputRoot, failed);
     return { job: failed, jobPath };
   }
+}
+
+export async function exportBundleMetadata(outputPath: string, filesWritten: string[]): Promise<string> {
+  const bundlePath = path.join(outputPath, 'scaffold.bundle.json');
+  await fs.writeFile(bundlePath, stableJSONStringify({ schemaVersion: '1.0.0', files: filesWritten }), 'utf8');
+  return bundlePath;
 }

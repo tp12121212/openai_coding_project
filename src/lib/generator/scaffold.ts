@@ -3,7 +3,7 @@ import { CreateProjectRequest } from './schema';
 import { getPromptPack } from './prompts';
 import { getTemplateById } from '../templates/library';
 import { ScaffoldManifest } from '../types';
-import { normalizeWhitespace, sha256, stableJSONStringify } from '../utils/deterministic';
+import { normalizeWhitespace, sha256 } from '../utils/deterministic';
 
 interface GeneratedFile {
   path: string;
@@ -26,30 +26,46 @@ function renderMarkdown(title: string, body: string): string {
   return normalizeWhitespace(`# ${title}\n\n${body}\n`) + '\n';
 }
 
+function buildReadmeBody(request: CreateProjectRequest, templateName: string): string {
+  return normalizeWhitespace([
+    request.description,
+    `Template: ${templateName}`,
+    `Project category: ${request.category}`,
+    `Delivery mode: ${request.deliveryMode}`,
+    '',
+    '## Getting started',
+    '1. Review IMPLEMENTATION_PLAN.md',
+    '2. Review hygiene baseline files (.gitignore, .editorconfig, LICENSE)',
+    '3. Run quality checks before first commit.'
+  ].join('\n'));
+}
+
+function gitignoreForTemplate(templateId: CreateProjectRequest['templateId']): string {
+  const common = ['.DS_Store', '*.log', '.env', '.env.*', 'coverage/', 'dist/', '.next/', 'output/'];
+  const node = ['node_modules/', '.npm/', '.pnpm-store/', 'npm-debug.log*'];
+  const python = ['.venv/', '__pycache__/', '*.pyc', '.pytest_cache/', '.mypy_cache/'];
+  const lines = [...common, ...(templateId === 'python-cli' ? python : node), '.orchestration/'];
+  return `${lines.sort((a, b) => a.localeCompare(b)).join('\n')}\n`;
+}
+
 export function buildScaffold(request: CreateProjectRequest): ScaffoldResult {
   const template = getTemplateById(request.templateId);
   const slug = slugify(request.projectName);
   const promptFiles = getPromptPack(request.promptPackId);
 
-  const bootstrapInstruction = [
-    '## Supported automation boundary',
-    '- Supported: scaffold generation, GitHub repo creation, optional initial push, repository variables.',
-    '- Unsupported: direct ChatGPT project/workspace creation and chat seeding via public API.',
-    '',
-    '## Manual finalization workflow',
-    '1. Create or open your target ChatGPT/Codex project workspace manually.',
-    '2. Upload or copy files from `PROMPTS/` and `TASKS/`.',
-    '3. Apply `.codex/config.toml` and `.codex/instructions.md` in your coding agent context.',
-    '4. Paste `BOOTSTRAP/MANUAL_FINALIZATION.md` checklist into your starter chat and complete each step.'
-  ].join('\n');
-
   const fileMap: GeneratedFile[] = [
+    { path: 'README.md', content: renderMarkdown(request.projectName, buildReadmeBody(request, template.name)) },
     {
-      path: 'README.md',
-      content: renderMarkdown(
-        request.projectName,
-        `${request.description}\n\nTemplate: ${template.name}\n\nThis project was created through the orchestration workflow with explicit supported/unsupported boundaries.`
-      )
+      path: '.gitignore',
+      content: gitignoreForTemplate(request.templateId)
+    },
+    {
+      path: '.editorconfig',
+      content: normalizeWhitespace('root = true\n\n[*]\ncharset = utf-8\nend_of_line = lf\ninsert_final_newline = true\nindent_style = space\nindent_size = 2') + '\n'
+    },
+    {
+      path: 'LICENSE',
+      content: normalizeWhitespace('SPDX-License-Identifier: UNLICENSED\n\nReplace with your approved license text before distribution.') + '\n'
     },
     {
       path: 'PROJECT_CONTEXT.md',
@@ -66,18 +82,11 @@ export function buildScaffold(request: CreateProjectRequest): ScaffoldResult {
     {
       path: '.codex/config.toml',
       content:
-        normalizeWhitespace(
-          [`profile = "${request.codexProfile}"`, 'unsupported_automation = false', 'deterministic = true'].join(
-            '\n'
-          )
-        ) + '\n'
+        normalizeWhitespace([`profile = "${request.codexProfile}"`, 'unsupported_automation = false', 'deterministic = true'].join('\n')) + '\n'
     },
     {
       path: '.codex/instructions.md',
-      content: renderMarkdown(
-        'Codex Instructions',
-        'Follow existing patterns, inspect modules first, run tests, and explain assumptions.'
-      )
+      content: renderMarkdown('Codex Instructions', 'Follow existing patterns, inspect modules first, run tests, and explain assumptions.')
     },
     {
       path: 'TASKS/00-initial-backlog.md',
@@ -85,14 +94,11 @@ export function buildScaffold(request: CreateProjectRequest): ScaffoldResult {
     },
     {
       path: 'BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md',
-      content: renderMarkdown('Project Bootstrap Pack', bootstrapInstruction)
+      content: renderMarkdown('Project Bootstrap Pack', 'Use this scaffold as a deterministic starting point.')
     },
     {
       path: 'BOOTSTRAP/MANUAL_FINALIZATION.md',
-      content: renderMarkdown(
-        'Manual Finalization Checklist',
-        '- [ ] Create workspace manually in ChatGPT/Codex\n- [ ] Seed prompt pack files\n- [ ] Seed tasks and context files\n- [ ] Start kickoff chat with implementation plan'
-      )
+      content: renderMarkdown('Manual Finalization Checklist', '- [ ] Seed prompts\n- [ ] Seed tasks\n- [ ] Run checks')
     }
   ];
 
@@ -103,61 +109,43 @@ export function buildScaffold(request: CreateProjectRequest): ScaffoldResult {
     });
   }
 
-  const artifactRecords = fileMap
-    .map((file) => {
-      const kind: 'json' | 'toml' | 'markdown' = file.path.endsWith('.json')
-        ? 'json'
-        : file.path.endsWith('.toml')
-          ? 'toml'
-          : 'markdown';
-      return {
-        path: file.path,
-        kind,
-        checksum: sha256(file.content)
-      };
-    })
+  const files = fileMap.sort((a, b) => a.path.localeCompare(b.path));
+
+  const artifactRecords = files
+    .map((file) => ({
+      path: file.path,
+      kind: (file.path.endsWith('.json') ? 'json' : file.path.endsWith('.toml') ? 'toml' : file.path.endsWith('.md') ? 'markdown' : 'text') as 'json' | 'toml' | 'markdown' | 'text',
+      checksum: sha256(file.content)
+    }))
     .sort((a, b) => a.path.localeCompare(b.path));
 
   const manifest: ScaffoldManifest = {
-    schemaVersion: '2.0.0',
+    schemaVersion: '3.0.0',
     project: {
       name: request.projectName,
       slug,
-      localPath: request.localPath,
-      description: request.description
+      description: request.description,
+      category: request.category
     },
     stack: {
       templateId: request.templateId,
-      templateVersion: '1.0.0',
+      templateVersion: '1.1.0',
       language: template.language,
       runtime: template.runtime
     },
-    repository: {
-      initializeGit: request.initializeGit,
-      createBranch: request.createBranch,
-      branchName: request.createBranch ? request.branchName ?? 'feature/bootstrap' : null,
-      createWorktree: request.createWorktree,
-      worktreePath: request.createWorktree ? request.worktreePath ?? './worktrees/default' : null,
-      github: {
-        enabled: Boolean(request.github?.enabled),
-        owner: request.github?.owner ?? null,
-        repo: request.github?.repo ?? null,
-        private: request.github?.private ?? true,
-        pushInitialContent: Boolean(request.github?.pushInitialContent)
-      }
-    },
-    codex: {
-      profile: request.codexProfile,
-      unsupportedAutomationEnabled: false
+    delivery: { mode: request.deliveryMode },
+    hygiene: {
+      checksVersion: '1.0.0',
+      baselineFiles: ['.editorconfig', '.gitignore', 'LICENSE']
     },
     prompts: {
       packId: request.promptPackId,
-      files: promptFiles.map((file) => `PROMPTS/${file.fileName}`).sort((a, b) => a.localeCompare(b))
+      files: promptFiles.map((p) => path.posix.join('PROMPTS', p.fileName)).sort((a, b) => a.localeCompare(b))
     },
     bootstrapPack: {
       schemaVersion: '1.0.0',
       manualFinalizationRequired: true,
-      files: ['BOOTSTRAP/MANUAL_FINALIZATION.md', 'BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md']
+      files: ['BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md', 'BOOTSTRAP/MANUAL_FINALIZATION.md']
     },
     generatedArtifacts: artifactRecords,
     validation: {
@@ -167,7 +155,5 @@ export function buildScaffold(request: CreateProjectRequest): ScaffoldResult {
     }
   };
 
-  fileMap.push({ path: 'project.scaffold.json', content: stableJSONStringify(manifest) });
-
-  return { manifest, files: fileMap.sort((a, b) => a.path.localeCompare(b.path)) };
+  return { manifest, files };
 }
