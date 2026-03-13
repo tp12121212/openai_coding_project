@@ -4,7 +4,7 @@ interface GitHubRequestOptions extends RequestInit {
   token: string;
 }
 
-interface GitHubRepo {
+export interface GitHubRepo {
   name: string;
   full_name: string;
   private: boolean;
@@ -22,7 +22,104 @@ interface TreeResponse {
   tree: Array<{ path: string; type: 'blob' | 'tree'; sha: string }>;
 }
 
-async function githubRequest<T>(route: string, options: GitHubRequestOptions): Promise<T> {
+interface GitHubErrorResponse {
+  message?: string;
+  documentation_url?: string;
+}
+
+interface ParsedScopeHeaders {
+  acceptedScopes: string[];
+  tokenScopes: string[];
+}
+
+export interface GitHubDiagnosticSummary {
+  endpoint: string;
+  status: number;
+  message?: string;
+  documentationUrl?: string;
+  acceptedScopes: string[];
+  tokenScopes: string[];
+  suspectedAuthIssue: boolean;
+  requestId?: string;
+}
+
+export class GitHubApiError extends Error {
+  readonly diagnostics: GitHubDiagnosticSummary;
+
+  constructor(diagnostics: GitHubDiagnosticSummary) {
+    const summary = [
+      `GitHub API ${diagnostics.endpoint} failed (${diagnostics.status})`,
+      diagnostics.message ? `message=${diagnostics.message}` : null,
+      diagnostics.documentationUrl ? `docs=${diagnostics.documentationUrl}` : null,
+      diagnostics.suspectedAuthIssue ? 'possibleCause=token or scope permission issue; re-authentication may be required.' : null
+    ]
+      .filter(Boolean)
+      .join('; ');
+    super(summary);
+    this.name = 'GitHubApiError';
+    this.diagnostics = diagnostics;
+  }
+}
+
+function parseScopes(value: string | null): string[] {
+  if (!value) return [];
+  return value
+    .split(',')
+    .map((scope) => scope.trim())
+    .filter(Boolean)
+    .sort((a, b) => a.localeCompare(b));
+}
+
+function parseScopeHeaders(headers: Headers): ParsedScopeHeaders {
+  return {
+    acceptedScopes: parseScopes(headers.get('x-accepted-oauth-scopes')),
+    tokenScopes: parseScopes(headers.get('x-oauth-scopes'))
+  };
+}
+
+function buildDiagnosticSummary(route: string, response: Response, payload?: GitHubErrorResponse): GitHubDiagnosticSummary {
+  const scopes = parseScopeHeaders(response.headers);
+  const message = typeof payload?.message === 'string' ? payload.message : undefined;
+  const suspectedAuthIssue = response.status === 401 || response.status === 403 || (response.status === 404 && message === 'Not Found');
+
+  return {
+    endpoint: route,
+    status: response.status,
+    message,
+    documentationUrl: typeof payload?.documentation_url === 'string' ? payload.documentation_url : undefined,
+    acceptedScopes: scopes.acceptedScopes,
+    tokenScopes: scopes.tokenScopes,
+    suspectedAuthIssue,
+    requestId: response.headers.get('x-github-request-id') ?? undefined
+  };
+}
+
+function logGitHubFailure(diagnostics: GitHubDiagnosticSummary): void {
+  console.error('[github] API request failed', {
+    endpoint: diagnostics.endpoint,
+    status: diagnostics.status,
+    message: diagnostics.message,
+    documentationUrl: diagnostics.documentationUrl,
+    acceptedScopes: diagnostics.acceptedScopes,
+    tokenScopes: diagnostics.tokenScopes,
+    suspectedAuthIssue: diagnostics.suspectedAuthIssue,
+    requestId: diagnostics.requestId
+  });
+}
+
+export function isGitHubApiError(error: unknown): error is GitHubApiError {
+  return error instanceof GitHubApiError;
+}
+
+function safeJsonParse<T>(value: string): T | null {
+  try {
+    return JSON.parse(value) as T;
+  } catch {
+    return null;
+  }
+}
+
+export async function githubRequest<T>(route: string, options: GitHubRequestOptions): Promise<T> {
   const response = await fetch(`https://api.github.com${route}`, {
     ...options,
     headers: {
@@ -35,11 +132,84 @@ async function githubRequest<T>(route: string, options: GitHubRequestOptions): P
   });
 
   if (!response.ok) {
-    const body = await response.text();
-    throw new Error(`GitHub API ${route} failed (${response.status}): ${body}`);
+    const rawBody = await response.text();
+    const payload = safeJsonParse<GitHubErrorResponse>(rawBody) ?? { message: rawBody || response.statusText };
+    const diagnostics = buildDiagnosticSummary(route, response, payload);
+    logGitHubFailure(diagnostics);
+    throw new GitHubApiError(diagnostics);
+  }
+
+  if (response.status === 204) {
+    return undefined as T;
   }
 
   return response.json() as Promise<T>;
+}
+
+export function mapGitHubErrorForClient(error: unknown): { error: string; diagnostics?: GitHubDiagnosticSummary } {
+  if (isGitHubApiError(error)) {
+    const diagnostics = error.diagnostics;
+    const summary = [
+      `GitHub API ${diagnostics.endpoint} failed (${diagnostics.status})`,
+      diagnostics.message ? `message=${diagnostics.message}` : null,
+      diagnostics.documentationUrl ? `docs=${diagnostics.documentationUrl}` : null,
+      diagnostics.suspectedAuthIssue ? 'possibleCause=token or scope permission issue; re-authentication may be required.' : null
+    ]
+      .filter(Boolean)
+      .join('; ');
+
+    return { error: summary, diagnostics };
+  }
+
+  return { error: error instanceof Error ? error.message : 'Unknown GitHub API error.' };
+}
+
+export async function detectGitHubCapabilities(token: string): Promise<{
+  tokenPresent: boolean;
+  tokenScopes: string[];
+  repoListCapability: boolean | 'unknown';
+  repoCreateCapability: boolean | 'unknown';
+  tokenType: 'oauth' | 'unknown';
+}> {
+  const capabilities = {
+    tokenPresent: Boolean(token),
+    tokenScopes: [] as string[],
+    repoListCapability: 'unknown' as boolean | 'unknown',
+    repoCreateCapability: 'unknown' as boolean | 'unknown',
+    tokenType: 'oauth' as const
+  };
+
+  if (!token) {
+    return { ...capabilities, tokenType: 'unknown' };
+  }
+
+  try {
+    const response = await fetch('https://api.github.com/user', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/vnd.github+json',
+        Authorization: `Bearer ${token}`,
+        'X-GitHub-Api-Version': '2022-11-28'
+      }
+    });
+
+    capabilities.tokenScopes = parseScopeHeaders(response.headers).tokenScopes;
+
+    if (!response.ok) {
+      const raw = await response.text();
+      const payload = safeJsonParse<GitHubErrorResponse>(raw) ?? { message: raw || response.statusText };
+      const diagnostics = buildDiagnosticSummary('/user', response, payload);
+      capabilities.repoListCapability = diagnostics.suspectedAuthIssue ? false : 'unknown';
+      capabilities.repoCreateCapability = diagnostics.suspectedAuthIssue ? false : 'unknown';
+      return capabilities;
+    }
+  } catch {
+    return capabilities;
+  }
+
+  capabilities.repoListCapability = true;
+  capabilities.repoCreateCapability = capabilities.tokenScopes.includes('repo') || capabilities.tokenScopes.includes('public_repo');
+  return capabilities;
 }
 
 export async function listRepositories(token: string, page: number, search: string): Promise<{ repos: GitHubRepo[]; hasNextPage: boolean }> {
@@ -54,7 +224,12 @@ export async function createRepository(token: string, config: { repoName: string
   return githubRequest<GitHubRepo>('/user/repos', {
     method: 'POST',
     token,
-    body: JSON.stringify({ name: config.repoName, private: config.visibility === 'private', description: config.description ?? '', auto_init: false })
+    body: JSON.stringify({
+      name: config.repoName,
+      private: config.visibility === 'private',
+      description: config.description ?? '',
+      auto_init: false
+    })
   });
 }
 

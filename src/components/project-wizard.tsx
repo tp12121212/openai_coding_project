@@ -24,6 +24,15 @@ interface RuntimeConfigCheckResponse {
   status: RuntimeConfigStatus;
 }
 
+interface AuthCheckResponse {
+  authenticated: boolean;
+  accessTokenPresent: boolean;
+  repoCreateCapability: boolean | 'unknown';
+  repoListCapability: boolean | 'unknown';
+  tokenType: string;
+  grantedScopes: string[];
+}
+
 const templates = getBuiltInTemplates();
 const FORM_STORAGE_KEY = 'project-wizard-form-v1';
 
@@ -56,6 +65,7 @@ export function ProjectWizard() {
   const [job, setJob] = useState<ApiJob | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [authenticated, setAuthenticated] = useState(false);
+  const [githubAuthCheck, setGitHubAuthCheck] = useState<AuthCheckResponse | null>(null);
   const [repos, setRepos] = useState<Array<{ full_name: string }>>([]);
   const [repoSearch, setRepoSearch] = useState('');
   const [loadingRepos, setLoadingRepos] = useState(false);
@@ -71,6 +81,11 @@ export function ProjectWizard() {
     if (!runtimeConfig) return false;
     return runtimeConfig.githubAuthEnabled;
   }, [runtimeConfig]);
+
+  const githubSessionUsable = useMemo(
+    () => authenticated && githubAuthCheck?.accessTokenPresent === true,
+    [authenticated, githubAuthCheck]
+  );
 
   useEffect(() => {
     try {
@@ -102,6 +117,11 @@ export function ProjectWizard() {
       .then((data: { authenticated?: boolean }) => setAuthenticated(Boolean(data.authenticated)))
       .catch(() => setAuthenticated(false));
 
+    fetch('/api/github/auth-check')
+      .then((response) => response.json())
+      .then((data: AuthCheckResponse) => setGitHubAuthCheck(data))
+      .catch(() => setGitHubAuthCheck(null));
+
     fetch('/api/runtime-config-check')
       .then((response) => response.json())
       .then((data: RuntimeConfigCheckResponse) => setRuntimeConfig(data))
@@ -109,7 +129,7 @@ export function ProjectWizard() {
   }, []);
 
   useEffect(() => {
-    if (formState.deliveryMode !== 'github-existing-repo' || !authenticated || !githubRuntimeReady) {
+    if (formState.deliveryMode !== 'github-existing-repo' || !githubSessionUsable || !githubRuntimeReady) {
       setRepos([]);
       return;
     }
@@ -124,7 +144,7 @@ export function ProjectWizard() {
       .finally(() => setLoadingRepos(false));
 
     return () => controller.abort();
-  }, [authenticated, formState.deliveryMode, githubRuntimeReady, repoSearch]);
+  }, [formState.deliveryMode, githubRuntimeReady, githubSessionUsable, repoSearch]);
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -159,21 +179,34 @@ export function ProjectWizard() {
     ? null
     : `GitHub authentication is unavailable: missing ${runtimeConfig?.missing.join(', ') ?? 'runtime configuration'}.`;
 
+  const authStatusText = githubSessionUsable ? 'Connected' : 'Not connected';
+  const repoCreateMissingPermission = githubSessionUsable && githubAuthCheck?.repoCreateCapability === false;
+  const repoListMissingPermission = githubSessionUsable && githubAuthCheck?.repoListCapability === false;
+
   const downloadUrl = job?.state === 'completed' && formState.deliveryMode === 'zip' ? `/api/jobs/${job.id}/download` : null;
 
   return (
     <div className="card-grid">
       <form className="card" onSubmit={submit}>
         <h2>Project Orchestration Wizard</h2>
-        <p>GitHub auth: {authenticated ? 'Connected' : 'Not connected'}</p>
+        <p>GitHub auth: {authStatusText}</p>
         {oauthDisabledReason && <p className="warning">{oauthDisabledReason}</p>}
+        {repoCreateMissingPermission && (
+          <p className="warning">Connected to GitHub, but token lacks repository creation permission. Re-authentication may be required.</p>
+        )}
+        {repoListMissingPermission && (
+          <p className="warning">Connected to GitHub, but token cannot list repositories for existing-repo mode. Re-authentication may be required.</p>
+        )}
         <div className="button-row wrap">
           <button
             type="button"
             disabled={!githubRuntimeReady}
-            onClick={() => (window.location.href = `/api/auth/signin/github?callbackUrl=${encodeURIComponent(window.location.href)}`)}
+            onClick={() => (window.location.href = `/api/auth/signin/github?callbackUrl=${encodeURIComponent(window.location.href)}&scope=${encodeURIComponent('read:user user:email repo')}`)}
           >
             Sign in with GitHub
+          </button>
+          <button type="button" disabled={!githubRuntimeReady} onClick={() => (window.location.href = `/api/auth/signin/github?callbackUrl=${encodeURIComponent(window.location.href)}&scope=${encodeURIComponent('read:user user:email repo')}`)}>
+            Re-authorize GitHub
           </button>
           <button type="button" onClick={() => (window.location.href = '/api/auth/signout?callbackUrl=/')}>Sign out</button>
         </div>
@@ -228,7 +261,7 @@ export function ProjectWizard() {
           </>
         )}
 
-        <button type="submit" disabled={submitting || ((formState.deliveryMode !== 'zip') && (!authenticated || !githubRuntimeReady))}>
+        <button type="submit" disabled={submitting || ((formState.deliveryMode !== 'zip') && (!githubSessionUsable || !githubRuntimeReady))}>
           {submitting ? 'Running orchestration...' : 'Run Orchestration'}
         </button>
       </form>
