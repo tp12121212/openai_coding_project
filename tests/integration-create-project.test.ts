@@ -28,5 +28,6 @@ describe('create-project flow', () => {
     expect(result.filesWritten.length).toBeGreaterThan(10);
     expect(manifest).toContain('"schemaVersion": "3.0.0"');
     expect(result.filesWritten).toContain('.gitignore');
+    expect(result.filesWritten).toContain('BEST_PRACTICES_CHATGPT_CODEX.md');
   });
 });

@@ -25,6 +25,30 @@ describe('delivery and hygiene', () => {
     expect(gitignore).toContain('__pycache__/');
   });
 
+
+
+  test('includes ChatGPT and Codex best-practices guide in scaffold root', () => {
+    const scaffold = buildScaffold({
+      schemaVersion: '3.0.0',
+      projectName: 'Deterministic',
+      description: 'Deterministic output',
+      templateId: 'python-cli',
+      category: 'automation',
+      codexProfile: 'strict',
+      promptPackId: 'default-engineering',
+      deliveryMode: 'zip',
+      initializeGit: false,
+      createBranch: false,
+      createWorktree: false
+    });
+
+    const guide = scaffold.files.find((file) => file.path === 'BEST_PRACTICES_CHATGPT_CODEX.md')?.content ?? '';
+    expect(guide).toContain('# Best Practices for Using ChatGPT and Codex in Application Development');
+    expect(guide).toContain('## 1) Choose the right mode for the task');
+    expect(guide).toContain('## 2) Prompting strategies by engineering task');
+    expect(guide).toContain('## 6) Decision matrix');
+  });
+
   test('hygiene excludes dangerous paths', () => {
     const check = runHygieneChecks([
       { path: '.env', content: 'x=y' },
