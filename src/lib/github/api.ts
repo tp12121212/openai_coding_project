@@ -17,6 +17,10 @@ interface GitRefResponse {
   object: { sha: string };
 }
 
+interface CommitSummary {
+  sha: string;
+}
+
 interface TreeResponse {
   sha: string;
   tree: Array<{ path: string; type: 'blob' | 'tree'; sha: string }>;
@@ -47,6 +51,38 @@ export interface GitHubDiagnosticSummary {
   tokenScopes: string[];
   suspectedAuthIssue: boolean;
   requestId?: string;
+}
+
+type GitHubAuthStatus =
+  | 'valid'
+  | 'expired'
+  | 'revoked'
+  | 'missing_scopes'
+  | 'missing_repo_access'
+  | 'missing_installation_permissions'
+  | 'unknown';
+
+type GitHubWorkflowErrorCode =
+  | 'GITHUB_AUTH_REQUIRED'
+  | 'GITHUB_REAUTH_REQUIRED'
+  | 'GITHUB_EMPTY_REPO_INIT_FAILED'
+  | 'GITHUB_BRANCH_HEAD_NOT_FOUND'
+  | 'GITHUB_DELIVERY_FAILED';
+
+interface GitHubWorkflowErrorPayload {
+  code: GitHubWorkflowErrorCode;
+  repository: string;
+  operation: string;
+  httpStatus: number | null;
+  githubMessage: string;
+  phase: string;
+}
+
+interface RepositoryState {
+  defaultBranch: string;
+  headSha: string | null;
+  commitCountKnown: boolean;
+  commitCount: number;
 }
 
 export class GitHubApiError extends Error {
@@ -148,6 +184,25 @@ export function isGitHubApiError(error: unknown): error is GitHubApiError {
   return error instanceof GitHubApiError;
 }
 
+function createWorkflowError(
+  code: GitHubWorkflowErrorCode,
+  repository: string,
+  operation: string,
+  phase: string,
+  diagnostics?: GitHubDiagnosticSummary,
+  fallbackMessage?: string
+): Error {
+  const payload: GitHubWorkflowErrorPayload = {
+    code,
+    repository,
+    operation,
+    httpStatus: diagnostics?.status ?? null,
+    githubMessage: diagnostics?.message ?? fallbackMessage ?? 'Unknown GitHub error.',
+    phase
+  };
+  return new Error(`GitHub workflow failed: ${JSON.stringify(payload)}`);
+}
+
 function safeJsonParse<T>(value: string): T | null {
   try {
     return JSON.parse(value) as T;
@@ -210,17 +265,19 @@ export async function detectGitHubCapabilities(token: string): Promise<{
   repoListCapability: boolean | 'unknown';
   repoCreateCapability: boolean | 'unknown';
   tokenType: 'oauth' | 'unknown';
+  authStatus: GitHubAuthStatus;
 }> {
   const capabilities = {
     tokenPresent: Boolean(token),
     tokenScopes: [] as string[],
     repoListCapability: 'unknown' as boolean | 'unknown',
     repoCreateCapability: 'unknown' as boolean | 'unknown',
-    tokenType: 'oauth' as const
+    tokenType: 'oauth' as const,
+    authStatus: 'unknown' as GitHubAuthStatus
   };
 
   if (!token) {
-    return { ...capabilities, tokenType: 'unknown' };
+    return { ...capabilities, tokenType: 'unknown', authStatus: 'unknown' };
   }
 
   try {
@@ -241,6 +298,34 @@ export async function detectGitHubCapabilities(token: string): Promise<{
       const diagnostics = buildDiagnosticSummary('/user', response, payload);
       capabilities.repoListCapability = diagnostics.suspectedAuthIssue ? false : 'unknown';
       capabilities.repoCreateCapability = diagnostics.suspectedAuthIssue ? false : 'unknown';
+      const lowerMessage = diagnostics.message?.toLowerCase() ?? '';
+      if (diagnostics.status === 401) {
+        capabilities.authStatus = lowerMessage.includes('bad credentials') ? 'revoked' : 'expired';
+      } else if (lowerMessage.includes('resource not accessible by integration')) {
+        capabilities.authStatus = 'missing_installation_permissions';
+      }
+      return capabilities;
+    }
+
+    const repoProbe = await fetch('https://api.github.com/user/repos?per_page=1&sort=updated', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/vnd.github+json',
+        Authorization: `Bearer ${token}`,
+        'X-GitHub-Api-Version': '2022-11-28'
+      }
+    });
+
+    if (!repoProbe.ok) {
+      const raw = await repoProbe.text();
+      const payload = safeJsonParse<GitHubErrorResponse>(raw) ?? { message: raw || repoProbe.statusText };
+      const diagnostics = buildDiagnosticSummary('/user/repos?per_page=1&sort=updated', repoProbe, payload);
+      const lowerMessage = diagnostics.message?.toLowerCase() ?? '';
+      capabilities.repoListCapability = false;
+      capabilities.repoCreateCapability = false;
+      capabilities.authStatus = lowerMessage.includes('resource not accessible by integration')
+        ? 'missing_installation_permissions'
+        : 'missing_repo_access';
       return capabilities;
     }
   } catch {
@@ -249,6 +334,7 @@ export async function detectGitHubCapabilities(token: string): Promise<{
 
   capabilities.repoListCapability = true;
   capabilities.repoCreateCapability = capabilities.tokenScopes.includes('repo') || capabilities.tokenScopes.includes('public_repo');
+  capabilities.authStatus = capabilities.repoCreateCapability ? 'valid' : 'missing_scopes';
   return capabilities;
 }
 
@@ -287,6 +373,49 @@ function normalizeDefaultBranch(branch: string): string {
   return normalized.length > 0 ? normalized : 'main';
 }
 
+async function getCommitCount(token: string, owner: string, repo: string, branch: string): Promise<{ known: boolean; count: number }> {
+  try {
+    const commits = await githubRequest<CommitSummary[]>(`/repos/${owner}/${repo}/commits?sha=${encodeURIComponent(branch)}&per_page=1`, { method: 'GET', token });
+    return { known: true, count: commits.length };
+  } catch (error) {
+    if (isGitHubApiError(error) && error.diagnostics.status === 409) {
+      return { known: true, count: 0 };
+    }
+    return { known: false, count: 0 };
+  }
+}
+
+async function getRepositoryState(token: string, owner: string, repo: string, branchHint?: string): Promise<RepositoryState> {
+  const repository = await githubRequest<GitHubRepo>(`/repos/${owner}/${repo}`, { method: 'GET', token });
+  const defaultBranch = normalizeDefaultBranch(repository.default_branch || branchHint || 'main');
+  const headSha = await getDefaultBranchHead(token, owner, repo, defaultBranch);
+  const commitInfo = await getCommitCount(token, owner, repo, defaultBranch);
+  return {
+    defaultBranch,
+    headSha,
+    commitCountKnown: commitInfo.known,
+    commitCount: commitInfo.count
+  };
+}
+
+function isRepositoryEmpty(state: RepositoryState): boolean {
+  if (!state.headSha) return true;
+  if (state.commitCountKnown && state.commitCount === 0) return true;
+  return false;
+}
+
+async function initializeEmptyRepository(token: string, owner: string, repo: string): Promise<void> {
+  const readme = '# Repository initialized\n\nInitialize repository with scaffold.\n';
+  await githubRequest(`/repos/${owner}/${repo}/contents/README.md`, {
+    method: 'PUT',
+    token,
+    body: JSON.stringify({
+      message: 'Initialize repository with scaffold',
+      content: Buffer.from(readme, 'utf8').toString('base64')
+    })
+  });
+}
+
 async function createCommitForFiles(token: string, owner: string, repo: string, files: Array<{ path: string; content: string }>, message: string, parentCommitSha: string | null): Promise<string> {
   const blobShas = new Map<string, string>();
   for (const file of files) {
@@ -322,71 +451,34 @@ async function createCommitForFiles(token: string, owner: string, repo: string, 
   return commit.sha;
 }
 
-async function createInitialCommitWithoutParent(
-  token: string,
-  owner: string,
-  repo: string,
-  files: Array<{ path: string; content: string }>,
-  message: string
-): Promise<string> {
-  const tree = await githubRequest<TreeResponse>(`/repos/${owner}/${repo}/git/trees`, {
-    method: 'POST',
-    token,
-    body: JSON.stringify({
-      tree: [...files].sort((a, b) => a.path.localeCompare(b.path)).map((file) => ({ path: file.path, mode: '100644', type: 'blob', content: file.content }))
-    })
-  });
-
-  const commit = await githubRequest<{ sha: string }>(`/repos/${owner}/${repo}/git/commits`, {
-    method: 'POST',
-    token,
-    body: JSON.stringify({ message, tree: tree.sha, parents: [] })
-  });
-
-  return commit.sha;
-}
-
 export async function commitToDefaultBranch(token: string, owner: string, repo: string, branch: string, files: Array<{ path: string; content: string }>): Promise<void> {
-  const resolvedBranch = normalizeDefaultBranch(branch);
-  const headSha = await getDefaultBranchHead(token, owner, repo, resolvedBranch);
-  let commitSha: string;
+  const repositoryFullName = `${owner}/${repo}`;
+  let state = await getRepositoryState(token, owner, repo, branch);
 
-  try {
-    commitSha = await createCommitForFiles(token, owner, repo, files, 'Initial scaffold commit', headSha);
-  } catch (error) {
-    const isEmptyRepositoryInitializationError =
-      isGitHubApiError(error) &&
-      (error.diagnostics.endpoint === `/repos/${owner}/${repo}/git/blobs` ||
-        error.diagnostics.endpoint === `/repos/${owner}/${repo}/git/trees`) &&
-      error.diagnostics.status === 409 &&
-      (error.diagnostics.message?.toLowerCase().includes('repository is empty') ?? false);
-
-    if (!isEmptyRepositoryInitializationError) {
-      throw error;
-    }
-
+  if (isRepositoryEmpty(state)) {
     try {
-      const initialCommitSha = await createInitialCommitWithoutParent(token, owner, repo, files, 'Initial scaffold commit');
-      await githubRequest(`/repos/${owner}/${repo}/git/refs`, {
-        method: 'POST',
-        token,
-        body: JSON.stringify({ ref: `refs/heads/${resolvedBranch}`, sha: initialCommitSha })
-      });
-    } catch (initializationError) {
-      const detail = initializationError instanceof Error ? initializationError.message : 'Unknown initialization error';
-      throw new Error(`GitHub repository initialization failed: {"code":"EMPTY_REPO_INIT_FAILED","branch":"${resolvedBranch}","detail":"${detail}"}`);
+      await initializeEmptyRepository(token, owner, repo);
+      state = await getRepositoryState(token, owner, repo, branch);
+    } catch (error) {
+      const diagnostics = isGitHubApiError(error) ? error.diagnostics : undefined;
+      throw createWorkflowError('GITHUB_EMPTY_REPO_INIT_FAILED', repositoryFullName, 'initialize-empty-repository', 'phase-2-delivery', diagnostics, error instanceof Error ? error.message : undefined);
     }
-    return;
   }
 
-  if (headSha) {
-    await githubRequest(`/repos/${owner}/${repo}/git/refs/heads/${encodeURIComponent(resolvedBranch)}`, { method: 'PATCH', token, body: JSON.stringify({ sha: commitSha, force: false }) });
-  } else {
-    await githubRequest(`/repos/${owner}/${repo}/git/refs`, {
-      method: 'POST',
+  if (!state.headSha) {
+    throw createWorkflowError('GITHUB_BRANCH_HEAD_NOT_FOUND', repositoryFullName, `resolve-branch-head:${state.defaultBranch}`, 'phase-2-delivery', undefined, 'Default branch head was not found after repository initialization check.');
+  }
+
+  try {
+    const commitSha = await createCommitForFiles(token, owner, repo, files, 'Initial scaffold commit', state.headSha);
+    await githubRequest(`/repos/${owner}/${repo}/git/refs/heads/${encodeURIComponent(state.defaultBranch)}`, {
+      method: 'PATCH',
       token,
-      body: JSON.stringify({ ref: `refs/heads/${resolvedBranch}`, sha: commitSha })
+      body: JSON.stringify({ sha: commitSha, force: false })
     });
+  } catch (error) {
+    const diagnostics = isGitHubApiError(error) ? error.diagnostics : undefined;
+    throw createWorkflowError('GITHUB_DELIVERY_FAILED', repositoryFullName, `commit-default-branch:${state.defaultBranch}`, 'phase-2-delivery', diagnostics, error instanceof Error ? error.message : undefined);
   }
 }
 
@@ -397,9 +489,21 @@ export async function createBranchAndPullRequest(params: {
   defaultBranch: string;
   files: Array<{ path: string; content: string }>;
 }): Promise<{ branchName: string; prUrl: string; filesAdded: string[]; filesSkipped: string[]; collisions: string[] }> {
-  const headSha = await getDefaultBranchHead(params.token, params.owner, params.repo, params.defaultBranch);
+  const repositoryFullName = `${params.owner}/${params.repo}`;
+  let state = await getRepositoryState(params.token, params.owner, params.repo, params.defaultBranch);
+  if (isRepositoryEmpty(state)) {
+    try {
+      await initializeEmptyRepository(params.token, params.owner, params.repo);
+      state = await getRepositoryState(params.token, params.owner, params.repo, params.defaultBranch);
+    } catch (error) {
+      const diagnostics = isGitHubApiError(error) ? error.diagnostics : undefined;
+      throw createWorkflowError('GITHUB_EMPTY_REPO_INIT_FAILED', repositoryFullName, 'initialize-empty-repository', 'phase-2-delivery', diagnostics, error instanceof Error ? error.message : undefined);
+    }
+  }
+
+  const headSha = state.headSha;
   if (!headSha) {
-    throw new Error('Default branch head was not found.');
+    throw createWorkflowError('GITHUB_BRANCH_HEAD_NOT_FOUND', repositoryFullName, `resolve-branch-head:${state.defaultBranch}`, 'phase-2-delivery', undefined, 'Default branch head was not found.');
   }
 
   const tree = await githubRequest<TreeResponse>(`/repos/${params.owner}/${params.repo}/git/trees/${headSha}?recursive=1`, { method: 'GET', token: params.token });
@@ -443,7 +547,7 @@ export async function createBranchAndPullRequest(params: {
       title: 'Scaffold update (non-destructive)',
       body: `Automated scaffold update.\n\nCollisions skipped: ${collisions.length}.\nFiles added: ${filesAdded.length}.`,
       head: branchName,
-      base: params.defaultBranch
+      base: state.defaultBranch
     })
   });
 

@@ -19,13 +19,22 @@ export async function GET() {
       repoCreateCapability: 'unknown',
       repoListCapability: 'unknown',
       tokenType: 'unknown',
-      grantedScopes: []
+      grantedScopes: [],
+      authStatus: 'unknown',
+      reauthorizeRequired: false
     });
   }
 
   const grantedScopes = session.githubGrantedScopes ?? [];
   const capability = accessToken ? await detectGitHubCapabilities(accessToken) : null;
   const repoCreateCapability = capability?.repoCreateCapability ?? inferRepoCreateCapability(grantedScopes);
+  const authStatus = capability?.authStatus ?? 'unknown';
+  const reauthorizeRequired =
+    authStatus === 'expired' ||
+    authStatus === 'revoked' ||
+    authStatus === 'missing_scopes' ||
+    authStatus === 'missing_repo_access' ||
+    authStatus === 'missing_installation_permissions';
 
   return NextResponse.json({
     authenticated: true,
@@ -33,6 +42,8 @@ export async function GET() {
     repoCreateCapability,
     repoListCapability: capability?.repoListCapability ?? 'unknown',
     tokenType: session.githubTokenType ?? capability?.tokenType ?? 'unknown',
-    grantedScopes: capability?.tokenScopes.length ? capability.tokenScopes : grantedScopes
+    grantedScopes: capability?.tokenScopes.length ? capability.tokenScopes : grantedScopes,
+    authStatus,
+    reauthorizeRequired
   });
 }

@@ -35,7 +35,8 @@ The existing-repo path is intentionally non-destructive: it creates a branch and
 
 ### 2) Create new GitHub repo
 - Requires GitHub OAuth login.
-- Creates repository (public/private), commits scaffold to default branch, and returns repository URL.
+- Creates repository (public/private), initializes empty repositories with `PUT /repos/{owner}/{repo}/contents/README.md`, refreshes default-branch metadata, then commits scaffold artifacts to the resolved default branch.
+- Uses the contents API only for the first commit because Git database APIs (`/git/trees`, `/git/commits`, `/git/refs`) require at least one existing commit.
 - Best when starting a brand-new project from this scaffold.
 
 ### 3) Update existing GitHub repo (safe PR flow)
@@ -76,6 +77,10 @@ OAuth scope requirements:
 
 - `read:user user:email repo`
 - `repo` is required for repository creation and PR/branch/commit APIs.
+- UI behavior is deterministic:
+  - signed out: show **Sign in with GitHub** only
+  - signed in + valid authorization: hide **Re-authorize GitHub**
+  - signed in + expired/revoked/missing scopes/repo access/installation permissions: show **Re-authorize GitHub**
 
 If required runtime variables are missing, the app logs a startup/runtime error, disables GitHub auth cleanly, and exposes sanitized status via `/api/runtime-config-check`.
 
