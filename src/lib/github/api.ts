@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 
 interface GitHubRequestOptions extends RequestInit {
   token: string;
+  suppressErrorLoggingForStatuses?: number[];
 }
 
 export interface GitHubRepo {
@@ -227,7 +228,10 @@ export async function githubRequest<T>(route: string, options: GitHubRequestOpti
     const rawBody = await response.text();
     const payload = safeJsonParse<GitHubErrorResponse>(rawBody) ?? { message: rawBody || response.statusText };
     const diagnostics = buildDiagnosticSummary(route, response, payload);
-    logGitHubFailure(diagnostics);
+    const suppressForStatuses = options.suppressErrorLoggingForStatuses ?? [];
+    if (!suppressForStatuses.includes(response.status)) {
+      logGitHubFailure(diagnostics);
+    }
     throw new GitHubApiError(diagnostics);
   }
 
@@ -361,7 +365,11 @@ export async function createRepository(token: string, config: { repoName: string
 
 async function getDefaultBranchHead(token: string, owner: string, repo: string, branch: string): Promise<string | null> {
   try {
-    const ref = await githubRequest<GitRefResponse>(`/repos/${owner}/${repo}/git/ref/heads/${encodeURIComponent(branch)}`, { method: 'GET', token });
+    const ref = await githubRequest<GitRefResponse>(`/repos/${owner}/${repo}/git/ref/heads/${encodeURIComponent(branch)}`, {
+      method: 'GET',
+      token,
+      suppressErrorLoggingForStatuses: [404]
+    });
     return ref.object.sha;
   } catch {
     return null;
@@ -375,7 +383,11 @@ function normalizeDefaultBranch(branch: string): string {
 
 async function getCommitCount(token: string, owner: string, repo: string, branch: string): Promise<{ known: boolean; count: number }> {
   try {
-    const commits = await githubRequest<CommitSummary[]>(`/repos/${owner}/${repo}/commits?sha=${encodeURIComponent(branch)}&per_page=1`, { method: 'GET', token });
+    const commits = await githubRequest<CommitSummary[]>(`/repos/${owner}/${repo}/commits?sha=${encodeURIComponent(branch)}&per_page=1`, {
+      method: 'GET',
+      token,
+      suppressErrorLoggingForStatuses: [409]
+    });
     return { known: true, count: commits.length };
   } catch (error) {
     if (isGitHubApiError(error) && error.diagnostics.status === 409) {
