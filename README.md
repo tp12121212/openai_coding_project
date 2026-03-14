@@ -76,6 +76,12 @@ npm run build
 ```
 
 
+## iOS Chrome/Edge connectivity mitigation
+
+If iOS Chromium-based browsers (Chrome/Edge) show `ERR_FAILED` while Safari can open the same URL, serve `Alt-Svc: clear` to disable stale/broken HTTP/3 (QUIC) advertisements and force HTTPS over TCP fallback.
+
+This repository now sets that header globally in `next.config.ts` via `headers()`.
+
 ## Azure hostname/SSL note
 
 Set App Service application setting `NEXTAUTH_URL=https://codex.killercloud.com.au` and keep TLS termination at Azure (certificate already provisioned).
