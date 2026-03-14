@@ -354,13 +354,14 @@ export async function commitToDefaultBranch(token: string, owner: string, repo: 
   try {
     commitSha = await createCommitForFiles(token, owner, repo, files, 'Initial scaffold commit', headSha);
   } catch (error) {
-    const isEmptyRepositoryBlobError =
+    const isEmptyRepositoryInitializationError =
       isGitHubApiError(error) &&
-      error.diagnostics.endpoint === `/repos/${owner}/${repo}/git/blobs` &&
+      (error.diagnostics.endpoint === `/repos/${owner}/${repo}/git/blobs` ||
+        error.diagnostics.endpoint === `/repos/${owner}/${repo}/git/trees`) &&
       error.diagnostics.status === 409 &&
       (error.diagnostics.message?.toLowerCase().includes('repository is empty') ?? false);
 
-    if (!isEmptyRepositoryBlobError) {
+    if (!isEmptyRepositoryInitializationError) {
       throw error;
     }
 
