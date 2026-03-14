@@ -1,7 +1,17 @@
-import { describe, expect, test, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { commitToDefaultBranch, createBranchAndPullRequest, createRepository, detectGitHubCapabilities, isGitHubApiError, listRepositories, mapGitHubErrorForClient } from '../src/lib/github/api';
 
 describe('github api integration', () => {
+  let consoleErrorSpy: ReturnType<typeof vi.spyOn>;
+
+  beforeEach(() => {
+    consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+  });
+
+  afterEach(() => {
+    consoleErrorSpy.mockRestore();
+    vi.unstubAllGlobals();
+  });
   test('sends required headers for list and create requests', async () => {
     const calls: Array<{ route: string; headers: HeadersInit | undefined; body?: unknown }> = [];
     vi.stubGlobal(
@@ -224,6 +234,7 @@ describe('github api integration', () => {
 
     expect(result.prUrl).toBe('https://github.com/o/r/pull/1');
     expect(calls.some((call) => call.route === '/repos/o/r/contents/README.md' && call.method === 'PUT')).toBe(true);
+    expect(consoleErrorSpy).not.toHaveBeenCalled();
   });
 
   test('supports non-main default branch names', async () => {
@@ -313,6 +324,9 @@ describe('github api integration', () => {
     await expect(commitToDefaultBranch('token', 'o', 'r', 'main', [{ path: 'README.md', content: 'first file' }])).rejects.toThrow(
       '"code":"GITHUB_EMPTY_REPO_INIT_FAILED"'
     );
+
+    expect(consoleErrorSpy).toHaveBeenCalledTimes(1);
+    expect(consoleErrorSpy).toHaveBeenCalledWith('[github] API request failed', expect.objectContaining({ endpoint: '/repos/o/r/contents/README.md', status: 403 }));
   });
 
   test('detects revoked, expired, and missing repo access auth states', async () => {
