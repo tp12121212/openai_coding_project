@@ -65,9 +65,8 @@ describe('github api integration', () => {
 
 
 
-  test('initializes empty repositories via contents API fallback', async () => {
+  test('initializes empty repositories without requiring an existing default-branch head', async () => {
     const calls: Array<{ route: string; method: string; body?: unknown }> = [];
-    let headLookupCount = 0;
     let blobCreateCount = 0;
     vi.stubGlobal(
       'fetch',
@@ -78,11 +77,7 @@ describe('github api integration', () => {
         calls.push({ route, method, body });
 
         if (route.includes('/git/ref/heads/main') && method === 'GET') {
-          headLookupCount += 1;
-          if (headLookupCount === 1) {
-            return new Response(JSON.stringify({ message: 'Not Found' }), { status: 404 });
-          }
-          return new Response(JSON.stringify({ object: { sha: 'headsha' } }), { status: 200 });
+          return new Response(JSON.stringify({ message: 'Not Found' }), { status: 404 });
         }
 
         if (route.endsWith('/git/blobs') && method === 'POST') {
@@ -99,14 +94,6 @@ describe('github api integration', () => {
           return new Response(JSON.stringify({ sha: 'blobsha' }), { status: 201 });
         }
 
-        if (route.includes('/contents/') && method === 'PUT') {
-          return new Response(JSON.stringify({ content: { path: 'README.md' } }), { status: 201 });
-        }
-
-        if (route.endsWith('/git/commits/headsha')) {
-          return new Response(JSON.stringify({ tree: { sha: 'basetree' } }), { status: 200 });
-        }
-
         if (route.endsWith('/git/trees') && method === 'POST') {
           return new Response(JSON.stringify({ sha: 'newtree' }), { status: 201 });
         }
@@ -115,8 +102,8 @@ describe('github api integration', () => {
           return new Response(JSON.stringify({ sha: 'newcommit' }), { status: 201 });
         }
 
-        if (route.endsWith('/git/refs/heads/main') && method === 'PATCH') {
-          return new Response(JSON.stringify({ ok: true }), { status: 200 });
+        if (route.endsWith('/git/refs') && method === 'POST') {
+          return new Response(JSON.stringify({ ok: true }), { status: 201 });
         }
 
         return new Response(JSON.stringify({ message: `Unhandled: ${method} ${route}` }), { status: 500 });
@@ -129,10 +116,97 @@ describe('github api integration', () => {
     ]);
 
     expect(calls.some((call) => call.route.endsWith('/git/blobs') && call.method === 'POST')).toBe(true);
-    const contentsCall = calls.find((call) => call.route.includes('/contents/') && call.method === 'PUT');
-    expect(contentsCall).toBeDefined();
-    expect(contentsCall?.body).toMatchObject({ message: 'Initial scaffold commit', branch: 'main' });
-    expect(calls.some((call) => call.route.endsWith('/git/refs/heads/main') && call.method === 'PATCH')).toBe(true);
+    const treeCall = calls.find((call) => call.route.endsWith('/git/trees') && call.method === 'POST');
+    expect(treeCall).toBeDefined();
+    expect(treeCall?.body).toMatchObject({
+      tree: [
+        { content: 'first file', mode: '100644', path: 'README.md', type: 'blob' },
+        { content: 'console.log(1);', mode: '100644', path: 'src/main.ts', type: 'blob' }
+      ]
+    });
+    expect(calls.some((call) => call.route.endsWith('/git/refs') && call.method === 'POST' && (call.body as { ref?: string } | undefined)?.ref === 'refs/heads/main')).toBe(true);
+  });
+
+
+
+  test('normalizes blank default branch to main when creating refs', async () => {
+    const calls: Array<{ route: string; method: string; body?: unknown }> = [];
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string, init?: RequestInit) => {
+        const route = url.replace('https://api.github.com', '');
+        const method = init?.method ?? 'GET';
+        const body = init?.body ? JSON.parse(String(init.body)) : undefined;
+        calls.push({ route, method, body });
+
+        if (route.includes('/git/ref/heads/main') && method === 'GET') {
+          return new Response(JSON.stringify({ message: 'Not Found' }), { status: 404 });
+        }
+
+        if (route.endsWith('/git/blobs') && method === 'POST') {
+          return new Response(
+            JSON.stringify({
+              message: 'Git Repository is empty.',
+              documentation_url: 'https://docs.github.com/rest/git/blobs#create-a-blob'
+            }),
+            { status: 409 }
+          );
+        }
+
+        if (route.endsWith('/git/trees') && method === 'POST') {
+          return new Response(JSON.stringify({ sha: 'newtree' }), { status: 201 });
+        }
+
+        if (route.endsWith('/git/commits') && method === 'POST') {
+          return new Response(JSON.stringify({ sha: 'newcommit' }), { status: 201 });
+        }
+
+        if (route.endsWith('/git/refs') && method === 'POST') {
+          return new Response(JSON.stringify({ ok: true }), { status: 201 });
+        }
+
+        return new Response(JSON.stringify({ message: `Unhandled: ${method} ${route}` }), { status: 500 });
+      }) as never
+    );
+
+    await commitToDefaultBranch('token', 'o', 'r', '   ', [{ path: 'README.md', content: 'first file' }]);
+
+    expect(calls.some((call) => call.route.includes('/git/ref/heads/main') && call.method === 'GET')).toBe(true);
+    expect(calls.some((call) => call.route.endsWith('/git/refs') && call.method === 'POST' && (call.body as { ref?: string } | undefined)?.ref === 'refs/heads/main')).toBe(true);
+  });
+
+  test('returns deterministic initialization error payload if empty-repo initialization fails', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string, init?: RequestInit) => {
+        const route = url.replace('https://api.github.com', '');
+        const method = init?.method ?? 'GET';
+
+        if (route.includes('/git/ref/heads/main') && method === 'GET') {
+          return new Response(JSON.stringify({ message: 'Not Found' }), { status: 404 });
+        }
+
+        if (route.endsWith('/git/blobs') && method === 'POST') {
+          return new Response(
+            JSON.stringify({
+              message: 'Git Repository is empty.',
+              documentation_url: 'https://docs.github.com/rest/git/blobs#create-a-blob'
+            }),
+            { status: 409 }
+          );
+        }
+
+        if (route.endsWith('/git/trees') && method === 'POST') {
+          return new Response(JSON.stringify({ message: 'validation failed' }), { status: 422 });
+        }
+
+        return new Response(JSON.stringify({ message: `Unhandled: ${method} ${route}` }), { status: 500 });
+      }) as never
+    );
+
+    await expect(commitToDefaultBranch('token', 'o', 'r', 'main', [{ path: 'README.md', content: 'first file' }])).rejects.toThrow(
+      'GitHub repository initialization failed: {"code":"EMPTY_REPO_INIT_FAILED","branch":"main"'
+    );
   });
 
   test('returns actionable repository-name-conflict diagnostics', async () => {

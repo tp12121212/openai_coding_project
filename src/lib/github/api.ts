@@ -282,6 +282,11 @@ async function getDefaultBranchHead(token: string, owner: string, repo: string, 
   }
 }
 
+function normalizeDefaultBranch(branch: string): string {
+  const normalized = branch.trim();
+  return normalized.length > 0 ? normalized : 'main';
+}
+
 async function createCommitForFiles(token: string, owner: string, repo: string, files: Array<{ path: string; content: string }>, message: string, parentCommitSha: string | null): Promise<string> {
   const blobShas = new Map<string, string>();
   for (const file of files) {
@@ -317,52 +322,33 @@ async function createCommitForFiles(token: string, owner: string, repo: string, 
   return commit.sha;
 }
 
-async function initializeRepositoryWithFirstCommit(
+async function createInitialCommitWithoutParent(
   token: string,
   owner: string,
   repo: string,
-  branch: string,
-  files: Array<{ path: string; content: string }>
-): Promise<void> {
-  if (files.length === 0) {
-    return;
-  }
-
-  const orderedFiles = [...files].sort((a, b) => a.path.localeCompare(b.path));
-  const [firstFile, ...remainingFiles] = orderedFiles;
-  if (!firstFile) {
-    return;
-  }
-
-  await githubRequest(`/repos/${owner}/${repo}/contents/${encodeURIComponent(firstFile.path)}`, {
-    method: 'PUT',
+  files: Array<{ path: string; content: string }>,
+  message: string
+): Promise<string> {
+  const tree = await githubRequest<TreeResponse>(`/repos/${owner}/${repo}/git/trees`, {
+    method: 'POST',
     token,
     body: JSON.stringify({
-      message: 'Initial scaffold commit',
-      content: Buffer.from(firstFile.content, 'utf8').toString('base64'),
-      branch
+      tree: [...files].sort((a, b) => a.path.localeCompare(b.path)).map((file) => ({ path: file.path, mode: '100644', type: 'blob', content: file.content }))
     })
   });
 
-  if (remainingFiles.length === 0) {
-    return;
-  }
-
-  const initializedHeadSha = await getDefaultBranchHead(token, owner, repo, branch);
-  if (!initializedHeadSha) {
-    throw new Error('Default branch head was not found after initializing repository.');
-  }
-
-  const commitSha = await createCommitForFiles(token, owner, repo, remainingFiles, 'Initial scaffold commit', initializedHeadSha);
-  await githubRequest(`/repos/${owner}/${repo}/git/refs/heads/${encodeURIComponent(branch)}`, {
-    method: 'PATCH',
+  const commit = await githubRequest<{ sha: string }>(`/repos/${owner}/${repo}/git/commits`, {
+    method: 'POST',
     token,
-    body: JSON.stringify({ sha: commitSha, force: false })
+    body: JSON.stringify({ message, tree: tree.sha, parents: [] })
   });
+
+  return commit.sha;
 }
 
 export async function commitToDefaultBranch(token: string, owner: string, repo: string, branch: string, files: Array<{ path: string; content: string }>): Promise<void> {
-  const headSha = await getDefaultBranchHead(token, owner, repo, branch);
+  const resolvedBranch = normalizeDefaultBranch(branch);
+  const headSha = await getDefaultBranchHead(token, owner, repo, resolvedBranch);
   let commitSha: string;
 
   try {
@@ -378,17 +364,27 @@ export async function commitToDefaultBranch(token: string, owner: string, repo: 
       throw error;
     }
 
-    await initializeRepositoryWithFirstCommit(token, owner, repo, branch, files);
+    try {
+      const initialCommitSha = await createInitialCommitWithoutParent(token, owner, repo, files, 'Initial scaffold commit');
+      await githubRequest(`/repos/${owner}/${repo}/git/refs`, {
+        method: 'POST',
+        token,
+        body: JSON.stringify({ ref: `refs/heads/${resolvedBranch}`, sha: initialCommitSha })
+      });
+    } catch (initializationError) {
+      const detail = initializationError instanceof Error ? initializationError.message : 'Unknown initialization error';
+      throw new Error(`GitHub repository initialization failed: {"code":"EMPTY_REPO_INIT_FAILED","branch":"${resolvedBranch}","detail":"${detail}"}`);
+    }
     return;
   }
 
   if (headSha) {
-    await githubRequest(`/repos/${owner}/${repo}/git/refs/heads/${encodeURIComponent(branch)}`, { method: 'PATCH', token, body: JSON.stringify({ sha: commitSha, force: false }) });
+    await githubRequest(`/repos/${owner}/${repo}/git/refs/heads/${encodeURIComponent(resolvedBranch)}`, { method: 'PATCH', token, body: JSON.stringify({ sha: commitSha, force: false }) });
   } else {
     await githubRequest(`/repos/${owner}/${repo}/git/refs`, {
       method: 'POST',
       token,
-      body: JSON.stringify({ ref: `refs/heads/${branch}`, sha: commitSha })
+      body: JSON.stringify({ ref: `refs/heads/${resolvedBranch}`, sha: commitSha })
     });
   }
 }
