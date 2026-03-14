@@ -29,3 +29,19 @@ az webapp update --resource-group <rg-name> --name <app-name> --https-only true
 ```
 
 If DNS and certificate binding already exist, no application code changes are required beyond setting `NEXTAUTH_URL` to the production HTTPS hostname.
+
+## iPhone Chrome/Edge `ERR_FAILED` troubleshooting
+
+When Safari works but iOS Chrome/Edge fail with `ERR_FAILED`, the most common production cause is stale or incompatible HTTP/3 (`Alt-Svc`) behavior in the edge path.
+
+Recommended mitigations:
+
+1. Ensure all traffic reaches the same TLS endpoint (no mixed CDN/front-door paths).
+2. Temporarily disable HTTP/3 advertisements by returning `Alt-Svc: clear` from the app.
+3. Validate with:
+
+```bash
+curl -sI https://codex.killercloud.com.au | rg -n "alt-svc|server|via"
+```
+
+This app ships `Alt-Svc: clear` from Next.js headers to keep iOS Chrome/Edge behavior aligned with Safari while edge networking is stabilized.
