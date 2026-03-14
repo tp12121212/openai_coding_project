@@ -65,7 +65,14 @@ describe('delivery and hygiene', () => {
       const route = url.replace('https://api.github.com', '');
       calls.push({ route, body: init?.body ? JSON.parse(String(init.body)) : undefined });
 
+      if (route === '/repos/o/r') {
+        return new Response(
+          JSON.stringify({ name: 'r', full_name: 'o/r', private: true, html_url: 'https://github.com/o/r', default_branch: 'main', owner: { login: 'o' } }),
+          { status: 200 }
+        );
+      }
       if (route.includes('/git/ref/heads/main')) return new Response(JSON.stringify({ object: { sha: 'headsha' } }), { status: 200 });
+      if (route.startsWith('/repos/o/r/commits?sha=main')) return new Response(JSON.stringify([{ sha: 'headsha' }]), { status: 200 });
       if (route.includes('/git/trees/headsha')) return new Response(JSON.stringify({ sha: 'tree', tree: [{ path: 'README.md', type: 'blob', sha: '1' }] }), { status: 200 });
       if (route.endsWith('/git/refs') && init?.method === 'POST') return new Response(JSON.stringify({ ok: true }), { status: 201 });
       if (route.endsWith('/git/blobs')) return new Response(JSON.stringify({ sha: 'blobsha' }), { status: 201 });
