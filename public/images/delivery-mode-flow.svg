@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="620" viewBox="0 0 1000 620" role="img" aria-labelledby="title desc">
+  <title id="title">Delivery mode decision flow</title>
+  <desc id="desc">Decision tree mapping delivery requirements to ZIP, new GitHub repository, or existing repository PR mode.</desc>
+  <defs>
+    <style>
+      .bg { fill: #0b1220; }
+      .node { fill: #111827; stroke: #334155; stroke-width: 2; rx: 12; }
+      .q { fill: #e2e8f0; font: 700 22px Inter, system-ui, sans-serif; }
+      .t { fill: #cbd5e1; font: 600 18px Inter, system-ui, sans-serif; }
+      .a { fill: #93c5fd; font: 500 16px Inter, system-ui, sans-serif; }
+      .line { stroke: #38bdf8; stroke-width: 4; fill: none; marker-end: url(#arrowhead); }
+      .yn { fill: #f8fafc; font: 600 14px Inter, system-ui, sans-serif; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#38bdf8" />
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1000" height="620" />
+
+  <rect class="node" x="300" y="40" width="400" height="90" />
+  <text class="q" x="330" y="92">How should artifacts be delivered?</text>
+
+  <rect class="node" x="80" y="200" width="270" height="110" />
+  <text class="t" x="105" y="245">Need local bundle only?</text>
+  <text class="a" x="105" y="272">No GitHub writes required</text>
+
+  <rect class="node" x="365" y="200" width="270" height="110" />
+  <text class="t" x="390" y="245">Need brand-new repo?</text>
+  <text class="a" x="390" y="272">Create and seed repository</text>
+
+  <rect class="node" x="650" y="200" width="270" height="110" />
+  <text class="t" x="675" y="245">Need existing repo update?</text>
+  <text class="a" x="675" y="272">Open non-destructive PR</text>
+
+  <rect class="node" x="80" y="410" width="270" height="130" />
+  <text class="t" x="115" y="460">Choose ZIP mode</text>
+  <text class="a" x="105" y="487">Deterministic download</text>
+
+  <rect class="node" x="365" y="410" width="270" height="130" />
+  <text class="t" x="385" y="460">Choose github-new-repo</text>
+  <text class="a" x="390" y="487">Creates repository + commit</text>
+
+  <rect class="node" x="650" y="410" width="270" height="130" />
+  <text class="t" x="670" y="460">Choose github-existing-repo</text>
+  <text class="a" x="675" y="487">Creates branch + pull request</text>
+
+  <path class="line" d="M500 130 L215 200" />
+  <path class="line" d="M500 130 L500 200" />
+  <path class="line" d="M500 130 L785 200" />
+
+  <path class="line" d="M215 310 L215 410" />
+  <path class="line" d="M500 310 L500 410" />
+  <path class="line" d="M785 310 L785 410" />
+
+  <text class="yn" x="285" y="174">ZIP path</text>
+  <text class="yn" x="510" y="174">New repo path</text>
+  <text class="yn" x="750" y="174">Existing repo PR path</text>
+</svg>
