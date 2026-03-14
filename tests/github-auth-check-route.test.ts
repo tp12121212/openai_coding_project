@@ -31,11 +31,13 @@ describe('GET /api/github/auth-check', () => {
       repoCreateCapability: 'unknown',
       repoListCapability: 'unknown',
       tokenType: 'unknown',
-      grantedScopes: []
+      grantedScopes: [],
+      authStatus: 'unknown',
+      reauthorizeRequired: false
     });
   });
 
-  test('returns sanitized capability summary for authenticated session', async () => {
+  test('returns sanitized capability summary for authenticated valid session', async () => {
     getServerSession.mockResolvedValue({
       user: { name: 'Test User' },
       githubAccessToken: 'secret-token',
@@ -47,7 +49,8 @@ describe('GET /api/github/auth-check', () => {
       tokenScopes: ['repo', 'read:user'],
       repoListCapability: true,
       repoCreateCapability: true,
-      tokenType: 'oauth'
+      tokenType: 'oauth',
+      authStatus: 'valid'
     });
 
     const { GET } = await import('../src/app/api/github/auth-check/route');
@@ -61,6 +64,35 @@ describe('GET /api/github/auth-check', () => {
     expect(body.repoCreateCapability).toBe(true);
     expect(body.tokenType).toBe('bearer');
     expect(body.grantedScopes).toEqual(['repo', 'read:user']);
+    expect(body.authStatus).toBe('valid');
+    expect(body.reauthorizeRequired).toBe(false);
     expect(JSON.stringify(body)).not.toContain('secret-token');
   });
+
+  test.each(['revoked', 'expired', 'missing_repo_access', 'missing_installation_permissions', 'missing_scopes'])(
+    'marks reauthorizeRequired when auth status is %s',
+    async (authStatus) => {
+      getServerSession.mockResolvedValue({
+        user: { name: 'Test User' },
+        githubAccessToken: 'secret-token',
+        githubTokenType: 'bearer',
+        githubGrantedScopes: ['read:user']
+      });
+      detectGitHubCapabilities.mockResolvedValue({
+        tokenPresent: true,
+        tokenScopes: ['read:user'],
+        repoListCapability: false,
+        repoCreateCapability: false,
+        tokenType: 'oauth',
+        authStatus
+      });
+
+      const { GET } = await import('../src/app/api/github/auth-check/route');
+      const res = await GET();
+      const body = await res.json();
+
+      expect(body.reauthorizeRequired).toBe(true);
+      expect(body.authStatus).toBe(authStatus);
+    }
+  );
 });

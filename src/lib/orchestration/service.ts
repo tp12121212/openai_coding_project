@@ -22,7 +22,16 @@ function requireGitHubToken(request: CreateProjectRequest, token?: string): stri
     return '';
   }
   if (!token) {
-    throw new Error('GitHub authentication is required for this delivery mode.');
+    throw new Error(
+      `GitHub workflow failed: ${JSON.stringify({
+        code: 'GITHUB_AUTH_REQUIRED',
+        repository: request.github?.existingRepoFullName ?? request.github?.repoName ?? 'unknown/unknown',
+        operation: 'resolve-github-token',
+        httpStatus: 401,
+        githubMessage: 'GitHub authentication is required for this delivery mode.',
+        phase: 'phase-2-delivery'
+      })}`
+    );
   }
   return token;
 }

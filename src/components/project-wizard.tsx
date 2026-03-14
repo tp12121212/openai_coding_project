@@ -31,10 +31,37 @@ interface AuthCheckResponse {
   repoListCapability: boolean | 'unknown';
   tokenType: string;
   grantedScopes: string[];
+  authStatus:
+    | 'valid'
+    | 'expired'
+    | 'revoked'
+    | 'missing_scopes'
+    | 'missing_repo_access'
+    | 'missing_installation_permissions'
+    | 'unknown';
+  reauthorizeRequired: boolean;
 }
 
 const templates = getBuiltInTemplates();
 const FORM_STORAGE_KEY = 'project-wizard-form-v1';
+
+
+export function resolveGitHubAuthButtons(input: {
+  githubRuntimeReady: boolean;
+  authenticated: boolean;
+  reauthorizeRequired: boolean;
+}): { showSignIn: boolean; showReauthorize: boolean; showSignOut: boolean } {
+  if (!input.githubRuntimeReady) {
+    return { showSignIn: false, showReauthorize: false, showSignOut: input.authenticated };
+  }
+  if (!input.authenticated) {
+    return { showSignIn: true, showReauthorize: false, showSignOut: false };
+  }
+  if (input.reauthorizeRequired) {
+    return { showSignIn: false, showReauthorize: true, showSignOut: true };
+  }
+  return { showSignIn: false, showReauthorize: false, showSignOut: true };
+}
 
 const defaultForm: CreateProjectRequest = {
   schemaVersion: '3.0.0',
@@ -182,6 +209,11 @@ export function ProjectWizard() {
   const authStatusText = githubSessionUsable ? 'Connected' : 'Not connected';
   const repoCreateMissingPermission = githubSessionUsable && githubAuthCheck?.repoCreateCapability === false;
   const repoListMissingPermission = githubSessionUsable && githubAuthCheck?.repoListCapability === false;
+  const buttonState = resolveGitHubAuthButtons({
+    githubRuntimeReady,
+    authenticated,
+    reauthorizeRequired: githubAuthCheck?.reauthorizeRequired === true
+  });
 
   const downloadUrl = job?.state === 'completed' && formState.deliveryMode === 'zip' ? `/api/jobs/${job.id}/download` : null;
 
@@ -198,17 +230,23 @@ export function ProjectWizard() {
           <p className="warning">Connected to GitHub, but token cannot list repositories for existing-repo mode. Re-authentication may be required.</p>
         )}
         <div className="button-row wrap">
-          <button
-            type="button"
-            disabled={!githubRuntimeReady}
-            onClick={() => (window.location.href = `/api/auth/signin/github?callbackUrl=${encodeURIComponent(window.location.href)}&scope=${encodeURIComponent('read:user user:email repo')}`)}
-          >
-            Sign in with GitHub
-          </button>
-          <button type="button" disabled={!githubRuntimeReady} onClick={() => (window.location.href = `/api/auth/signin/github?callbackUrl=${encodeURIComponent(window.location.href)}&scope=${encodeURIComponent('read:user user:email repo')}`)}>
-            Re-authorize GitHub
-          </button>
-          <button type="button" onClick={() => (window.location.href = '/api/auth/signout?callbackUrl=/')}>Sign out</button>
+          {buttonState.showSignIn && (
+            <button
+              type="button"
+              onClick={() => (window.location.href = `/api/auth/signin/github?callbackUrl=${encodeURIComponent(window.location.href)}&scope=${encodeURIComponent('read:user user:email repo')}`)}
+            >
+              Sign in with GitHub
+            </button>
+          )}
+          {buttonState.showReauthorize && (
+            <button
+              type="button"
+              onClick={() => (window.location.href = `/api/auth/signin/github?callbackUrl=${encodeURIComponent(window.location.href)}&scope=${encodeURIComponent('read:user user:email repo')}`)}
+            >
+              Re-authorize GitHub
+            </button>
+          )}
+          {buttonState.showSignOut && <button type="button" onClick={() => (window.location.href = '/api/auth/signout?callbackUrl=/')}>Sign out</button>}
         </div>
 
         <label>Project Name<input required value={formState.projectName} onChange={(e) => setFormState((s) => ({ ...s, projectName: e.target.value }))} /></label>

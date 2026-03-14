@@ -53,16 +53,41 @@ describe('orchestration flow', () => {
           );
         }
 
+        if (route === '/repos/owner/new-repo' && method === 'GET') {
+          return new Response(
+            JSON.stringify({
+              name: 'new-repo',
+              full_name: 'owner/new-repo',
+              private: true,
+              html_url: 'https://github.com/owner/new-repo',
+              default_branch: 'main',
+              owner: { login: 'owner' }
+            }),
+            { status: 200 }
+          );
+        }
+
         if (route === '/repos/owner/new-repo/git/ref/heads/main' && method === 'GET') {
-          return new Response(JSON.stringify({ message: 'Not Found' }), { status: 404 });
+          const initialized = true;
+          if (!initialized) return new Response(JSON.stringify({ message: 'Not Found' }), { status: 404 });
+          return new Response(JSON.stringify({ object: { sha: 'head-sha' } }), { status: 200 });
+        }
+
+        if (route.startsWith('/repos/owner/new-repo/commits?sha=main') && method === 'GET') {
+          return new Response(JSON.stringify([{ sha: 'head-sha' }]), { status: 200 });
+        }
+
+        if (route === '/repos/owner/new-repo/contents/README.md' && method === 'PUT') {
+          return new Response(JSON.stringify({ content: { path: 'README.md' }, commit: { sha: 'init-commit' } }), { status: 201 });
         }
 
         if (route === '/repos/owner/new-repo/git/blobs' && method === 'POST') {
           blobCreateCount += 1;
-          if (blobCreateCount === 1) {
-            return new Response(JSON.stringify({ message: 'Git Repository is empty.' }), { status: 409 });
-          }
-          return new Response(JSON.stringify({ sha: 'blobsha' }), { status: 201 });
+          return new Response(JSON.stringify({ sha: `blob-${blobCreateCount}` }), { status: 201 });
+        }
+
+        if (route === '/repos/owner/new-repo/git/commits/head-sha' && method === 'GET') {
+          return new Response(JSON.stringify({ tree: { sha: 'tree-sha' } }), { status: 200 });
         }
 
         if (route === '/repos/owner/new-repo/git/trees' && method === 'POST') {
@@ -73,8 +98,8 @@ describe('orchestration flow', () => {
           return new Response(JSON.stringify({ sha: 'commit-sha' }), { status: 201 });
         }
 
-        if (route === '/repos/owner/new-repo/git/refs' && method === 'POST') {
-          return new Response(JSON.stringify({ ref: 'refs/heads/main' }), { status: 201 });
+        if (route === '/repos/owner/new-repo/git/refs/heads/main' && method === 'PATCH') {
+          return new Response(JSON.stringify({ ref: 'refs/heads/main' }), { status: 200 });
         }
 
         return new Response(JSON.stringify({ message: `Unhandled: ${method} ${route}` }), { status: 500 });

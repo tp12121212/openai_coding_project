@@ -1,5 +1,5 @@
 import { describe, expect, test, vi } from 'vitest';
-import { commitToDefaultBranch, createRepository, isGitHubApiError, listRepositories, mapGitHubErrorForClient } from '../src/lib/github/api';
+import { commitToDefaultBranch, createBranchAndPullRequest, createRepository, detectGitHubCapabilities, isGitHubApiError, listRepositories, mapGitHubErrorForClient } from '../src/lib/github/api';
 
 describe('github api integration', () => {
   test('sends required headers for list and create requests', async () => {
@@ -63,11 +63,8 @@ describe('github api integration', () => {
     }
   });
 
-
-
-  test('initializes empty repositories without requiring an existing default-branch head', async () => {
+  test('initializes empty repositories via contents API then commits scaffold files', async () => {
     const calls: Array<{ route: string; method: string; body?: unknown }> = [];
-    let blobCreateCount = 0;
     vi.stubGlobal(
       'fetch',
       vi.fn(async (url: string, init?: RequestInit) => {
@@ -76,34 +73,35 @@ describe('github api integration', () => {
         const body = init?.body ? JSON.parse(String(init.body)) : undefined;
         calls.push({ route, method, body });
 
-        if (route.includes('/git/ref/heads/main') && method === 'GET') {
-          return new Response(JSON.stringify({ message: 'Not Found' }), { status: 404 });
+        if (route === '/repos/o/r' && method === 'GET') {
+          return new Response(JSON.stringify({ name: 'r', full_name: 'o/r', private: true, html_url: 'https://github.com/o/r', default_branch: 'main', owner: { login: 'o' } }), { status: 200 });
         }
-
-        if (route.endsWith('/git/blobs') && method === 'POST') {
-          blobCreateCount += 1;
-          if (blobCreateCount === 1) {
-            return new Response(
-              JSON.stringify({
-                message: 'Git Repository is empty.',
-                documentation_url: 'https://docs.github.com/rest/git/blobs#create-a-blob'
-              }),
-              { status: 409 }
-            );
-          }
-          return new Response(JSON.stringify({ sha: 'blobsha' }), { status: 201 });
+        if (route === '/repos/o/r/git/ref/heads/main' && method === 'GET') {
+          const initialized = calls.some((call) => call.route === '/repos/o/r/contents/README.md' && call.method === 'PUT');
+          if (!initialized) return new Response(JSON.stringify({ message: 'Not Found' }), { status: 404 });
+          return new Response(JSON.stringify({ object: { sha: 'head-sha' } }), { status: 200 });
         }
-
-        if (route.endsWith('/git/trees') && method === 'POST') {
-          return new Response(JSON.stringify({ sha: 'newtree' }), { status: 201 });
+        if (route.startsWith('/repos/o/r/commits?sha=main') && method === 'GET') {
+          const initialized = calls.some((call) => call.route === '/repos/o/r/contents/README.md' && call.method === 'PUT');
+          return new Response(JSON.stringify(initialized ? [{ sha: 'head-sha' }] : []), { status: 200 });
         }
-
-        if (route.endsWith('/git/commits') && method === 'POST') {
-          return new Response(JSON.stringify({ sha: 'newcommit' }), { status: 201 });
+        if (route === '/repos/o/r/contents/README.md' && method === 'PUT') {
+          return new Response(JSON.stringify({ content: { path: 'README.md' }, commit: { sha: 'init-commit' } }), { status: 201 });
         }
-
-        if (route.endsWith('/git/refs') && method === 'POST') {
-          return new Response(JSON.stringify({ ok: true }), { status: 201 });
+        if (route === '/repos/o/r/git/blobs' && method === 'POST') {
+          return new Response(JSON.stringify({ sha: `blob-${calls.length}` }), { status: 201 });
+        }
+        if (route === '/repos/o/r/git/commits/head-sha' && method === 'GET') {
+          return new Response(JSON.stringify({ tree: { sha: 'base-tree' } }), { status: 200 });
+        }
+        if (route === '/repos/o/r/git/trees' && method === 'POST') {
+          return new Response(JSON.stringify({ sha: 'tree-sha' }), { status: 201 });
+        }
+        if (route === '/repos/o/r/git/commits' && method === 'POST') {
+          return new Response(JSON.stringify({ sha: 'commit-sha' }), { status: 201 });
+        }
+        if (route === '/repos/o/r/git/refs/heads/main' && method === 'PATCH') {
+          return new Response(JSON.stringify({ ref: 'refs/heads/main' }), { status: 200 });
         }
 
         return new Response(JSON.stringify({ message: `Unhandled: ${method} ${route}` }), { status: 500 });
@@ -115,60 +113,43 @@ describe('github api integration', () => {
       { path: 'src/main.ts', content: 'console.log(1);' }
     ]);
 
-    expect(calls.some((call) => call.route.endsWith('/git/blobs') && call.method === 'POST')).toBe(true);
-    const treeCall = calls.find((call) => call.route.endsWith('/git/trees') && call.method === 'POST');
-    expect(treeCall).toBeDefined();
-    expect(treeCall?.body).toMatchObject({
-      tree: [
-        { content: 'first file', mode: '100644', path: 'README.md', type: 'blob' },
-        { content: 'console.log(1);', mode: '100644', path: 'src/main.ts', type: 'blob' }
-      ]
-    });
-    expect(calls.some((call) => call.route.endsWith('/git/refs') && call.method === 'POST' && (call.body as { ref?: string } | undefined)?.ref === 'refs/heads/main')).toBe(true);
+    expect(calls.some((call) => call.route === '/repos/o/r/contents/README.md' && call.method === 'PUT')).toBe(true);
+    expect(calls.some((call) => call.route === '/repos/o/r/git/blobs' && call.method === 'POST')).toBe(true);
+    expect(calls.some((call) => call.route === '/repos/o/r/git/refs/heads/main' && call.method === 'PATCH')).toBe(true);
   });
 
-
-
-
-  test('initializes empty repositories when tree creation reports empty repository', async () => {
-    const calls: Array<{ route: string; method: string; body?: unknown }> = [];
-    let treesPostCount = 0;
+  test('skips initialization for existing repositories with branch head', async () => {
+    const calls: Array<{ route: string; method: string }> = [];
     vi.stubGlobal(
       'fetch',
       vi.fn(async (url: string, init?: RequestInit) => {
         const route = url.replace('https://api.github.com', '');
         const method = init?.method ?? 'GET';
-        const body = init?.body ? JSON.parse(String(init.body)) : undefined;
-        calls.push({ route, method, body });
+        calls.push({ route, method });
 
-        if (route.includes('/git/ref/heads/main') && method === 'GET') {
-          return new Response(JSON.stringify({ message: 'Not Found' }), { status: 404 });
+        if (route === '/repos/o/r' && method === 'GET') {
+          return new Response(JSON.stringify({ name: 'r', full_name: 'o/r', private: true, html_url: 'https://github.com/o/r', default_branch: 'main', owner: { login: 'o' } }), { status: 200 });
         }
-
-        if (route.endsWith('/git/blobs') && method === 'POST') {
-          return new Response(JSON.stringify({ sha: 'blobsha' }), { status: 201 });
+        if (route === '/repos/o/r/git/ref/heads/main' && method === 'GET') {
+          return new Response(JSON.stringify({ object: { sha: 'head-sha' } }), { status: 200 });
         }
-
-        if (route.endsWith('/git/trees') && method === 'POST') {
-          treesPostCount += 1;
-          if (treesPostCount === 1) {
-            return new Response(
-              JSON.stringify({
-                message: 'Git Repository is empty.',
-                documentation_url: 'https://docs.github.com/rest/git/trees#create-a-tree'
-              }),
-              { status: 409 }
-            );
-          }
-          return new Response(JSON.stringify({ sha: 'newtree' }), { status: 201 });
+        if (route.startsWith('/repos/o/r/commits?sha=main') && method === 'GET') {
+          return new Response(JSON.stringify([{ sha: 'head-sha' }]), { status: 200 });
         }
-
-        if (route.endsWith('/git/commits') && method === 'POST') {
-          return new Response(JSON.stringify({ sha: 'newcommit' }), { status: 201 });
+        if (route === '/repos/o/r/git/blobs' && method === 'POST') {
+          return new Response(JSON.stringify({ sha: 'blob-sha' }), { status: 201 });
         }
-
-        if (route.endsWith('/git/refs') && method === 'POST') {
-          return new Response(JSON.stringify({ ok: true }), { status: 201 });
+        if (route === '/repos/o/r/git/commits/head-sha' && method === 'GET') {
+          return new Response(JSON.stringify({ tree: { sha: 'base-tree' } }), { status: 200 });
+        }
+        if (route === '/repos/o/r/git/trees' && method === 'POST') {
+          return new Response(JSON.stringify({ sha: 'tree-sha' }), { status: 201 });
+        }
+        if (route === '/repos/o/r/git/commits' && method === 'POST') {
+          return new Response(JSON.stringify({ sha: 'commit-sha' }), { status: 201 });
+        }
+        if (route === '/repos/o/r/git/refs/heads/main' && method === 'PATCH') {
+          return new Response(JSON.stringify({ ref: 'refs/heads/main' }), { status: 200 });
         }
 
         return new Response(JSON.stringify({ message: `Unhandled: ${method} ${route}` }), { status: 500 });
@@ -177,80 +158,152 @@ describe('github api integration', () => {
 
     await commitToDefaultBranch('token', 'o', 'r', 'main', [{ path: 'README.md', content: 'first file' }]);
 
-    const treeCalls = calls.filter((call) => call.route.endsWith('/git/trees') && call.method === 'POST');
-    expect(treeCalls.length).toBe(2);
-    expect(calls.some((call) => call.route.endsWith('/git/refs') && call.method === 'POST' && (call.body as { ref?: string } | undefined)?.ref === 'refs/heads/main')).toBe(true);
+    expect(calls.some((call) => call.route === '/repos/o/r/contents/README.md' && call.method === 'PUT')).toBe(false);
   });
 
-  test('normalizes blank default branch to main when creating refs', async () => {
-    const calls: Array<{ route: string; method: string; body?: unknown }> = [];
+  test('initializes empty existing repository instead of failing with missing branch head', async () => {
+    const calls: Array<{ route: string; method: string }> = [];
     vi.stubGlobal(
       'fetch',
       vi.fn(async (url: string, init?: RequestInit) => {
         const route = url.replace('https://api.github.com', '');
         const method = init?.method ?? 'GET';
-        const body = init?.body ? JSON.parse(String(init.body)) : undefined;
-        calls.push({ route, method, body });
+        calls.push({ route, method });
 
-        if (route.includes('/git/ref/heads/main') && method === 'GET') {
-          return new Response(JSON.stringify({ message: 'Not Found' }), { status: 404 });
+        if (route === '/repos/o/r' && method === 'GET') {
+          return new Response(JSON.stringify({ name: 'r', full_name: 'o/r', private: true, html_url: 'https://github.com/o/r', default_branch: 'main', owner: { login: 'o' } }), { status: 200 });
         }
-
-        if (route.endsWith('/git/blobs') && method === 'POST') {
-          return new Response(
-            JSON.stringify({
-              message: 'Git Repository is empty.',
-              documentation_url: 'https://docs.github.com/rest/git/blobs#create-a-blob'
-            }),
-            { status: 409 }
-          );
+        if (route === '/repos/o/r/git/ref/heads/main' && method === 'GET') {
+          const initialized = calls.some((call) => call.route === '/repos/o/r/contents/README.md' && call.method === 'PUT');
+          if (!initialized) return new Response(JSON.stringify({ message: 'Not Found' }), { status: 404 });
+          return new Response(JSON.stringify({ object: { sha: 'head-sha' } }), { status: 200 });
         }
-
-        if (route.endsWith('/git/trees') && method === 'POST') {
-          return new Response(JSON.stringify({ sha: 'newtree' }), { status: 201 });
+        if (route.startsWith('/repos/o/r/commits?sha=main') && method === 'GET') {
+          const initialized = calls.some((call) => call.route === '/repos/o/r/contents/README.md' && call.method === 'PUT');
+          return new Response(JSON.stringify(initialized ? [{ sha: 'head-sha' }] : []), { status: 200 });
         }
-
-        if (route.endsWith('/git/commits') && method === 'POST') {
-          return new Response(JSON.stringify({ sha: 'newcommit' }), { status: 201 });
+        if (route === '/repos/o/r/contents/README.md' && method === 'PUT') {
+          return new Response(JSON.stringify({ content: { path: 'README.md' }, commit: { sha: 'init-commit' } }), { status: 201 });
         }
-
-        if (route.endsWith('/git/refs') && method === 'POST') {
-          return new Response(JSON.stringify({ ok: true }), { status: 201 });
+        if (route === '/repos/o/r/git/trees/head-sha?recursive=1' && method === 'GET') {
+          return new Response(JSON.stringify({ sha: 'tree-sha', tree: [] }), { status: 200 });
+        }
+        if (route === '/repos/o/r/git/refs' && method === 'POST') {
+          return new Response(JSON.stringify({ ref: 'refs/heads/scaffold/update-abcd1234' }), { status: 201 });
+        }
+        if (route === '/repos/o/r/git/blobs' && method === 'POST') {
+          return new Response(JSON.stringify({ sha: 'blob-sha' }), { status: 201 });
+        }
+        if (route === '/repos/o/r/git/commits/head-sha' && method === 'GET') {
+          return new Response(JSON.stringify({ tree: { sha: 'base-tree' } }), { status: 200 });
+        }
+        if (route === '/repos/o/r/git/trees' && method === 'POST') {
+          return new Response(JSON.stringify({ sha: 'new-tree' }), { status: 201 });
+        }
+        if (route === '/repos/o/r/git/commits' && method === 'POST') {
+          return new Response(JSON.stringify({ sha: 'new-commit' }), { status: 201 });
+        }
+        if (route.startsWith('/repos/o/r/git/refs/heads/scaffold%2Fupdate-') && method === 'PATCH') {
+          return new Response(JSON.stringify({ ok: true }), { status: 200 });
+        }
+        if (route === '/repos/o/r/pulls' && method === 'POST') {
+          return new Response(JSON.stringify({ html_url: 'https://github.com/o/r/pull/1' }), { status: 201 });
         }
 
         return new Response(JSON.stringify({ message: `Unhandled: ${method} ${route}` }), { status: 500 });
       }) as never
     );
 
-    await commitToDefaultBranch('token', 'o', 'r', '   ', [{ path: 'README.md', content: 'first file' }]);
+    const result = await createBranchAndPullRequest({
+      token: 'token',
+      owner: 'o',
+      repo: 'r',
+      defaultBranch: 'main',
+      files: [{ path: 'README.md', content: 'first file' }]
+    });
 
-    expect(calls.some((call) => call.route.includes('/git/ref/heads/main') && call.method === 'GET')).toBe(true);
-    expect(calls.some((call) => call.route.endsWith('/git/refs') && call.method === 'POST' && (call.body as { ref?: string } | undefined)?.ref === 'refs/heads/main')).toBe(true);
+    expect(result.prUrl).toBe('https://github.com/o/r/pull/1');
+    expect(calls.some((call) => call.route === '/repos/o/r/contents/README.md' && call.method === 'PUT')).toBe(true);
   });
 
-  test('returns deterministic initialization error payload if empty-repo initialization fails', async () => {
+  test('supports non-main default branch names', async () => {
+    const pulls: Array<{ base?: string }> = [];
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string, init?: RequestInit) => {
+        const route = url.replace('https://api.github.com', '');
+        const method = init?.method ?? 'GET';
+        const body = init?.body ? JSON.parse(String(init.body)) : undefined;
+
+        if (route === '/repos/o/r' && method === 'GET') {
+          return new Response(JSON.stringify({ name: 'r', full_name: 'o/r', private: true, html_url: 'https://github.com/o/r', default_branch: 'trunk', owner: { login: 'o' } }), { status: 200 });
+        }
+        if (route === '/repos/o/r/git/ref/heads/trunk' && method === 'GET') {
+          return new Response(JSON.stringify({ object: { sha: 'head-sha' } }), { status: 200 });
+        }
+        if (route.startsWith('/repos/o/r/commits?sha=trunk') && method === 'GET') {
+          return new Response(JSON.stringify([{ sha: 'head-sha' }]), { status: 200 });
+        }
+        if (route === '/repos/o/r/git/trees/head-sha?recursive=1' && method === 'GET') {
+          return new Response(JSON.stringify({ sha: 'tree-sha', tree: [] }), { status: 200 });
+        }
+        if (route === '/repos/o/r/git/refs' && method === 'POST') {
+          return new Response(JSON.stringify({ ref: 'refs/heads/scaffold/update-abcd1234' }), { status: 201 });
+        }
+        if (route === '/repos/o/r/git/blobs' && method === 'POST') {
+          return new Response(JSON.stringify({ sha: 'blob-sha' }), { status: 201 });
+        }
+        if (route === '/repos/o/r/git/commits/head-sha' && method === 'GET') {
+          return new Response(JSON.stringify({ tree: { sha: 'base-tree' } }), { status: 200 });
+        }
+        if (route === '/repos/o/r/git/trees' && method === 'POST') {
+          return new Response(JSON.stringify({ sha: 'new-tree' }), { status: 201 });
+        }
+        if (route === '/repos/o/r/git/commits' && method === 'POST') {
+          return new Response(JSON.stringify({ sha: 'new-commit' }), { status: 201 });
+        }
+        if (route.startsWith('/repos/o/r/git/refs/heads/scaffold%2Fupdate-') && method === 'PATCH') {
+          return new Response(JSON.stringify({ ok: true }), { status: 200 });
+        }
+        if (route === '/repos/o/r/pulls' && method === 'POST') {
+          pulls.push(body ?? {});
+          return new Response(JSON.stringify({ html_url: 'https://github.com/o/r/pull/2' }), { status: 201 });
+        }
+
+        return new Response(JSON.stringify({ message: `Unhandled: ${method} ${route}` }), { status: 500 });
+      }) as never
+    );
+
+    const result = await createBranchAndPullRequest({
+      token: 'token',
+      owner: 'o',
+      repo: 'r',
+      defaultBranch: 'main',
+      files: [{ path: 'README.md', content: 'first file' }]
+    });
+
+    expect(result.prUrl).toContain('/pull/2');
+    expect(pulls[0]?.base).toBe('trunk');
+  });
+
+  test('returns deterministic workflow error payload when empty-repo initialization fails', async () => {
     vi.stubGlobal(
       'fetch',
       vi.fn(async (url: string, init?: RequestInit) => {
         const route = url.replace('https://api.github.com', '');
         const method = init?.method ?? 'GET';
 
-        if (route.includes('/git/ref/heads/main') && method === 'GET') {
+        if (route === '/repos/o/r' && method === 'GET') {
+          return new Response(JSON.stringify({ name: 'r', full_name: 'o/r', private: true, html_url: 'https://github.com/o/r', default_branch: 'main', owner: { login: 'o' } }), { status: 200 });
+        }
+        if (route === '/repos/o/r/git/ref/heads/main' && method === 'GET') {
           return new Response(JSON.stringify({ message: 'Not Found' }), { status: 404 });
         }
-
-        if (route.endsWith('/git/blobs') && method === 'POST') {
-          return new Response(
-            JSON.stringify({
-              message: 'Git Repository is empty.',
-              documentation_url: 'https://docs.github.com/rest/git/blobs#create-a-blob'
-            }),
-            { status: 409 }
-          );
+        if (route.startsWith('/repos/o/r/commits?sha=main') && method === 'GET') {
+          return new Response(JSON.stringify([]), { status: 200 });
         }
-
-        if (route.endsWith('/git/trees') && method === 'POST') {
-          return new Response(JSON.stringify({ message: 'validation failed' }), { status: 422 });
+        if (route === '/repos/o/r/contents/README.md' && method === 'PUT') {
+          return new Response(JSON.stringify({ message: 'Forbidden' }), { status: 403 });
         }
 
         return new Response(JSON.stringify({ message: `Unhandled: ${method} ${route}` }), { status: 500 });
@@ -258,8 +311,43 @@ describe('github api integration', () => {
     );
 
     await expect(commitToDefaultBranch('token', 'o', 'r', 'main', [{ path: 'README.md', content: 'first file' }])).rejects.toThrow(
-      'GitHub repository initialization failed: {"code":"EMPTY_REPO_INIT_FAILED","branch":"main"'
+      '"code":"GITHUB_EMPTY_REPO_INIT_FAILED"'
     );
+  });
+
+  test('detects revoked, expired, and missing repo access auth states', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url.endsWith('/user')) {
+          return new Response(JSON.stringify({ message: 'Bad credentials' }), { status: 401, headers: { 'x-oauth-scopes': 'repo' } });
+        }
+        return new Response(JSON.stringify([]), { status: 200, headers: { 'x-oauth-scopes': 'repo' } });
+      }) as never
+    );
+    await expect(detectGitHubCapabilities('token')).resolves.toMatchObject({ authStatus: 'revoked' });
+
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url.endsWith('/user')) {
+          return new Response(JSON.stringify({ message: 'Requires authentication' }), { status: 401, headers: { 'x-oauth-scopes': 'repo' } });
+        }
+        return new Response(JSON.stringify([]), { status: 200, headers: { 'x-oauth-scopes': 'repo' } });
+      }) as never
+    );
+    await expect(detectGitHubCapabilities('token')).resolves.toMatchObject({ authStatus: 'expired' });
+
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url.endsWith('/user')) {
+          return new Response(JSON.stringify({ id: 1 }), { status: 200, headers: { 'x-oauth-scopes': 'read:user' } });
+        }
+        return new Response(JSON.stringify({ message: 'Resource not accessible by integration' }), { status: 403 });
+      }) as never
+    );
+    await expect(detectGitHubCapabilities('token')).resolves.toMatchObject({ authStatus: 'missing_installation_permissions' });
   });
 
   test('returns actionable repository-name-conflict diagnostics', async () => {
