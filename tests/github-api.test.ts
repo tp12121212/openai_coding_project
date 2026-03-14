@@ -129,6 +129,59 @@ describe('github api integration', () => {
 
 
 
+
+  test('initializes empty repositories when tree creation reports empty repository', async () => {
+    const calls: Array<{ route: string; method: string; body?: unknown }> = [];
+    let treesPostCount = 0;
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string, init?: RequestInit) => {
+        const route = url.replace('https://api.github.com', '');
+        const method = init?.method ?? 'GET';
+        const body = init?.body ? JSON.parse(String(init.body)) : undefined;
+        calls.push({ route, method, body });
+
+        if (route.includes('/git/ref/heads/main') && method === 'GET') {
+          return new Response(JSON.stringify({ message: 'Not Found' }), { status: 404 });
+        }
+
+        if (route.endsWith('/git/blobs') && method === 'POST') {
+          return new Response(JSON.stringify({ sha: 'blobsha' }), { status: 201 });
+        }
+
+        if (route.endsWith('/git/trees') && method === 'POST') {
+          treesPostCount += 1;
+          if (treesPostCount === 1) {
+            return new Response(
+              JSON.stringify({
+                message: 'Git Repository is empty.',
+                documentation_url: 'https://docs.github.com/rest/git/trees#create-a-tree'
+              }),
+              { status: 409 }
+            );
+          }
+          return new Response(JSON.stringify({ sha: 'newtree' }), { status: 201 });
+        }
+
+        if (route.endsWith('/git/commits') && method === 'POST') {
+          return new Response(JSON.stringify({ sha: 'newcommit' }), { status: 201 });
+        }
+
+        if (route.endsWith('/git/refs') && method === 'POST') {
+          return new Response(JSON.stringify({ ok: true }), { status: 201 });
+        }
+
+        return new Response(JSON.stringify({ message: `Unhandled: ${method} ${route}` }), { status: 500 });
+      }) as never
+    );
+
+    await commitToDefaultBranch('token', 'o', 'r', 'main', [{ path: 'README.md', content: 'first file' }]);
+
+    const treeCalls = calls.filter((call) => call.route.endsWith('/git/trees') && call.method === 'POST');
+    expect(treeCalls.length).toBe(2);
+    expect(calls.some((call) => call.route.endsWith('/git/refs') && call.method === 'POST' && (call.body as { ref?: string } | undefined)?.ref === 'refs/heads/main')).toBe(true);
+  });
+
   test('normalizes blank default branch to main when creating refs', async () => {
     const calls: Array<{ route: string; method: string; body?: unknown }> = [];
     vi.stubGlobal(
