@@ -86,6 +86,15 @@ function safeStringifyError(error: unknown): string {
   return JSON.stringify(error ?? {}, null, 2);
 }
 
+function getConsoleState(job: ApiJob | null, error: string | null): 'idle' | 'running' | 'completed' | 'failed' {
+  if (error) return 'failed';
+  if (!job) return 'idle';
+  if (job.state === 'completed') return 'completed';
+  if (job.state === 'failed') return 'failed';
+  if (job.state === 'running' || job.state === 'queued') return 'running';
+  return 'running';
+}
+
 export function ProjectWizard() {
   const [formState, setFormState] = useState<CreateProjectRequest>(defaultForm);
   const [job, setJob] = useState<ApiJob | null>(null);
@@ -179,7 +188,7 @@ export function ProjectWizard() {
     if (submitting) return;
 
     setError(null);
-    setJob(null);
+    setJob({ id: 'pending', state: 'running' });
     setSubmitting(true);
 
     try {
@@ -191,12 +200,14 @@ export function ProjectWizard() {
 
       const body = (await res.json()) as { job?: ApiJob; error?: unknown };
       if (!res.ok || !body.job) {
+        setJob(null);
         setError(safeStringifyError(body.error ?? body));
         return;
       }
 
       setJob(body.job);
     } catch {
+      setJob(null);
       setError('Network error while submitting orchestration request.');
     } finally {
       setSubmitting(false);
@@ -217,66 +228,60 @@ export function ProjectWizard() {
   });
 
   const downloadUrl = job?.state === 'completed' && formState.deliveryMode === 'zip' ? `/api/jobs/${job.id}/download` : null;
+  const consoleState = getConsoleState(job, error);
 
   return (
-    <section className="wizard-shell">
-      <form className="panel workspace-panel" onSubmit={submit}>
-        <header className="panel-header">
-          <h2>Project orchestration workspace</h2>
-          <p>Submit deterministic scaffold jobs with explicit delivery and repository controls.</p>
-        </header>
-
-        <div className="panel-body form-stack">
-          <section className="field-section">
-            <div className="section-title-row">
-              <h3>GitHub authorization</h3>
-              <span className={`status-badge ${githubSessionUsable ? 'ok' : 'idle'}`}>{authStatusText}</span>
-            </div>
-            {oauthDisabledReason && <p className="warning">{oauthDisabledReason}</p>}
-            {repoCreateMissingPermission && (
-              <p className="warning">
-                Connected to GitHub, but token lacks repository creation permission. Re-authentication may be required.
-              </p>
+    <section className="operator-workspace">
+      <form className="configure-column" onSubmit={submit}>
+        <section className="module auth-module">
+          <header className="module-header">
+            <h3>Authenticate</h3>
+            <span className={`pill ${githubSessionUsable ? 'pill-success' : 'pill-warning'}`}>{authStatusText}</span>
+          </header>
+          <p className="module-intro">GitHub delivery actions are enabled only with valid repo-capable authorization.</p>
+          {oauthDisabledReason && <p className="state-warning">{oauthDisabledReason}</p>}
+          {repoCreateMissingPermission && (
+            <p className="state-warning">Connected token cannot create repositories. Re-authorize with repo scope.</p>
+          )}
+          {repoListMissingPermission && (
+            <p className="state-warning">Connected token cannot list repositories for PR update mode.</p>
+          )}
+          <div className="action-row">
+            {buttonState.showSignIn && (
+              <button
+                type="button"
+                onClick={() =>
+                  (window.location.href = `/api/auth/signin/github?callbackUrl=${encodeURIComponent(window.location.href)}&scope=${encodeURIComponent('read:user user:email repo')}`)
+                }
+              >
+                Sign in with GitHub
+              </button>
             )}
-            {repoListMissingPermission && (
-              <p className="warning">
-                Connected to GitHub, but token cannot list repositories for existing-repo mode. Re-authentication may be
-                required.
-              </p>
+            {buttonState.showReauthorize && (
+              <button
+                type="button"
+                onClick={() =>
+                  (window.location.href = `/api/auth/signin/github?callbackUrl=${encodeURIComponent(window.location.href)}&scope=${encodeURIComponent('read:user user:email repo')}`)
+                }
+              >
+                Re-authorize
+              </button>
             )}
-            <div className="button-row wrap">
-              {buttonState.showSignIn && (
-                <button
-                  type="button"
-                  onClick={() =>
-                    (window.location.href = `/api/auth/signin/github?callbackUrl=${encodeURIComponent(window.location.href)}&scope=${encodeURIComponent('read:user user:email repo')}`)
-                  }
-                >
-                  Sign in with GitHub
-                </button>
-              )}
-              {buttonState.showReauthorize && (
-                <button
-                  type="button"
-                  onClick={() =>
-                    (window.location.href = `/api/auth/signin/github?callbackUrl=${encodeURIComponent(window.location.href)}&scope=${encodeURIComponent('read:user user:email repo')}`)
-                  }
-                >
-                  Re-authorize GitHub
-                </button>
-              )}
-              {buttonState.showSignOut && (
-                <button type="button" onClick={() => (window.location.href = '/api/auth/signout?callbackUrl=/')}>
-                  Sign out
-                </button>
-              )}
-            </div>
-          </section>
+            {buttonState.showSignOut && (
+              <button type="button" onClick={() => (window.location.href = '/api/auth/signout?callbackUrl=/')}>
+                Sign out
+              </button>
+            )}
+          </div>
+        </section>
 
-          <section className="field-section">
-            <h3>Project inputs</h3>
+        <section className="module">
+          <header className="module-header">
+            <h3>Configure inputs</h3>
+          </header>
+          <div className="field-grid">
             <label>
-              Project Name
+              Project name
               <input
                 required
                 value={formState.projectName}
@@ -292,7 +297,7 @@ export function ProjectWizard() {
               />
             </label>
             <label>
-              Stack Template
+              Stack template
               <select
                 value={formState.templateId}
                 onChange={(e) =>
@@ -321,12 +326,16 @@ export function ProjectWizard() {
                 <option value="research">Research</option>
               </select>
             </label>
-          </section>
+          </div>
+        </section>
 
-          <section className="field-section">
-            <h3>Delivery mode</h3>
+        <section className="module split-module">
+          <div>
+            <header className="module-header">
+              <h3>Select delivery mode</h3>
+            </header>
             <label>
-              Mode
+              Delivery mode
               <select
                 value={formState.deliveryMode}
                 onChange={(e) =>
@@ -338,162 +347,183 @@ export function ProjectWizard() {
                 <option value="github-existing-repo">Update existing repo (PR)</option>
               </select>
             </label>
-          </section>
+          </div>
 
-          {formState.deliveryMode === 'github-new-repo' && (
-            <section className="field-section">
-              <h3>Repository target (new)</h3>
-              <label>
-                Repo Name
-                <input
-                  required
-                  value={formState.github?.repoName ?? ''}
-                  onChange={(e) =>
-                    setFormState((s) => ({
-                      ...s,
-                      github: { ...s.github, repoName: e.target.value, visibility: s.github?.visibility ?? 'private' }
-                    }))
-                  }
-                />
-              </label>
-              <label>
-                Visibility
-                <select
-                  value={formState.github?.visibility ?? 'private'}
-                  onChange={(e) =>
-                    setFormState((s) => ({
-                      ...s,
-                      github: {
-                        ...s.github,
-                        visibility: e.target.value as 'public' | 'private',
-                        repoName: s.github?.repoName ?? ''
-                      }
-                    }))
-                  }
-                >
-                  <option value="private">Private</option>
-                  <option value="public">Public</option>
-                </select>
-              </label>
-              <label>
-                Description
-                <input
-                  value={formState.github?.description ?? ''}
-                  onChange={(e) =>
-                    setFormState((s) => ({
-                      ...s,
-                      github: {
-                        ...s.github,
-                        description: e.target.value,
-                        repoName: s.github?.repoName ?? '',
-                        visibility: s.github?.visibility ?? 'private'
-                      }
-                    }))
-                  }
-                />
-              </label>
-            </section>
-          )}
+          <div>
+            <header className="module-header">
+              <h3>Repository target</h3>
+            </header>
+            {formState.deliveryMode === 'zip' && <p className="module-intro">No repository configuration required for ZIP mode.</p>}
 
-          {formState.deliveryMode === 'github-existing-repo' && (
-            <section className="field-section">
-              <h3>Repository target (existing)</h3>
-              <label>
-                Search repositories
-                <input
-                  value={repoSearch}
-                  placeholder="owner/repository"
-                  onChange={(e) => setRepoSearch(e.target.value)}
-                />
-              </label>
-              <label>
-                Existing Repository
-                <select
-                  value={formState.github?.existingRepoFullName ?? ''}
-                  onChange={(e) =>
-                    setFormState((s) => ({
-                      ...s,
-                      github: {
-                        ...s.github,
-                        existingRepoFullName: e.target.value,
-                        repoName: s.github?.repoName ?? 'placeholder',
-                        visibility: s.github?.visibility ?? 'private'
-                      }
-                    }))
-                  }
-                >
-                  <option value="">{loadingRepos ? 'Loading repositories...' : 'Select a repository'}</option>
-                  {repos.map((repo) => (
-                    <option key={repo.full_name} value={repo.full_name}>
-                      {repo.full_name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </section>
-          )}
+            {formState.deliveryMode === 'github-new-repo' && (
+              <div className="field-grid">
+                <label>
+                  Repo name
+                  <input
+                    required
+                    value={formState.github?.repoName ?? ''}
+                    onChange={(e) =>
+                      setFormState((s) => ({
+                        ...s,
+                        github: { ...s.github, repoName: e.target.value, visibility: s.github?.visibility ?? 'private' }
+                      }))
+                    }
+                  />
+                </label>
+                <label>
+                  Visibility
+                  <select
+                    value={formState.github?.visibility ?? 'private'}
+                    onChange={(e) =>
+                      setFormState((s) => ({
+                        ...s,
+                        github: {
+                          ...s.github,
+                          visibility: e.target.value as 'public' | 'private',
+                          repoName: s.github?.repoName ?? ''
+                        }
+                      }))
+                    }
+                  >
+                    <option value="private">Private</option>
+                    <option value="public">Public</option>
+                  </select>
+                </label>
+                <label>
+                  Repository description
+                  <input
+                    value={formState.github?.description ?? ''}
+                    onChange={(e) =>
+                      setFormState((s) => ({
+                        ...s,
+                        github: {
+                          ...s.github,
+                          description: e.target.value,
+                          repoName: s.github?.repoName ?? '',
+                          visibility: s.github?.visibility ?? 'private'
+                        }
+                      }))
+                    }
+                  />
+                </label>
+              </div>
+            )}
 
-          <section className="field-section">
-            <h3>Execution controls</h3>
-            <button
-              type="submit"
-              disabled={submitting || (formState.deliveryMode !== 'zip' && (!githubSessionUsable || !githubRuntimeReady))}
-            >
-              {submitting ? 'Running orchestration...' : 'Run Orchestration'}
-            </button>
-          </section>
-        </div>
+            {formState.deliveryMode === 'github-existing-repo' && (
+              <div className="field-grid">
+                <label>
+                  Search repositories
+                  <input
+                    value={repoSearch}
+                    placeholder="owner/repository"
+                    onChange={(e) => setRepoSearch(e.target.value)}
+                  />
+                </label>
+                <label>
+                  Existing repository
+                  <select
+                    value={formState.github?.existingRepoFullName ?? ''}
+                    onChange={(e) =>
+                      setFormState((s) => ({
+                        ...s,
+                        github: {
+                          ...s.github,
+                          existingRepoFullName: e.target.value,
+                          repoName: s.github?.repoName ?? 'placeholder',
+                          visibility: s.github?.visibility ?? 'private'
+                        }
+                      }))
+                    }
+                  >
+                    <option value="">{loadingRepos ? 'Loading repositories...' : 'Select a repository'}</option>
+                    {repos.map((repo) => (
+                      <option key={repo.full_name} value={repo.full_name}>
+                        {repo.full_name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+            )}
+          </div>
+        </section>
+
+        <section className="module execute-module">
+          <header className="module-header">
+            <h3>Execute</h3>
+          </header>
+          <p className="module-intro">Run orchestration with the current configuration and inspect the result payload.</p>
+          <button
+            type="submit"
+            disabled={submitting || (formState.deliveryMode !== 'zip' && (!githubSessionUsable || !githubRuntimeReady))}
+          >
+            {submitting ? 'Running orchestration...' : 'Run orchestration'}
+          </button>
+        </section>
       </form>
 
-      <aside className="panel reference-panel">
-        <header className="panel-header">
-          <h2>Automation boundary</h2>
-          <p>Inspection panel for delivery restrictions and template context.</p>
-        </header>
-        <div className="panel-body">
-          <ul>
+      <aside className="inspect-column">
+        <section className="module">
+          <header className="module-header">
+            <h3>Inspect template context</h3>
+          </header>
+          <p className="module-intro">Active template and delivery constraints for operator review.</p>
+          <ul className="constraint-list">
             <li>ZIP mode works without GitHub login.</li>
-            <li>GitHub modes require OAuth login.</li>
-            <li>Existing repo mode is PR-only and non-destructive.</li>
-            <li>OAuth flow uses full-page redirects for mobile browser compatibility.</li>
+            <li>GitHub modes require OAuth.</li>
+            <li>Existing repo mode creates branch + PR only.</li>
+            <li>Mobile auth uses full-page redirects.</li>
           </ul>
-
           <div className="template-list">
             {templates.map((template) => (
-              <article key={template.id} className={template.id === selectedTemplate?.id ? 'template-item active-template' : 'template-item'}>
-                <h3>{template.name}</h3>
+              <article
+                key={template.id}
+                className={template.id === selectedTemplate?.id ? 'template-item active-template' : 'template-item'}
+              >
+                <h4>{template.name}</h4>
                 <p>{template.description}</p>
               </article>
             ))}
           </div>
-        </div>
-      </aside>
+        </section>
 
-      <section className="panel result-console">
-        <header className="panel-header">
-          <h2>Execution log and results</h2>
-          <p>Job state, payload details, and download actions.</p>
-        </header>
-        <div className="panel-body">
-          {!job && <p>No job yet. Submit the workspace form to execute orchestration.</p>}
-          {job && (
-            <div>
-              <p>
-                <span className="status-badge ok">State: {job.state}</span>
+        <section className={`result-console result-${consoleState}`}>
+          <header>
+            <h3>Review execution output</h3>
+            <span className="console-state">{consoleState.toUpperCase()}</span>
+          </header>
+
+          {consoleState === 'idle' && <p className="console-empty">No job has run yet. Submit the workspace to start orchestration.</p>}
+
+          {consoleState === 'running' && (
+            <p className="console-running">Job request accepted. Waiting for completion payload from /api/projects.</p>
+          )}
+
+          {job && job.state !== 'running' && (
+            <>
+              <p className="console-meta">
+                Job <code>{job.id}</code> returned state <strong>{job.state}</strong>.
               </p>
               <pre>{JSON.stringify(job, null, 2)}</pre>
-            </div>
+            </>
           )}
+
           {downloadUrl && (
-            <div className="button-row">
-              <a className="button-link" href={downloadUrl} target="_blank" rel="noreferrer">
-                Download ZIP
+            <div className="download-strip">
+              <a className="download-link" href={downloadUrl} target="_blank" rel="noreferrer">
+                Download ZIP artifact
               </a>
             </div>
           )}
-          {error && <pre className="error">{error}</pre>}
-        </div>
-      </section>
+
+          {error && (
+            <div className="console-error">
+              <p>Execution failed:</p>
+              <pre>{error}</pre>
+            </div>
+          )}
+        </section>
+      </aside>
     </section>
   );
 }
