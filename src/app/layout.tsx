@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { AppShell } from '@/components/app-shell';
 
 export const metadata: Metadata = {
-  title: 'Codex Operator Console',
+  title: 'Operator Workstation',
   description: 'Deterministic scaffold orchestration and controlled GitHub delivery'
 };
 

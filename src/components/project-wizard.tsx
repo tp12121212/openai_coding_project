@@ -4,10 +4,8 @@ import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { getBuiltInTemplates } from '@/lib/templates/library';
 import { CreateProjectRequest } from '@/lib/generator/schema';
-import { InspectorPanel } from '@/components/inspector-panel';
 import { ResultConsole } from '@/components/result-console';
-import { StatusStrip } from '@/components/status-strip';
-import { WorkspacePanel } from '@/components/workspace-panel';
+import { SectionPanel } from '@/components/section-panel';
 
 interface ApiJob {
   id: string;
@@ -230,21 +228,19 @@ export function ProjectWizard() {
   const consoleState = getConsoleState(job, error);
 
   return (
-    <section className="workspace-grid">
-      <form className="workspace-main" onSubmit={submit}>
-        <StatusStrip>
-          <div>
-            <strong>GitHub auth:</strong> {githubSessionUsable ? 'Connected' : 'Not connected'}
+    <div className="workspace-layout">
+      <form className="main-column" onSubmit={submit}>
+        <SectionPanel
+          title="Auth and session status"
+          description="GitHub delivery features require runtime auth configuration and repo-capable OAuth scope."
+          tone="muted"
+        >
+          <div className="status-row">
+            <span className="summary-chip">GitHub: {githubSessionUsable ? 'Connected' : 'Not connected'}</span>
+            <span className="summary-chip">Token: {githubAuthCheck?.authStatus ?? 'unknown'}</span>
+            <span className="summary-chip">Runtime: {githubRuntimeReady ? 'Ready' : 'Unavailable'}</span>
           </div>
-          <div>
-            <strong>Token status:</strong> {githubAuthCheck?.authStatus ?? 'unknown'}
-          </div>
-          <div>
-            <strong>Runtime:</strong> {githubRuntimeReady ? 'GitHub features enabled' : 'Auth runtime unavailable'}
-          </div>
-        </StatusStrip>
 
-        <WorkspacePanel title="Auth and session status" meta="GitHub delivery operations require repo-capable OAuth scope.">
           {oauthDisabledReason ? <p className="state-warning">{oauthDisabledReason}</p> : null}
           {repoCreateMissingPermission ? (
             <p className="state-warning">Connected token cannot create repositories. Re-authorize with repo scope.</p>
@@ -280,10 +276,14 @@ export function ProjectWizard() {
               </button>
             ) : null}
           </div>
-        </WorkspacePanel>
+        </SectionPanel>
 
-        <WorkspacePanel title="Project inputs" meta="Template and category values control deterministic output structure.">
-          <div className="field-group two-col">
+        <SectionPanel
+          title="Project inputs"
+          description="Template, category, and profile values shape deterministic output and downstream prompt packs."
+          tone="raised"
+        >
+          <div className="field-grid field-grid--2">
             <label>
               Project name
               <input
@@ -309,7 +309,8 @@ export function ProjectWizard() {
               </select>
             </label>
           </div>
-          <div className="field-group">
+
+          <div className="field-grid">
             <label>
               Description
               <textarea
@@ -319,7 +320,8 @@ export function ProjectWizard() {
               />
             </label>
           </div>
-          <div className="field-group two-col">
+
+          <div className="field-grid field-grid--2">
             <label>
               Category
               <select
@@ -335,11 +337,18 @@ export function ProjectWizard() {
                 <option value="research">Research</option>
               </select>
             </label>
+            <label>
+              Codex profile
+              <input value={formState.codexProfile} readOnly />
+            </label>
           </div>
-        </WorkspacePanel>
+        </SectionPanel>
 
-        <WorkspacePanel title="Delivery mode and repository targeting" meta="Delivery behavior is explicit and non-destructive for existing repositories.">
-          <div className="field-group two-col">
+        <SectionPanel
+          title="Delivery mode and repository targeting"
+          description="Delivery selection is explicit; existing repositories are updated through pull-request workflow only."
+        >
+          <div className="field-grid field-grid--2">
             <label>
               Delivery mode
               <select
@@ -356,12 +365,16 @@ export function ProjectWizard() {
                 <option value="github-existing-repo">Update existing repository (PR)</option>
               </select>
             </label>
+            <label>
+              Prompt pack
+              <input value={formState.promptPackId} readOnly />
+            </label>
           </div>
 
-          {formState.deliveryMode === 'zip' ? <p className="panel-meta">No repository target is required for ZIP export mode.</p> : null}
+          {formState.deliveryMode === 'zip' ? <p className="panel-note">ZIP mode does not require repository targeting.</p> : null}
 
           {formState.deliveryMode === 'github-new-repo' ? (
-            <div className="field-group three-col">
+            <div className="field-grid field-grid--3">
               <label>
                 Repository name
                 <input
@@ -419,7 +432,7 @@ export function ProjectWizard() {
           ) : null}
 
           {formState.deliveryMode === 'github-existing-repo' ? (
-            <div className="field-group two-col">
+            <div className="field-grid field-grid--2">
               <label>
                 Search repositories
                 <input
@@ -454,9 +467,13 @@ export function ProjectWizard() {
               </label>
             </div>
           ) : null}
-        </WorkspacePanel>
+        </SectionPanel>
 
-        <WorkspacePanel title="Execution controls" meta="Run orchestration and capture deterministic response payloads.">
+        <SectionPanel
+          title="Execution controls"
+          description="Run the orchestration pipeline and emit deterministic result payloads for verification."
+          tone="muted"
+        >
           <div className="toolbar-row">
             <button
               type="submit"
@@ -465,30 +482,62 @@ export function ProjectWizard() {
               {submitting ? 'Running orchestration...' : 'Run orchestration'}
             </button>
           </div>
-        </WorkspacePanel>
+        </SectionPanel>
+
+        <ResultConsole title="Execution result console" state={consoleState}>
+          {consoleState === 'idle' ? (
+            <p className="console-empty">No jobs executed yet. Configure inputs and run orchestration.</p>
+          ) : null}
+
+          {consoleState === 'running' ? (
+            <p className="console-running">Request accepted. Waiting for /api/projects completion payload.</p>
+          ) : null}
+
+          {job && job.state !== 'running' ? (
+            <>
+              <p className="console-meta">
+                Job <code>{job.id}</code> completed with state <strong>{job.state}</strong>.
+              </p>
+              <pre>{JSON.stringify(job, null, 2)}</pre>
+            </>
+          ) : null}
+
+          {downloadUrl ? (
+            <div className="download-strip">
+              <a className="download-link" href={downloadUrl} target="_blank" rel="noreferrer">
+                Download ZIP artifact
+              </a>
+            </div>
+          ) : null}
+
+          {error ? (
+            <div className="console-error">
+              <p>Execution failed</p>
+              <pre>{error}</pre>
+            </div>
+          ) : null}
+        </ResultConsole>
       </form>
 
-      <aside className="workspace-side">
-        <InspectorPanel title="Workflow diagrams">
-          <p className="panel-meta">Capture → resolve template/profile → validate → deliver.</p>
-          <figure className="diagram-card">
+      <aside className="side-column">
+        <SectionPanel title="Workflow diagrams" description="Capture → resolve template/profile → validate → deliver." tone="raised">
+          <figure className="diagram-frame">
             <Image src="/images/workflow-overview.svg" alt="Workflow overview" width={1200} height={420} />
           </figure>
-          <figure className="diagram-card">
+          <figure className="diagram-frame">
             <Image src="/images/delivery-mode-flow.svg" alt="Delivery mode flow" width={1000} height={620} />
           </figure>
-        </InspectorPanel>
+        </SectionPanel>
 
-        <InspectorPanel title="Automation boundary">
-          <ul>
-            <li>ZIP mode is available without GitHub auth.</li>
-            <li>GitHub modes require runtime config + valid OAuth scopes.</li>
-            <li>Unsafe path patterns are blocked before write operations.</li>
+        <SectionPanel title="Automation boundary" description="Execution constraints applied before write operations." tone="muted">
+          <ul className="compact-list">
+            <li>ZIP mode is always available without GitHub authentication.</li>
+            <li>GitHub modes require runtime configuration and valid OAuth scopes.</li>
+            <li>Unsafe path patterns are blocked before generation and delivery.</li>
           </ul>
-        </InspectorPanel>
+        </SectionPanel>
 
-        <InspectorPanel title="Template and profile context">
-          <p className="panel-meta">Active template: {selectedTemplate?.name ?? 'Unknown template'}.</p>
+        <SectionPanel title="Template and profile context" description={`Active template: ${selectedTemplate?.name ?? 'Unknown template'}.`}>
           <div className="template-list">
             {templates.map((template) => (
               <article
@@ -500,42 +549,8 @@ export function ProjectWizard() {
               </article>
             ))}
           </div>
-        </InspectorPanel>
+        </SectionPanel>
       </aside>
-
-      <ResultConsole title="Execution result console" state={consoleState}>
-        {consoleState === 'idle' ? (
-          <p className="console-empty">No jobs executed yet. Configure inputs and run orchestration.</p>
-        ) : null}
-
-        {consoleState === 'running' ? (
-          <p className="console-running">Request accepted. Waiting for /api/projects completion payload.</p>
-        ) : null}
-
-        {job && job.state !== 'running' ? (
-          <>
-            <p className="console-meta">
-              Job <code>{job.id}</code> completed with state <strong>{job.state}</strong>.
-            </p>
-            <pre>{JSON.stringify(job, null, 2)}</pre>
-          </>
-        ) : null}
-
-        {downloadUrl ? (
-          <div className="download-strip">
-            <a className="download-link" href={downloadUrl} target="_blank" rel="noreferrer">
-              Download ZIP artifact
-            </a>
-          </div>
-        ) : null}
-
-        {error ? (
-          <div className="console-error">
-            <p>Execution failed</p>
-            <pre>{error}</pre>
-          </div>
-        ) : null}
-      </ResultConsole>
-    </section>
+    </div>
   );
 }

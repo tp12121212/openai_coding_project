@@ -4,17 +4,17 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const navItems = [
-  { href: '/', label: 'Workspace', detail: 'Run orchestration and review payloads', activePath: '/' },
-  { href: '/', label: 'Delivery Modes', detail: 'ZIP, new repo, existing repo PR' },
-  { href: '/', label: 'Templates', detail: 'Inspect template and profile context' },
-  { href: '/help', label: 'Help', detail: 'Operator runbook and troubleshooting', activePath: '/help' }
+  { href: '/', label: 'Orchestration', detail: 'Session, inputs, delivery, execution', activePath: '/' },
+  { href: '/', label: 'Templates', detail: 'Profile and prompt-pack context' },
+  { href: '/', label: 'Automation boundary', detail: 'Safety, auth, and delivery constraints' },
+  { href: '/help', label: 'Operator docs', detail: 'Runbook and troubleshooting', activePath: '/help' }
 ];
 
 export function AppSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="app-sidebar" aria-label="Product navigation">
+    <aside className="sidebar" aria-label="Product navigation">
       <p className="sidebar-title">Product areas</p>
       <ul>
         {navItems.map((item) => {
@@ -32,9 +32,9 @@ export function AppSidebar() {
           );
         })}
       </ul>
-      <section className="sidebar-footnote">
-        <h2>Safety baseline</h2>
-        <p>Existing repository updates are branch + pull-request only, never direct default-branch writes.</p>
+      <section className="sidebar-note">
+        <h2>Guardrail</h2>
+        <p>Existing repository updates always run through branch and pull-request delivery.</p>
       </section>
     </aside>
   );
