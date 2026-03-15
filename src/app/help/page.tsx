@@ -1,27 +1,27 @@
-import { DocsLayout } from '@/components/docs-layout';
+import { ManualLayout } from '@/components/manual-layout';
 
 const sections = [
   {
     id: 'introduction',
     title: 'Introduction',
-    body: 'This workstation runs deterministic scaffold orchestration for classification and DLP automation projects. Use it to generate reproducible outputs before promoting changes into GitHub repositories.'
+    body: 'This application provides deterministic scaffold generation for classification and DLP automation projects. It is designed for repeatable output, controlled delivery, and review-first change promotion.'
   },
   {
     id: 'how-system-works',
     title: 'How the system works',
     items: [
-      'Capture operator inputs for project metadata, template, and delivery mode.',
-      'Resolve template and profile data into deterministic scaffold instructions.',
-      'Run path-safety and collision checks before any write operation.',
-      'Generate output in stable ordering and return structured result payloads.'
+      'Capture operator inputs for project metadata, template selection, and delivery mode.',
+      'Resolve template and profile settings into deterministic generation instructions.',
+      'Run path-safety and repository guards before write operations.',
+      'Return a stable execution payload with delivery metadata and errors when present.'
     ]
   },
   {
     id: 'delivery-modes',
     title: 'Delivery modes',
     items: [
-      'ZIP export: local artifact download with no GitHub requirement.',
-      'Create repository: provision a new repo and commit scaffold output.',
+      'ZIP export: local artifact download with no GitHub authentication requirement.',
+      'Create repository: provision a repository and commit generated scaffold files.',
       'Existing repository PR: open a branch and pull request without direct default-branch writes.'
     ]
   },
@@ -29,10 +29,10 @@ const sections = [
     id: 'typical-workflow',
     title: 'Typical workflow',
     items: [
-      'Start in ZIP mode and inspect generated files.',
-      'Adjust template, category, and profile values until output is acceptable.',
-      'Switch to a GitHub delivery mode and verify repository targeting.',
-      'Run orchestration and inspect JSON result payload before promotion.'
+      'Run in ZIP mode first and inspect generated file structure.',
+      'Adjust template, category, and profile until outputs match expectations.',
+      'Switch to the required GitHub delivery path and validate repository targeting.',
+      'Run orchestration and verify the execution ledger before promotion.'
     ]
   },
   {
@@ -41,7 +41,7 @@ const sections = [
     items: [
       'Required OAuth scope: read:user user:email repo.',
       'Use Re-authorize when token scopes or installation permissions change.',
-      'GitHub delivery controls are disabled if runtime auth variables are missing.'
+      'GitHub delivery controls are disabled when runtime auth variables are missing.'
     ]
   },
   {
@@ -50,21 +50,21 @@ const sections = [
     items: [
       'Existing repository updates are pull-request only.',
       'Path traversal and unsafe output paths are blocked before generation.',
-      'File collisions are skipped rather than overwritten in existing repositories.'
+      'File collisions in existing repositories are skipped rather than overwritten.'
     ]
   },
   {
     id: 'templates-and-profiles',
     title: 'Templates and profiles',
-    body: 'Templates define structural scaffolding. Category, profile, and prompt pack selections constrain generated content shape. Keep these settings explicit so run-to-run output stays deterministic.'
+    body: 'Templates define structural scaffolding. Category, profile, and prompt-pack selections constrain generated content shape and keep output deterministic across runs.'
   },
   {
     id: 'output-artifacts',
     title: 'Output artifacts',
     items: [
-      'Scaffold files returned in stable deterministic ordering.',
-      'Repository baseline files (.gitignore, .editorconfig, CI metadata) when applicable.',
-      'Execution payload with job state, delivery metadata, and any surfaced errors.'
+      'Scaffold files in stable deterministic ordering.',
+      'Baseline repository files when repository delivery modes are selected.',
+      'Execution payload with job state, delivery metadata, and surfaced errors.'
     ]
   },
   {
@@ -72,44 +72,51 @@ const sections = [
     title: 'Troubleshooting',
     items: [
       'GitHub controls unavailable: verify runtime auth variables and restart.',
-      'Repository list empty: check account access and run Re-authorize.',
-      'Execution failed: inspect console payload, correct inputs, and rerun orchestration.'
+      'Repository list empty: check account access, then run Re-authorize.',
+      'Execution failed: inspect the ledger payload, correct inputs, and rerun.'
     ]
   }
 ] as const;
 
 export default function HelpPage() {
   return (
-    <section className="help-page">
-      <header className="page-header">
-        <p className="kicker">Operator documentation</p>
-        <h2>Runbook for deterministic delivery operations</h2>
-        <p>Direct technical guidance for session setup, delivery selection, and failure recovery.</p>
+    <section>
+      <header className="intro-sheet intro-sheet--manual">
+        <p className="intro-sheet__kicker">Operating manual</p>
+        <h2>Handbook guidance for deterministic delivery operations</h2>
+        <p>Direct technical documentation for setup, delivery decisions, safeguards, and failure recovery.</p>
       </header>
 
-      <DocsLayout
-        aside={
-          <section className="panel panel--muted">
-            <header className="section-header">
-              <h3>Quick reference</h3>
-              <p>Use this index to jump to operational topics.</p>
-            </header>
-            <ol className="toc-list">
+      <ManualLayout
+        rail={
+          <nav className="manual-rail" aria-label="Manual chapters">
+            <p>Chapters</p>
+            <ol>
               {sections.map((section) => (
                 <li key={section.id}>
                   <a href={`#${section.id}`}>{section.title}</a>
                 </li>
               ))}
             </ol>
-          </section>
+          </nav>
+        }
+        quickRef={
+          <div>
+            <h3>Quick reference</h3>
+            <ul>
+              <li>Deterministic output ordering is always enforced.</li>
+              <li>Existing repository changes ship via branch + PR only.</li>
+              <li>ZIP mode is the fastest path for dry-run verification.</li>
+            </ul>
+          </div>
         }
       >
         {sections.map((section) => (
-          <article key={section.id} id={section.id} className="doc-section">
+          <article key={section.id} id={section.id} className="manual-section">
             <h3>{section.title}</h3>
             {'body' in section ? <p>{section.body}</p> : null}
             {'items' in section ? (
-              <ul className="compact-list">
+              <ul>
                 {section.items.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
@@ -117,7 +124,7 @@ export default function HelpPage() {
             ) : null}
           </article>
         ))}
-      </DocsLayout>
+      </ManualLayout>
     </section>
   );
 }
