@@ -6,10 +6,8 @@ export function AppShell({ children }: { children: ReactNode }) {
   return (
     <div className="app-shell">
       <AppTopbar />
-      <div className="app-frame">
-        <AppSidebar />
-        <main className="app-content">{children}</main>
-      </div>
+      <AppSidebar />
+      <main className="app-content">{children}</main>
     </div>
   );
 }
