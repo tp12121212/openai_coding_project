@@ -1,17 +1,17 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { AppShell } from '@/components/app-shell';
+import { DossierFrame } from '@/components/dossier-frame';
 
 export const metadata: Metadata = {
-  title: 'Operator Workstation',
-  description: 'Deterministic scaffold orchestration and controlled GitHub delivery'
+  title: 'Deterministic Delivery Dossier',
+  description: 'Handbook-driven scaffold orchestration and controlled GitHub delivery'
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       <body>
-        <AppShell>{children}</AppShell>
+        <DossierFrame>{children}</DossierFrame>
       </body>
     </html>
   );

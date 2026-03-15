@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import Image from 'next/image';
 import { getBuiltInTemplates } from '@/lib/templates/library';
 import { CreateProjectRequest } from '@/lib/generator/schema';
-import { ResultConsole } from '@/components/result-console';
-import { SectionPanel } from '@/components/section-panel';
+import { AtlasFigure } from '@/components/atlas-figure';
+import { ExecutionDrawer } from '@/components/execution-drawer';
+import { MarginNote } from '@/components/margin-note';
+import { ProcedureSheet } from '@/components/procedure-sheet';
 
 interface ApiJob {
   id: string;
@@ -228,62 +229,64 @@ export function ProjectWizard() {
   const consoleState = getConsoleState(job, error);
 
   return (
-    <div className="workspace-layout">
-      <form className="main-column" onSubmit={submit}>
-        <SectionPanel
-          title="Auth and session status"
-          description="GitHub delivery features require runtime auth configuration and repo-capable OAuth scope."
-          tone="muted"
+    <form className="atlas-layout" onSubmit={submit}>
+      <div className="procedure-flow">
+        <ProcedureSheet
+          chapter="Chapter 1"
+          title="Session and GitHub status"
+          description="Validate runtime auth, operator session, and repository scope before selecting delivery targets."
         >
-          <div className="status-row">
-            <span className="summary-chip">GitHub: {githubSessionUsable ? 'Connected' : 'Not connected'}</span>
-            <span className="summary-chip">Token: {githubAuthCheck?.authStatus ?? 'unknown'}</span>
-            <span className="summary-chip">Runtime: {githubRuntimeReady ? 'Ready' : 'Unavailable'}</span>
+          <div className="field-cluster">
+            <div className="meta-strip">
+              <span>GitHub session: {githubSessionUsable ? 'connected' : 'not connected'}</span>
+              <span>Token status: {githubAuthCheck?.authStatus ?? 'unknown'}</span>
+              <span>Runtime auth: {githubRuntimeReady ? 'ready' : 'unavailable'}</span>
+            </div>
+
+            {oauthDisabledReason ? <p className="field-hint field-hint--warn">{oauthDisabledReason}</p> : null}
+            {repoCreateMissingPermission ? (
+              <p className="field-hint field-hint--warn">Connected token cannot create repositories. Re-authorize with repo scope.</p>
+            ) : null}
+            {repoListMissingPermission ? (
+              <p className="field-hint field-hint--warn">Connected token cannot list repositories for PR update mode.</p>
+            ) : null}
+
+            <div className="field-row">
+              {buttonState.showSignIn ? (
+                <button
+                  type="button"
+                  onClick={() =>
+                    (window.location.href = `/api/auth/signin/github?callbackUrl=${encodeURIComponent(window.location.href)}&scope=${encodeURIComponent('read:user user:email repo')}`)
+                  }
+                >
+                  Sign in with GitHub
+                </button>
+              ) : null}
+              {buttonState.showReauthorize ? (
+                <button
+                  type="button"
+                  onClick={() =>
+                    (window.location.href = `/api/auth/signin/github?callbackUrl=${encodeURIComponent(window.location.href)}&scope=${encodeURIComponent('read:user user:email repo')}`)
+                  }
+                >
+                  Re-authorize
+                </button>
+              ) : null}
+              {buttonState.showSignOut ? (
+                <button type="button" onClick={() => (window.location.href = '/api/auth/signout?callbackUrl=/')}>
+                  Sign out
+                </button>
+              ) : null}
+            </div>
           </div>
+        </ProcedureSheet>
 
-          {oauthDisabledReason ? <p className="state-warning">{oauthDisabledReason}</p> : null}
-          {repoCreateMissingPermission ? (
-            <p className="state-warning">Connected token cannot create repositories. Re-authorize with repo scope.</p>
-          ) : null}
-          {repoListMissingPermission ? (
-            <p className="state-warning">Connected token cannot list repositories for PR update mode.</p>
-          ) : null}
-
-          <div className="toolbar-row">
-            {buttonState.showSignIn ? (
-              <button
-                type="button"
-                onClick={() =>
-                  (window.location.href = `/api/auth/signin/github?callbackUrl=${encodeURIComponent(window.location.href)}&scope=${encodeURIComponent('read:user user:email repo')}`)
-                }
-              >
-                Sign in with GitHub
-              </button>
-            ) : null}
-            {buttonState.showReauthorize ? (
-              <button
-                type="button"
-                onClick={() =>
-                  (window.location.href = `/api/auth/signin/github?callbackUrl=${encodeURIComponent(window.location.href)}&scope=${encodeURIComponent('read:user user:email repo')}`)
-                }
-              >
-                Re-authorize
-              </button>
-            ) : null}
-            {buttonState.showSignOut ? (
-              <button type="button" onClick={() => (window.location.href = '/api/auth/signout?callbackUrl=/')}>
-                Sign out
-              </button>
-            ) : null}
-          </div>
-        </SectionPanel>
-
-        <SectionPanel
-          title="Project inputs"
-          description="Template, category, and profile values shape deterministic output and downstream prompt packs."
-          tone="raised"
+        <ProcedureSheet
+          chapter="Chapter 2"
+          title="Project identity"
+          description="Declare deterministic naming and descriptive context for generated assets."
         >
-          <div className="field-grid field-grid--2">
+          <div className="field-cluster">
             <label>
               Project name
               <input
@@ -292,7 +295,23 @@ export function ProjectWizard() {
                 onChange={(event) => setFormState((state) => ({ ...state, projectName: event.target.value }))}
               />
             </label>
+            <label>
+              Description
+              <textarea
+                required
+                value={formState.description}
+                onChange={(event) => setFormState((state) => ({ ...state, description: event.target.value }))}
+              />
+            </label>
+          </div>
+        </ProcedureSheet>
 
+        <ProcedureSheet
+          chapter="Chapter 3"
+          title="Template, category, and profile"
+          description="Choose scaffold structure and codex profile constraints that shape reproducible output."
+        >
+          <div className="field-cluster field-cluster--grid">
             <label>
               Stack template
               <select
@@ -308,20 +327,6 @@ export function ProjectWizard() {
                 ))}
               </select>
             </label>
-          </div>
-
-          <div className="field-grid">
-            <label>
-              Description
-              <textarea
-                required
-                value={formState.description}
-                onChange={(event) => setFormState((state) => ({ ...state, description: event.target.value }))}
-              />
-            </label>
-          </div>
-
-          <div className="field-grid field-grid--2">
             <label>
               Category
               <select
@@ -342,13 +347,14 @@ export function ProjectWizard() {
               <input value={formState.codexProfile} readOnly />
             </label>
           </div>
-        </SectionPanel>
+        </ProcedureSheet>
 
-        <SectionPanel
-          title="Delivery mode and repository targeting"
-          description="Delivery selection is explicit; existing repositories are updated through pull-request workflow only."
+        <ProcedureSheet
+          chapter="Chapter 4"
+          title="Delivery target and repository behavior"
+          description="Bind output to ZIP, new repository creation, or PR-based update paths."
         >
-          <div className="field-grid field-grid--2">
+          <div className="field-cluster field-cluster--grid">
             <label>
               Delivery mode
               <select
@@ -371,10 +377,12 @@ export function ProjectWizard() {
             </label>
           </div>
 
-          {formState.deliveryMode === 'zip' ? <p className="panel-note">ZIP mode does not require repository targeting.</p> : null}
+          {formState.deliveryMode === 'zip' ? (
+            <p className="field-hint">ZIP mode avoids repository writes and can run without GitHub auth.</p>
+          ) : null}
 
           {formState.deliveryMode === 'github-new-repo' ? (
-            <div className="field-grid field-grid--3">
+            <div className="field-cluster field-cluster--grid-3">
               <label>
                 Repository name
                 <input
@@ -432,14 +440,10 @@ export function ProjectWizard() {
           ) : null}
 
           {formState.deliveryMode === 'github-existing-repo' ? (
-            <div className="field-grid field-grid--2">
+            <div className="field-cluster field-cluster--grid">
               <label>
                 Search repositories
-                <input
-                  value={repoSearch}
-                  placeholder="owner/repository"
-                  onChange={(event) => setRepoSearch(event.target.value)}
-                />
+                <input value={repoSearch} placeholder="owner/repository" onChange={(event) => setRepoSearch(event.target.value)} />
               </label>
               <label>
                 Existing repository
@@ -467,14 +471,14 @@ export function ProjectWizard() {
               </label>
             </div>
           ) : null}
-        </SectionPanel>
+        </ProcedureSheet>
 
-        <SectionPanel
-          title="Execution controls"
-          description="Run the orchestration pipeline and emit deterministic result payloads for verification."
-          tone="muted"
+        <ProcedureSheet
+          chapter="Chapter 5"
+          title="Execution trigger"
+          description="Submit orchestration and record the resulting job payload in the ledger drawer."
         >
-          <div className="toolbar-row">
+          <div className="field-row">
             <button
               type="submit"
               disabled={submitting || (formState.deliveryMode !== 'zip' && (!githubSessionUsable || !githubRuntimeReady))}
@@ -482,75 +486,61 @@ export function ProjectWizard() {
               {submitting ? 'Running orchestration...' : 'Run orchestration'}
             </button>
           </div>
-        </SectionPanel>
+        </ProcedureSheet>
+      </div>
 
-        <ResultConsole title="Execution result console" state={consoleState}>
-          {consoleState === 'idle' ? (
-            <p className="console-empty">No jobs executed yet. Configure inputs and run orchestration.</p>
-          ) : null}
-
-          {consoleState === 'running' ? (
-            <p className="console-running">Request accepted. Waiting for /api/projects completion payload.</p>
-          ) : null}
-
-          {job && job.state !== 'running' ? (
-            <>
-              <p className="console-meta">
-                Job <code>{job.id}</code> completed with state <strong>{job.state}</strong>.
-              </p>
-              <pre>{JSON.stringify(job, null, 2)}</pre>
-            </>
-          ) : null}
-
-          {downloadUrl ? (
-            <div className="download-strip">
-              <a className="download-link" href={downloadUrl} target="_blank" rel="noreferrer">
-                Download ZIP artifact
-              </a>
-            </div>
-          ) : null}
-
-          {error ? (
-            <div className="console-error">
-              <p>Execution failed</p>
-              <pre>{error}</pre>
-            </div>
-          ) : null}
-        </ResultConsole>
-      </form>
-
-      <aside className="side-column">
-        <SectionPanel title="Workflow diagrams" description="Capture → resolve template/profile → validate → deliver." tone="raised">
-          <figure className="diagram-frame">
-            <Image src="/images/workflow-overview.svg" alt="Workflow overview" width={1200} height={420} />
-          </figure>
-          <figure className="diagram-frame">
-            <Image src="/images/delivery-mode-flow.svg" alt="Delivery mode flow" width={1000} height={620} />
-          </figure>
-        </SectionPanel>
-
-        <SectionPanel title="Automation boundary" description="Execution constraints applied before write operations." tone="muted">
-          <ul className="compact-list">
+      <aside className="annotation-stack">
+        <MarginNote title="Workflow diagrams">
+          <AtlasFigure src="/images/workflow-overview.svg" alt="Workflow overview" />
+          <AtlasFigure src="/images/delivery-mode-flow.svg" alt="Delivery mode flow" />
+        </MarginNote>
+        <MarginNote title="Delivery path summary">
+          <ul>
             <li>ZIP mode is always available without GitHub authentication.</li>
             <li>GitHub modes require runtime configuration and valid OAuth scopes.</li>
-            <li>Unsafe path patterns are blocked before generation and delivery.</li>
+            <li>Existing repositories are updated through branch + PR only.</li>
           </ul>
-        </SectionPanel>
-
-        <SectionPanel title="Template and profile context" description={`Active template: ${selectedTemplate?.name ?? 'Unknown template'}.`}>
-          <div className="template-list">
-            {templates.map((template) => (
-              <article
-                key={template.id}
-                className={template.id === selectedTemplate?.id ? 'template-item template-item--active' : 'template-item'}
-              >
-                <h4>{template.name}</h4>
-                <p>{template.description}</p>
-              </article>
-            ))}
-          </div>
-        </SectionPanel>
+        </MarginNote>
+        <MarginNote title="Safety rules">
+          <ul>
+            <li>Unsafe output paths are blocked before generation starts.</li>
+            <li>Collisions are skipped in existing repositories.</li>
+            <li>Execution payloads surface deterministic output metadata.</li>
+          </ul>
+        </MarginNote>
+        <MarginNote title="Selected template context">
+          <p>Active: {selectedTemplate?.name ?? 'Unknown template'}.</p>
+          <p>{selectedTemplate?.description ?? 'No template description available.'}</p>
+        </MarginNote>
       </aside>
-    </div>
+
+      <ExecutionDrawer state={consoleState}>
+        {consoleState === 'idle' ? <p>No jobs executed yet. Complete the procedure and run orchestration.</p> : null}
+
+        {consoleState === 'running' ? <p>Request accepted. Waiting for /api/projects completion payload.</p> : null}
+
+        {job && job.state !== 'running' ? (
+          <>
+            <p>
+              Job <code>{job.id}</code> completed with state <strong>{job.state}</strong>.
+            </p>
+            <pre>{JSON.stringify(job, null, 2)}</pre>
+          </>
+        ) : null}
+
+        {downloadUrl ? (
+          <a className="download-link" href={downloadUrl} target="_blank" rel="noreferrer">
+            Download ZIP artifact
+          </a>
+        ) : null}
+
+        {error ? (
+          <>
+            <p>Execution failed</p>
+            <pre>{error}</pre>
+          </>
+        ) : null}
+      </ExecutionDrawer>
+    </form>
   );
 }

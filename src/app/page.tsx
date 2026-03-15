@@ -1,21 +1,23 @@
-import { MetricChip } from '@/components/metric-chip';
+import { MetaStrip } from '@/components/meta-strip';
 import { ProjectWizard } from '@/components/project-wizard';
 
 export default function HomePage() {
   return (
-    <section className="workspace-page">
-      <header className="page-header">
-        <p className="kicker">Operator workspace</p>
-        <h2>Deterministic scaffold orchestration workstation</h2>
+    <section>
+      <header className="intro-sheet">
+        <p className="intro-sheet__kicker">Operating dossier</p>
+        <h2>Deterministic scaffold delivery, authored as a guided procedural atlas.</h2>
         <p>
-          Configure project inputs, pin delivery behavior, inspect automation boundaries, and run execution in a
-          dedicated console surface.
+          Configure session state, define project intent, and execute branch-safe delivery from a structured handbook
+          surface.
         </p>
-        <div className="status-row">
-          <MetricChip>Execution model: deterministic</MetricChip>
-          <MetricChip>Existing repo delivery: branch + PR only</MetricChip>
-          <MetricChip>Modes: ZIP · New Repo · Existing Repo PR</MetricChip>
-        </div>
+        <MetaStrip
+          items={[
+            'Deterministic generation',
+            'Branch-safe delivery',
+            'Review-first workflow'
+          ]}
+        />
       </header>
 
       <ProjectWizard />
