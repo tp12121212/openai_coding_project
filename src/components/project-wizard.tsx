@@ -1,8 +1,13 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import Image from 'next/image';
 import { getBuiltInTemplates } from '@/lib/templates/library';
 import { CreateProjectRequest } from '@/lib/generator/schema';
+import { InspectorPanel } from '@/components/inspector-panel';
+import { ResultConsole } from '@/components/result-console';
+import { StatusStrip } from '@/components/status-strip';
+import { WorkspacePanel } from '@/components/workspace-panel';
 
 interface ApiJob {
   id: string;
@@ -91,7 +96,6 @@ function getConsoleState(job: ApiJob | null, error: string | null): 'idle' | 'ru
   if (!job) return 'idle';
   if (job.state === 'completed') return 'completed';
   if (job.state === 'failed') return 'failed';
-  if (job.state === 'running' || job.state === 'queued') return 'running';
   return 'running';
 }
 
@@ -112,11 +116,7 @@ export function ProjectWizard() {
     [formState.templateId]
   );
 
-  const githubRuntimeReady = useMemo(() => {
-    if (!runtimeConfig) return false;
-    return runtimeConfig.githubAuthEnabled;
-  }, [runtimeConfig]);
-
+  const githubRuntimeReady = useMemo(() => runtimeConfig?.githubAuthEnabled === true, [runtimeConfig]);
   const githubSessionUsable = useMemo(
     () => authenticated && githubAuthCheck?.accessTokenPresent === true,
     [authenticated, githubAuthCheck]
@@ -192,14 +192,14 @@ export function ProjectWizard() {
     setSubmitting(true);
 
     try {
-      const res = await fetch('/api/projects', {
+      const response = await fetch('/api/projects', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formState)
       });
 
-      const body = (await res.json()) as { job?: ApiJob; error?: unknown };
-      if (!res.ok || !body.job) {
+      const body = (await response.json()) as { job?: ApiJob; error?: unknown };
+      if (!response.ok || !body.job) {
         setJob(null);
         setError(safeStringifyError(body.error ?? body));
         return;
@@ -218,7 +218,6 @@ export function ProjectWizard() {
     ? null
     : `GitHub authentication is unavailable: missing ${runtimeConfig?.missing.join(', ') ?? 'runtime configuration'}.`;
 
-  const authStatusText = githubSessionUsable ? 'Connected' : 'Not connected';
   const repoCreateMissingPermission = githubSessionUsable && githubAuthCheck?.repoCreateCapability === false;
   const repoListMissingPermission = githubSessionUsable && githubAuthCheck?.repoListCapability === false;
   const buttonState = resolveGitHubAuthButtons({
@@ -231,23 +230,31 @@ export function ProjectWizard() {
   const consoleState = getConsoleState(job, error);
 
   return (
-    <section className="operator-workspace">
-      <form className="configure-column" onSubmit={submit}>
-        <section className="module auth-module">
-          <header className="module-header">
-            <h3>Authenticate</h3>
-            <span className={`pill ${githubSessionUsable ? 'pill-success' : 'pill-warning'}`}>{authStatusText}</span>
-          </header>
-          <p className="module-intro">GitHub delivery actions are enabled only with valid repo-capable authorization.</p>
-          {oauthDisabledReason && <p className="state-warning">{oauthDisabledReason}</p>}
-          {repoCreateMissingPermission && (
+    <section className="workspace-grid">
+      <form className="workspace-main" onSubmit={submit}>
+        <StatusStrip>
+          <div>
+            <strong>GitHub auth:</strong> {githubSessionUsable ? 'Connected' : 'Not connected'}
+          </div>
+          <div>
+            <strong>Token status:</strong> {githubAuthCheck?.authStatus ?? 'unknown'}
+          </div>
+          <div>
+            <strong>Runtime:</strong> {githubRuntimeReady ? 'GitHub features enabled' : 'Auth runtime unavailable'}
+          </div>
+        </StatusStrip>
+
+        <WorkspacePanel title="Auth and session status" meta="GitHub delivery operations require repo-capable OAuth scope.">
+          {oauthDisabledReason ? <p className="state-warning">{oauthDisabledReason}</p> : null}
+          {repoCreateMissingPermission ? (
             <p className="state-warning">Connected token cannot create repositories. Re-authorize with repo scope.</p>
-          )}
-          {repoListMissingPermission && (
+          ) : null}
+          {repoListMissingPermission ? (
             <p className="state-warning">Connected token cannot list repositories for PR update mode.</p>
-          )}
-          <div className="action-row">
-            {buttonState.showSignIn && (
+          ) : null}
+
+          <div className="toolbar-row">
+            {buttonState.showSignIn ? (
               <button
                 type="button"
                 onClick={() =>
@@ -256,8 +263,8 @@ export function ProjectWizard() {
               >
                 Sign in with GitHub
               </button>
-            )}
-            {buttonState.showReauthorize && (
+            ) : null}
+            {buttonState.showReauthorize ? (
               <button
                 type="button"
                 onClick={() =>
@@ -266,42 +273,32 @@ export function ProjectWizard() {
               >
                 Re-authorize
               </button>
-            )}
-            {buttonState.showSignOut && (
+            ) : null}
+            {buttonState.showSignOut ? (
               <button type="button" onClick={() => (window.location.href = '/api/auth/signout?callbackUrl=/')}>
                 Sign out
               </button>
-            )}
+            ) : null}
           </div>
-        </section>
+        </WorkspacePanel>
 
-        <section className="module">
-          <header className="module-header">
-            <h3>Configure inputs</h3>
-          </header>
-          <div className="field-grid">
+        <WorkspacePanel title="Project inputs" meta="Template and category values control deterministic output structure.">
+          <div className="field-group two-col">
             <label>
               Project name
               <input
                 required
                 value={formState.projectName}
-                onChange={(e) => setFormState((s) => ({ ...s, projectName: e.target.value }))}
+                onChange={(event) => setFormState((state) => ({ ...state, projectName: event.target.value }))}
               />
             </label>
-            <label>
-              Description
-              <textarea
-                required
-                value={formState.description}
-                onChange={(e) => setFormState((s) => ({ ...s, description: e.target.value }))}
-              />
-            </label>
+
             <label>
               Stack template
               <select
                 value={formState.templateId}
-                onChange={(e) =>
-                  setFormState((s) => ({ ...s, templateId: e.target.value as CreateProjectRequest['templateId'] }))
+                onChange={(event) =>
+                  setFormState((state) => ({ ...state, templateId: event.target.value as CreateProjectRequest['templateId'] }))
                 }
               >
                 {templates.map((template) => (
@@ -311,12 +308,24 @@ export function ProjectWizard() {
                 ))}
               </select>
             </label>
+          </div>
+          <div className="field-group">
+            <label>
+              Description
+              <textarea
+                required
+                value={formState.description}
+                onChange={(event) => setFormState((state) => ({ ...state, description: event.target.value }))}
+              />
+            </label>
+          </div>
+          <div className="field-group two-col">
             <label>
               Category
               <select
                 value={formState.category}
-                onChange={(e) =>
-                  setFormState((s) => ({ ...s, category: e.target.value as CreateProjectRequest['category'] }))
+                onChange={(event) =>
+                  setFormState((state) => ({ ...state, category: event.target.value as CreateProjectRequest['category'] }))
                 }
               >
                 <option value="web-platform">Web platform</option>
@@ -327,203 +336,206 @@ export function ProjectWizard() {
               </select>
             </label>
           </div>
-        </section>
+        </WorkspacePanel>
 
-        <section className="module split-module">
-          <div>
-            <header className="module-header">
-              <h3>Select delivery mode</h3>
-            </header>
+        <WorkspacePanel title="Delivery mode and repository targeting" meta="Delivery behavior is explicit and non-destructive for existing repositories.">
+          <div className="field-group two-col">
             <label>
               Delivery mode
               <select
                 value={formState.deliveryMode}
-                onChange={(e) =>
-                  setFormState((s) => ({ ...s, deliveryMode: e.target.value as CreateProjectRequest['deliveryMode'] }))
+                onChange={(event) =>
+                  setFormState((state) => ({
+                    ...state,
+                    deliveryMode: event.target.value as CreateProjectRequest['deliveryMode']
+                  }))
                 }
               >
                 <option value="zip">Download zipped bundle</option>
-                <option value="github-new-repo">Create new GitHub repo</option>
-                <option value="github-existing-repo">Update existing repo (PR)</option>
+                <option value="github-new-repo">Create new GitHub repository</option>
+                <option value="github-existing-repo">Update existing repository (PR)</option>
               </select>
             </label>
           </div>
 
-          <div>
-            <header className="module-header">
-              <h3>Repository target</h3>
-            </header>
-            {formState.deliveryMode === 'zip' && <p className="module-intro">No repository configuration required for ZIP mode.</p>}
+          {formState.deliveryMode === 'zip' ? <p className="panel-meta">No repository target is required for ZIP export mode.</p> : null}
 
-            {formState.deliveryMode === 'github-new-repo' && (
-              <div className="field-grid">
-                <label>
-                  Repo name
-                  <input
-                    required
-                    value={formState.github?.repoName ?? ''}
-                    onChange={(e) =>
-                      setFormState((s) => ({
-                        ...s,
-                        github: { ...s.github, repoName: e.target.value, visibility: s.github?.visibility ?? 'private' }
-                      }))
-                    }
-                  />
-                </label>
-                <label>
-                  Visibility
-                  <select
-                    value={formState.github?.visibility ?? 'private'}
-                    onChange={(e) =>
-                      setFormState((s) => ({
-                        ...s,
-                        github: {
-                          ...s.github,
-                          visibility: e.target.value as 'public' | 'private',
-                          repoName: s.github?.repoName ?? ''
-                        }
-                      }))
-                    }
-                  >
-                    <option value="private">Private</option>
-                    <option value="public">Public</option>
-                  </select>
-                </label>
-                <label>
-                  Repository description
-                  <input
-                    value={formState.github?.description ?? ''}
-                    onChange={(e) =>
-                      setFormState((s) => ({
-                        ...s,
-                        github: {
-                          ...s.github,
-                          description: e.target.value,
-                          repoName: s.github?.repoName ?? '',
-                          visibility: s.github?.visibility ?? 'private'
-                        }
-                      }))
-                    }
-                  />
-                </label>
-              </div>
-            )}
+          {formState.deliveryMode === 'github-new-repo' ? (
+            <div className="field-group three-col">
+              <label>
+                Repository name
+                <input
+                  required
+                  value={formState.github?.repoName ?? ''}
+                  onChange={(event) =>
+                    setFormState((state) => ({
+                      ...state,
+                      github: {
+                        ...state.github,
+                        repoName: event.target.value,
+                        visibility: state.github?.visibility ?? 'private'
+                      }
+                    }))
+                  }
+                />
+              </label>
+              <label>
+                Visibility
+                <select
+                  value={formState.github?.visibility ?? 'private'}
+                  onChange={(event) =>
+                    setFormState((state) => ({
+                      ...state,
+                      github: {
+                        ...state.github,
+                        visibility: event.target.value as 'public' | 'private',
+                        repoName: state.github?.repoName ?? ''
+                      }
+                    }))
+                  }
+                >
+                  <option value="private">Private</option>
+                  <option value="public">Public</option>
+                </select>
+              </label>
+              <label>
+                Repository description
+                <input
+                  value={formState.github?.description ?? ''}
+                  onChange={(event) =>
+                    setFormState((state) => ({
+                      ...state,
+                      github: {
+                        ...state.github,
+                        description: event.target.value,
+                        repoName: state.github?.repoName ?? '',
+                        visibility: state.github?.visibility ?? 'private'
+                      }
+                    }))
+                  }
+                />
+              </label>
+            </div>
+          ) : null}
 
-            {formState.deliveryMode === 'github-existing-repo' && (
-              <div className="field-grid">
-                <label>
-                  Search repositories
-                  <input
-                    value={repoSearch}
-                    placeholder="owner/repository"
-                    onChange={(e) => setRepoSearch(e.target.value)}
-                  />
-                </label>
-                <label>
-                  Existing repository
-                  <select
-                    value={formState.github?.existingRepoFullName ?? ''}
-                    onChange={(e) =>
-                      setFormState((s) => ({
-                        ...s,
-                        github: {
-                          ...s.github,
-                          existingRepoFullName: e.target.value,
-                          repoName: s.github?.repoName ?? 'placeholder',
-                          visibility: s.github?.visibility ?? 'private'
-                        }
-                      }))
-                    }
-                  >
-                    <option value="">{loadingRepos ? 'Loading repositories...' : 'Select a repository'}</option>
-                    {repos.map((repo) => (
-                      <option key={repo.full_name} value={repo.full_name}>
-                        {repo.full_name}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
-            )}
+          {formState.deliveryMode === 'github-existing-repo' ? (
+            <div className="field-group two-col">
+              <label>
+                Search repositories
+                <input
+                  value={repoSearch}
+                  placeholder="owner/repository"
+                  onChange={(event) => setRepoSearch(event.target.value)}
+                />
+              </label>
+              <label>
+                Existing repository
+                <select
+                  value={formState.github?.existingRepoFullName ?? ''}
+                  onChange={(event) =>
+                    setFormState((state) => ({
+                      ...state,
+                      github: {
+                        ...state.github,
+                        existingRepoFullName: event.target.value,
+                        repoName: state.github?.repoName ?? 'placeholder',
+                        visibility: state.github?.visibility ?? 'private'
+                      }
+                    }))
+                  }
+                >
+                  <option value="">{loadingRepos ? 'Loading repositories...' : 'Select repository'}</option>
+                  {repos.map((repo) => (
+                    <option key={repo.full_name} value={repo.full_name}>
+                      {repo.full_name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+          ) : null}
+        </WorkspacePanel>
+
+        <WorkspacePanel title="Execution controls" meta="Run orchestration and capture deterministic response payloads.">
+          <div className="toolbar-row">
+            <button
+              type="submit"
+              disabled={submitting || (formState.deliveryMode !== 'zip' && (!githubSessionUsable || !githubRuntimeReady))}
+            >
+              {submitting ? 'Running orchestration...' : 'Run orchestration'}
+            </button>
           </div>
-        </section>
-
-        <section className="module execute-module">
-          <header className="module-header">
-            <h3>Execute</h3>
-          </header>
-          <p className="module-intro">Run orchestration with the current configuration and inspect the result payload.</p>
-          <button
-            type="submit"
-            disabled={submitting || (formState.deliveryMode !== 'zip' && (!githubSessionUsable || !githubRuntimeReady))}
-          >
-            {submitting ? 'Running orchestration...' : 'Run orchestration'}
-          </button>
-        </section>
+        </WorkspacePanel>
       </form>
 
-      <aside className="inspect-column">
-        <section className="module">
-          <header className="module-header">
-            <h3>Inspect template context</h3>
-          </header>
-          <p className="module-intro">Active template and delivery constraints for operator review.</p>
-          <ul className="constraint-list">
-            <li>ZIP mode works without GitHub login.</li>
-            <li>GitHub modes require OAuth.</li>
-            <li>Existing repo mode creates branch + PR only.</li>
-            <li>Mobile auth uses full-page redirects.</li>
+      <aside className="workspace-side">
+        <InspectorPanel title="Workflow diagrams">
+          <p className="panel-meta">Capture → resolve template/profile → validate → deliver.</p>
+          <figure className="diagram-card">
+            <Image src="/images/workflow-overview.svg" alt="Workflow overview" width={1200} height={420} />
+          </figure>
+          <figure className="diagram-card">
+            <Image src="/images/delivery-mode-flow.svg" alt="Delivery mode flow" width={1000} height={620} />
+          </figure>
+        </InspectorPanel>
+
+        <InspectorPanel title="Automation boundary">
+          <ul>
+            <li>ZIP mode is available without GitHub auth.</li>
+            <li>GitHub modes require runtime config + valid OAuth scopes.</li>
+            <li>Unsafe path patterns are blocked before write operations.</li>
           </ul>
+        </InspectorPanel>
+
+        <InspectorPanel title="Template and profile context">
+          <p className="panel-meta">Active template: {selectedTemplate?.name ?? 'Unknown template'}.</p>
           <div className="template-list">
             {templates.map((template) => (
               <article
                 key={template.id}
-                className={template.id === selectedTemplate?.id ? 'template-item active-template' : 'template-item'}
+                className={template.id === selectedTemplate?.id ? 'template-item template-item--active' : 'template-item'}
               >
                 <h4>{template.name}</h4>
                 <p>{template.description}</p>
               </article>
             ))}
           </div>
-        </section>
-
-        <section className={`result-console result-${consoleState}`}>
-          <header>
-            <h3>Review execution output</h3>
-            <span className="console-state">{consoleState.toUpperCase()}</span>
-          </header>
-
-          {consoleState === 'idle' && <p className="console-empty">No job has run yet. Submit the workspace to start orchestration.</p>}
-
-          {consoleState === 'running' && (
-            <p className="console-running">Job request accepted. Waiting for completion payload from /api/projects.</p>
-          )}
-
-          {job && job.state !== 'running' && (
-            <>
-              <p className="console-meta">
-                Job <code>{job.id}</code> returned state <strong>{job.state}</strong>.
-              </p>
-              <pre>{JSON.stringify(job, null, 2)}</pre>
-            </>
-          )}
-
-          {downloadUrl && (
-            <div className="download-strip">
-              <a className="download-link" href={downloadUrl} target="_blank" rel="noreferrer">
-                Download ZIP artifact
-              </a>
-            </div>
-          )}
-
-          {error && (
-            <div className="console-error">
-              <p>Execution failed:</p>
-              <pre>{error}</pre>
-            </div>
-          )}
-        </section>
+        </InspectorPanel>
       </aside>
+
+      <ResultConsole title="Execution result console" state={consoleState}>
+        {consoleState === 'idle' ? (
+          <p className="console-empty">No jobs executed yet. Configure inputs and run orchestration.</p>
+        ) : null}
+
+        {consoleState === 'running' ? (
+          <p className="console-running">Request accepted. Waiting for /api/projects completion payload.</p>
+        ) : null}
+
+        {job && job.state !== 'running' ? (
+          <>
+            <p className="console-meta">
+              Job <code>{job.id}</code> completed with state <strong>{job.state}</strong>.
+            </p>
+            <pre>{JSON.stringify(job, null, 2)}</pre>
+          </>
+        ) : null}
+
+        {downloadUrl ? (
+          <div className="download-strip">
+            <a className="download-link" href={downloadUrl} target="_blank" rel="noreferrer">
+              Download ZIP artifact
+            </a>
+          </div>
+        ) : null}
+
+        {error ? (
+          <div className="console-error">
+            <p>Execution failed</p>
+            <pre>{error}</pre>
+          </div>
+        ) : null}
+      </ResultConsole>
     </section>
   );
 }
