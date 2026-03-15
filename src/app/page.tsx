@@ -1,75 +1,85 @@
 import Image from 'next/image';
 import { ProjectWizard } from '@/components/project-wizard';
 
-const deliveryOptions = [
+const operationSnapshots = [
   {
-    title: 'Download ZIP',
-    detail: 'Run generation without GitHub. Download the artifact bundle and inspect outputs locally before promotion.',
-    when: 'Use for template validation, onboarding dry-runs, and local review loops.'
+    label: 'Delivery modes',
+    value: '3',
+    detail: 'ZIP export, new repository, existing repository PR update.'
   },
   {
-    title: 'Create GitHub Repo',
-    detail: 'Create a new repository and push deterministic scaffold output to the resolved default branch.',
-    when: 'Use when bootstrapping a greenfield repo with approved template settings.'
+    label: 'Safety model',
+    value: 'Non-destructive',
+    detail: 'Existing repository writes stay on a generated branch until PR merge.'
   },
   {
-    title: 'Update Existing Repo via PR',
-    detail: 'Create a dedicated branch, add non-colliding files, and open a pull request for human review.',
-    when: 'Use for additive updates to managed repos without direct default-branch writes.'
+    label: 'Execution model',
+    value: 'Deterministic',
+    detail: 'Input values map to consistent generated artifacts and payload fields.'
+  }
+];
+
+const modeSummaries = [
+  {
+    title: 'ZIP',
+    summary: 'Generate and download scaffold files without GitHub login.',
+    useCase: 'Template and profile validation before repository delivery.'
+  },
+  {
+    title: 'New Repo',
+    summary: 'Create and initialize a new GitHub repository, then commit generated output.',
+    useCase: 'Greenfield repository bootstrap with approved defaults.'
+  },
+  {
+    title: 'Existing Repo PR',
+    summary: 'Generate branch updates and open a pull request with non-colliding files only.',
+    useCase: 'Controlled additive updates to managed repositories.'
   }
 ];
 
 export default function HomePage() {
   return (
-    <main className="workspace">
-      <section className="panel panel-hero">
-        <div>
-          <p className="eyebrow">Operator Console</p>
-          <h1>Deterministic scaffold orchestration and controlled repository delivery</h1>
-          <p>
-            Use this workspace to capture project intent, resolve templates/profiles, and execute repeatable scaffold
-            generation with explicit safety checks and delivery controls.
-          </p>
-        </div>
-        <dl className="status-grid">
-          <div>
-            <dt>Execution model</dt>
-            <dd>Input → template/profile resolve → validation → delivery</dd>
-          </div>
-          <div>
-            <dt>Branch safety</dt>
-            <dd>Existing repository mode is branch + PR only</dd>
-          </div>
-          <div>
-            <dt>Delivery targets</dt>
-            <dd>ZIP export, new GitHub repo, existing repo pull request</dd>
-          </div>
-        </dl>
+    <section className="ops-page">
+      <header className="ops-header">
+        <p className="section-kicker">Orchestration workspace</p>
+        <h2>Configure delivery, execute jobs, and inspect outputs from one control surface</h2>
+      </header>
+
+      <section className="ops-snapshot-grid" aria-label="Operational summary">
+        {operationSnapshots.map((snapshot) => (
+          <article key={snapshot.label} className="ops-snapshot">
+            <p>{snapshot.label}</p>
+            <h3>{snapshot.value}</h3>
+            <span>{snapshot.detail}</span>
+          </article>
+        ))}
       </section>
 
-      <section className="workspace-grid">
-        <article className="panel reference-panel">
-          <header className="panel-header">
-            <h2>Delivery mode playbook</h2>
-            <p>Choose a mode based on review requirements and repository ownership.</p>
-          </header>
-          <div className="panel-body delivery-stack">
-            {deliveryOptions.map((option) => (
-              <article key={option.title} className="mode-row">
-                <h3>{option.title}</h3>
-                <p>{option.detail}</p>
-                <p className="mode-when">{option.when}</p>
-              </article>
-            ))}
-          </div>
-        </article>
+      <section className="ops-workspace-grid">
+        <div className="ops-primary-column">
+          <ProjectWizard />
+        </div>
 
-        <article className="panel reference-panel">
-          <header className="panel-header">
-            <h2>Reference diagrams</h2>
-            <p>Operational references used during intake and delivery selection.</p>
-          </header>
-          <div className="panel-body diagram-stack">
+        <aside className="ops-doc-column" aria-label="Reference materials">
+          <section className="doc-panel">
+            <header>
+              <h3>Delivery quick reference</h3>
+            </header>
+            <div className="compact-mode-list">
+              {modeSummaries.map((mode) => (
+                <article key={mode.title}>
+                  <h4>{mode.title}</h4>
+                  <p>{mode.summary}</p>
+                  <span>{mode.useCase}</span>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section className="doc-panel">
+            <header>
+              <h3>Workflow diagrams</h3>
+            </header>
             <figure>
               <figcaption>Workflow overview</figcaption>
               <Image
@@ -88,11 +98,9 @@ export default function HomePage() {
                 height={620}
               />
             </figure>
-          </div>
-        </article>
+          </section>
+        </aside>
       </section>
-
-      <ProjectWizard />
-    </main>
+    </section>
   );
 }
