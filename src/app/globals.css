@@ -328,9 +328,6 @@ button:disabled {
   color: var(--metadata);
 }
 
-.field-hint--warn {
-  color: var(--warning);
-}
 
 .context-stack {
   display: grid;

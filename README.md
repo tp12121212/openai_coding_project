@@ -2,7 +2,7 @@
 
 Deterministic scaffold generator with GitHub-aware delivery workflows for teams that need repeatable project setup and safe repository updates.
 
-> Start with [`STARTHERE.md`](./STARTHERE.md) for the operator runbook and execution sequence.
+> **Start here:** [`STARTHERE.md`](./STARTHERE.md) is the primary operator runbook for customizing the `PROMPTS/` templates for your app using ChatGPT/Codex in project-folder context, then running those updated prompts through discovery, design, implementation, validation, and release stages.
 
 ## What this app does
 
