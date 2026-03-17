@@ -3,8 +3,8 @@ import type { Metadata } from 'next';
 import { DossierFrame } from '@/components/dossier-frame';
 
 export const metadata: Metadata = {
-  title: 'Deterministic Delivery Dossier',
-  description: 'Handbook-driven scaffold orchestration and controlled GitHub delivery'
+  title: 'Project Scaffold Delivery Console',
+  description: 'Generate structured project files, delivery bundles, and repository-safe outputs.'
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

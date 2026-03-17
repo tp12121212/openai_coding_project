@@ -26,6 +26,31 @@ function renderMarkdown(title: string, body: string): string {
   return normalizeWhitespace(`# ${title}\n\n${body}\n`) + '\n';
 }
 
+function appendOpsSuffixToName(segment: string): string {
+  if (segment === '.' || segment === '..' || segment.length === 0) return segment;
+
+  if (segment.startsWith('.') && segment.indexOf('.', 1) === -1) {
+    return `${segment}_ops`;
+  }
+
+  const lastDot = segment.lastIndexOf('.');
+  if (lastDot <= 0) {
+    return `${segment}_ops`;
+  }
+
+  const base = segment.slice(0, lastDot);
+  const ext = segment.slice(lastDot);
+  return `${base}_ops${ext}`;
+}
+
+export function applyExistingRepoOpsPath(pathValue: string): string {
+  return pathValue
+    .split('/')
+    .filter((segment) => segment.length > 0)
+    .map((segment) => appendOpsSuffixToName(segment))
+    .join('/');
+}
+
 function buildReadmeBody(request: CreateProjectRequest, templateName: string): string {
   return normalizeWhitespace([
     request.description,
@@ -351,7 +376,12 @@ export function buildScaffold(request: CreateProjectRequest): ScaffoldResult {
     });
   }
 
-  const files = fileMap.sort((a, b) => a.path.localeCompare(b.path));
+  const files = fileMap
+    .map((file) => ({
+      ...file,
+      path: request.deliveryMode === 'github-existing-repo' ? applyExistingRepoOpsPath(file.path) : file.path
+    }))
+    .sort((a, b) => a.path.localeCompare(b.path));
 
   const artifactRecords = files
     .map((file) => ({
@@ -379,15 +409,20 @@ export function buildScaffold(request: CreateProjectRequest): ScaffoldResult {
     hygiene: {
       checksVersion: '1.0.0',
       baselineFiles: ['.editorconfig', '.gitignore', 'LICENSE']
+        .map((entry) => (request.deliveryMode === 'github-existing-repo' ? applyExistingRepoOpsPath(entry) : entry))
+        .sort((a, b) => a.localeCompare(b))
     },
     prompts: {
       packId: request.promptPackId,
-      files: promptFiles.map((p) => path.posix.join('PROMPTS', p.fileName)).sort((a, b) => a.localeCompare(b))
+      files: files.filter((file) => file.path.startsWith('PROMPTS')).map((file) => file.path).sort((a, b) => a.localeCompare(b))
     },
     bootstrapPack: {
       schemaVersion: '1.0.0',
       manualFinalizationRequired: true,
-      files: ['BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md', 'BOOTSTRAP/MANUAL_FINALIZATION.md']
+      files: files
+        .filter((file) => file.path.startsWith('BOOTSTRAP'))
+        .map((file) => file.path)
+        .sort((a, b) => a.localeCompare(b))
     },
     generatedArtifacts: artifactRecords,
     validation: {

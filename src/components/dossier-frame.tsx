@@ -3,12 +3,11 @@
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ChapterRail } from '@/components/chapter-rail';
 
-const frameChapters = [
-  { href: '/', label: 'Live dossier', note: 'Guided scaffold procedure' },
-  { href: '/help', label: 'Operating manual', note: 'Reference and troubleshooting' }
-];
+export const topMenuItems = [
+  { href: '/', label: 'Create project files', note: 'Configure generation and delivery outputs' },
+  { href: '/help', label: 'Operating manual', note: 'Reference, safeguards, and troubleshooting' }
+] as const;
 
 export function DossierFrame({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -17,18 +16,27 @@ export function DossierFrame({ children }: { children: ReactNode }) {
     <div className="dossier-frame">
       <header className="masthead">
         <div>
-          <p className="masthead__kicker">Deterministic Scaffold Atlas</p>
-          <h1>Delivery Dossier</h1>
+          <p className="masthead__kicker">Project scaffold workspace</p>
+          <h1>Project Scaffold Delivery Console</h1>
+          <p className="masthead__subtitle">
+            Generate structured project files, delivery bundles, and repository-safe outputs for ChatGPT, Codex, and GitHub workflows.
+          </p>
         </div>
-        <nav aria-label="Global navigation">
-          <Link href="/">Dossier</Link>
-          <Link href="/help">Help</Link>
-        </nav>
-        <p className="masthead__meta">branch-safe · review-first · deterministic</p>
       </header>
 
+      <nav className="floating-top-menu" aria-label="Global navigation">
+        {topMenuItems.map((item) => {
+          const isActive = item.href === '/' ? pathname === '/' : pathname === item.href || pathname.startsWith(`${item.href}/`);
+          return (
+            <Link key={item.href} href={item.href} className={isActive ? 'is-active' : ''}>
+              <span>{item.label}</span>
+              <small>{item.note}</small>
+            </Link>
+          );
+        })}
+      </nav>
+
       <div className="dossier-frame__body">
-        <ChapterRail title="Publication index" items={frameChapters} activeHref={pathname === '/help' ? '/help' : '/'} />
         <main className="document-stage">{children}</main>
       </div>
     </div>

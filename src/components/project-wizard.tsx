@@ -49,24 +49,9 @@ interface AuthCheckResponse {
 const templates = getBuiltInTemplates();
 const FORM_STORAGE_KEY = 'project-wizard-form-v1';
 
-export function resolveGitHubAuthButtons(input: {
-  githubRuntimeReady: boolean;
-  authenticated: boolean;
-  reauthorizeRequired: boolean;
-}): { showSignIn: boolean; showReauthorize: boolean; showSignOut: boolean } {
-  if (!input.githubRuntimeReady) {
-    return { showSignIn: false, showReauthorize: false, showSignOut: input.authenticated };
-  }
-  if (!input.authenticated) {
-    return { showSignIn: true, showReauthorize: false, showSignOut: false };
-  }
-  if (input.reauthorizeRequired) {
-    return { showSignIn: false, showReauthorize: true, showSignOut: true };
-  }
-  return { showSignIn: false, showReauthorize: false, showSignOut: true };
-}
+export const DELIVERY_TARGET_SECTION_TITLE = 'Delivery target and repository behavior';
 
-const defaultForm: CreateProjectRequest = {
+export const defaultFormState: CreateProjectRequest = {
   schemaVersion: '3.0.0',
   projectName: 'Purview Automation Starter',
   description: 'Deterministic classification and DLP automation scaffold.',
@@ -85,6 +70,31 @@ const defaultForm: CreateProjectRequest = {
   createWorktree: false
 };
 
+export function resolveGitHubAuthButtons(input: {
+  githubRuntimeReady: boolean;
+  authenticated: boolean;
+  reauthorizeRequired: boolean;
+}): { showSignIn: boolean; showReauthorize: boolean; showSignOut: boolean } {
+  if (!input.githubRuntimeReady) {
+    return { showSignIn: false, showReauthorize: false, showSignOut: input.authenticated };
+  }
+  if (!input.authenticated) {
+    return { showSignIn: true, showReauthorize: false, showSignOut: false };
+  }
+  if (input.reauthorizeRequired) {
+    return { showSignIn: false, showReauthorize: true, showSignOut: true };
+  }
+  return { showSignIn: false, showReauthorize: false, showSignOut: true };
+}
+
+export function usesGitHubDeliveryMode(deliveryMode: CreateProjectRequest['deliveryMode']): boolean {
+  return deliveryMode === 'github-new-repo' || deliveryMode === 'github-existing-repo';
+}
+
+export function shouldShowGitHubSignInForMode(deliveryMode: CreateProjectRequest['deliveryMode']): boolean {
+  return usesGitHubDeliveryMode(deliveryMode);
+}
+
 function safeStringifyError(error: unknown): string {
   if (typeof error === 'string') return error;
   return JSON.stringify(error ?? {}, null, 2);
@@ -99,7 +109,7 @@ function getConsoleState(job: ApiJob | null, error: string | null): 'idle' | 'ru
 }
 
 export function ProjectWizard() {
-  const [formState, setFormState] = useState<CreateProjectRequest>(defaultForm);
+  const [formState, setFormState] = useState<CreateProjectRequest>(defaultFormState);
   const [job, setJob] = useState<ApiJob | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [authenticated, setAuthenticated] = useState(false);
@@ -130,9 +140,9 @@ export function ProjectWizard() {
         ...current,
         ...parsed,
         github: {
-          repoName: parsed.github?.repoName ?? current.github?.repoName ?? defaultForm.github!.repoName,
-          visibility: parsed.github?.visibility ?? current.github?.visibility ?? defaultForm.github!.visibility,
-          description: parsed.github?.description ?? current.github?.description ?? defaultForm.github!.description,
+          repoName: parsed.github?.repoName ?? current.github?.repoName ?? defaultFormState.github!.repoName,
+          visibility: parsed.github?.visibility ?? current.github?.visibility ?? defaultFormState.github!.visibility,
+          description: parsed.github?.description ?? current.github?.description ?? defaultFormState.github!.description,
           existingRepoFullName: parsed.github?.existingRepoFullName ?? current.github?.existingRepoFullName
         }
       }));
@@ -207,7 +217,7 @@ export function ProjectWizard() {
       setJob(body.job);
     } catch {
       setJob(null);
-      setError('Network error while submitting orchestration request.');
+      setError('Network error while submitting project generation request.');
     } finally {
       setSubmitting(false);
     }
@@ -227,14 +237,40 @@ export function ProjectWizard() {
 
   const downloadUrl = job?.state === 'completed' && formState.deliveryMode === 'zip' ? `/api/jobs/${job.id}/download` : null;
   const consoleState = getConsoleState(job, error);
+  const showGitHubAuthControls = shouldShowGitHubSignInForMode(formState.deliveryMode);
 
   return (
     <form className="atlas-layout" onSubmit={submit}>
       <div className="procedure-flow">
+        <section className="context-stack" aria-label="Workflow context">
+          <MarginNote title="Workflow diagrams">
+            <p>Review the generation and delivery flow before executing so mode-specific behavior is explicit.</p>
+            <AtlasFigure src="/images/workflow-overview.svg" alt="Workflow overview" />
+            <AtlasFigure src="/images/delivery-mode-flow.svg" alt="Delivery mode flow" />
+          </MarginNote>
+          <MarginNote title="Delivery path summary">
+            <ul>
+              <li>Download ZIP creates a local artifact bundle and requires no GitHub authentication.</li>
+              <li>Create new repo provisions a new repository and commits generated scaffold files.</li>
+              <li>Update existing repo creates branch + PR output and applies `_ops` suffixing to generated paths.</li>
+            </ul>
+          </MarginNote>
+          <MarginNote title="Safety rules">
+            <ul>
+              <li>Unsafe or sensitive paths are blocked before writing output.</li>
+              <li>Existing-repository delivery is isolated to generated `_ops` paths to avoid collisions.</li>
+              <li>Execution payloads include deterministic ordering, checksums, and hygiene metadata.</li>
+            </ul>
+          </MarginNote>
+          <MarginNote title="Selected template context">
+            <p>Template: {selectedTemplate?.name ?? 'Unknown template'}.</p>
+            <p>{selectedTemplate?.description ?? 'No template description available.'}</p>
+          </MarginNote>
+        </section>
+
         <ProcedureSheet
-          chapter="Chapter 1"
           title="Session and GitHub status"
-          description="Validate runtime auth, operator session, and repository scope before selecting delivery targets."
+          description="Inspect runtime authentication state before selecting a GitHub delivery target. ZIP delivery can run without authentication."
         >
           <div className="field-cluster">
             <div className="meta-strip">
@@ -242,49 +278,19 @@ export function ProjectWizard() {
               <span>Token status: {githubAuthCheck?.authStatus ?? 'unknown'}</span>
               <span>Runtime auth: {githubRuntimeReady ? 'ready' : 'unavailable'}</span>
             </div>
-
             {oauthDisabledReason ? <p className="field-hint field-hint--warn">{oauthDisabledReason}</p> : null}
             {repoCreateMissingPermission ? (
               <p className="field-hint field-hint--warn">Connected token cannot create repositories. Re-authorize with repo scope.</p>
             ) : null}
             {repoListMissingPermission ? (
-              <p className="field-hint field-hint--warn">Connected token cannot list repositories for PR update mode.</p>
+              <p className="field-hint field-hint--warn">Connected token cannot list repositories for existing-repository delivery.</p>
             ) : null}
-
-            <div className="field-row">
-              {buttonState.showSignIn ? (
-                <button
-                  type="button"
-                  onClick={() =>
-                    (window.location.href = `/api/auth/signin/github?callbackUrl=${encodeURIComponent(window.location.href)}&scope=${encodeURIComponent('read:user user:email repo')}`)
-                  }
-                >
-                  Sign in with GitHub
-                </button>
-              ) : null}
-              {buttonState.showReauthorize ? (
-                <button
-                  type="button"
-                  onClick={() =>
-                    (window.location.href = `/api/auth/signin/github?callbackUrl=${encodeURIComponent(window.location.href)}&scope=${encodeURIComponent('read:user user:email repo')}`)
-                  }
-                >
-                  Re-authorize
-                </button>
-              ) : null}
-              {buttonState.showSignOut ? (
-                <button type="button" onClick={() => (window.location.href = '/api/auth/signout?callbackUrl=/')}>
-                  Sign out
-                </button>
-              ) : null}
-            </div>
           </div>
         </ProcedureSheet>
 
         <ProcedureSheet
-          chapter="Chapter 2"
           title="Project identity"
-          description="Declare deterministic naming and descriptive context for generated assets."
+          description="Define the project name and purpose used in scaffold metadata, generated README content, and manifest details."
         >
           <div className="field-cluster">
             <label>
@@ -307,9 +313,8 @@ export function ProjectWizard() {
         </ProcedureSheet>
 
         <ProcedureSheet
-          chapter="Chapter 3"
           title="Template, category, and profile"
-          description="Choose scaffold structure and codex profile constraints that shape reproducible output."
+          description="Select the scaffold structure and policy profile that determine generated files, prompts, and implementation guidance."
         >
           <div className="field-cluster field-cluster--grid">
             <label>
@@ -350,9 +355,8 @@ export function ProjectWizard() {
         </ProcedureSheet>
 
         <ProcedureSheet
-          chapter="Chapter 4"
-          title="Delivery target and repository behavior"
-          description="Bind output to ZIP, new repository creation, or PR-based update paths."
+          title={DELIVERY_TARGET_SECTION_TITLE}
+          description="Choose where generated artifacts are delivered and how repository safety rules are applied."
         >
           <div className="field-cluster field-cluster--grid">
             <label>
@@ -366,9 +370,9 @@ export function ProjectWizard() {
                   }))
                 }
               >
-                <option value="zip">Download zipped bundle</option>
-                <option value="github-new-repo">Create new GitHub repository</option>
-                <option value="github-existing-repo">Update existing repository (PR)</option>
+                <option value="zip">Download ZIP</option>
+                <option value="github-new-repo">Create new repo</option>
+                <option value="github-existing-repo">Update existing repo</option>
               </select>
             </label>
             <label>
@@ -377,8 +381,45 @@ export function ProjectWizard() {
             </label>
           </div>
 
-          {formState.deliveryMode === 'zip' ? (
-            <p className="field-hint">ZIP mode avoids repository writes and can run without GitHub auth.</p>
+          {formState.deliveryMode === 'zip' ? <p className="field-hint">Download ZIP runs locally and does not require GitHub authentication.</p> : null}
+          {formState.deliveryMode === 'github-new-repo' ? (
+            <p className="field-hint">Create new repo uses GitHub to create a destination repository and commit generated scaffold files.</p>
+          ) : null}
+          {formState.deliveryMode === 'github-existing-repo' ? (
+            <p className="field-hint">Update existing repo uses GitHub branch + PR delivery and applies `_ops` suffixes to generated paths to avoid collisions.</p>
+          ) : null}
+
+          {showGitHubAuthControls ? (
+            <div className="field-cluster">
+              <p className="field-hint">GitHub delivery mode selected. Authenticate to enable repository creation or repository selection.</p>
+              <div className="field-row">
+                {buttonState.showSignIn ? (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      (window.location.href = `/api/auth/signin/github?callbackUrl=${encodeURIComponent(window.location.href)}&scope=${encodeURIComponent('read:user user:email repo')}`)
+                    }
+                  >
+                    Sign in with GitHub
+                  </button>
+                ) : null}
+                {buttonState.showReauthorize ? (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      (window.location.href = `/api/auth/signin/github?callbackUrl=${encodeURIComponent(window.location.href)}&scope=${encodeURIComponent('read:user user:email repo')}`)
+                    }
+                  >
+                    Re-authorize
+                  </button>
+                ) : null}
+                {buttonState.showSignOut ? (
+                  <button type="button" onClick={() => (window.location.href = '/api/auth/signout?callbackUrl=/')}>
+                    Sign out
+                  </button>
+                ) : null}
+              </div>
+            </div>
           ) : null}
 
           {formState.deliveryMode === 'github-new-repo' ? (
@@ -474,50 +515,24 @@ export function ProjectWizard() {
         </ProcedureSheet>
 
         <ProcedureSheet
-          chapter="Chapter 5"
-          title="Execution trigger"
-          description="Submit orchestration and record the resulting job payload in the ledger drawer."
+          title="Generate delivery package"
+          description="Submit the configured request and inspect deterministic output metadata in the execution console."
         >
           <div className="field-row">
             <button
               type="submit"
-              disabled={submitting || (formState.deliveryMode !== 'zip' && (!githubSessionUsable || !githubRuntimeReady))}
+              disabled={submitting || (showGitHubAuthControls && (!githubSessionUsable || !githubRuntimeReady))}
             >
-              {submitting ? 'Running orchestration...' : 'Run orchestration'}
+              {submitting ? 'Generating project files...' : 'Generate project files'}
             </button>
           </div>
         </ProcedureSheet>
       </div>
 
-      <aside className="annotation-stack">
-        <MarginNote title="Workflow diagrams">
-          <AtlasFigure src="/images/workflow-overview.svg" alt="Workflow overview" />
-          <AtlasFigure src="/images/delivery-mode-flow.svg" alt="Delivery mode flow" />
-        </MarginNote>
-        <MarginNote title="Delivery path summary">
-          <ul>
-            <li>ZIP mode is always available without GitHub authentication.</li>
-            <li>GitHub modes require runtime configuration and valid OAuth scopes.</li>
-            <li>Existing repositories are updated through branch + PR only.</li>
-          </ul>
-        </MarginNote>
-        <MarginNote title="Safety rules">
-          <ul>
-            <li>Unsafe output paths are blocked before generation starts.</li>
-            <li>Collisions are skipped in existing repositories.</li>
-            <li>Execution payloads surface deterministic output metadata.</li>
-          </ul>
-        </MarginNote>
-        <MarginNote title="Selected template context">
-          <p>Active: {selectedTemplate?.name ?? 'Unknown template'}.</p>
-          <p>{selectedTemplate?.description ?? 'No template description available.'}</p>
-        </MarginNote>
-      </aside>
-
       <ExecutionDrawer state={consoleState}>
-        {consoleState === 'idle' ? <p>No jobs executed yet. Complete the procedure and run orchestration.</p> : null}
+        {consoleState === 'idle' ? <p>No generation jobs executed yet. Configure options and run project file generation.</p> : null}
 
-        {consoleState === 'running' ? <p>Request accepted. Waiting for /api/projects completion payload.</p> : null}
+        {consoleState === 'running' ? <p>Generation request accepted. Waiting for /api/projects completion payload.</p> : null}
 
         {job && job.state !== 'running' ? (
           <>
@@ -536,7 +551,7 @@ export function ProjectWizard() {
 
         {error ? (
           <>
-            <p>Execution failed</p>
+            <p>Generation failed</p>
             <pre>{error}</pre>
           </>
         ) : null}

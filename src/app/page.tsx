@@ -5,17 +5,17 @@ export default function HomePage() {
   return (
     <section>
       <header className="intro-sheet">
-        <p className="intro-sheet__kicker">Operating dossier</p>
-        <h2>Deterministic scaffold delivery, authored as a guided procedural atlas.</h2>
+        <p className="intro-sheet__kicker">Project delivery workspace</p>
+        <h2>Project Scaffold Delivery Console</h2>
         <p>
-          Configure session state, define project intent, and execute branch-safe delivery from a structured handbook
-          surface.
+          Generate structured project files, delivery bundles, and repository-safe outputs for build execution in ChatGPT,
+          Codex, and GitHub workflows.
         </p>
         <MetaStrip
           items={[
-            'Deterministic generation',
-            'Branch-safe delivery',
-            'Review-first workflow'
+            'Deterministic file generation',
+            'Delivery-mode specific safeguards',
+            'Repository-safe existing-repo updates'
           ]}
         />
       </header>
