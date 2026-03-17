@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { getBuiltInTemplates } from '@/lib/templates/library';
 import { CreateProjectRequest } from '@/lib/generator/schema';
+import { derivePromptPackId, getPromptPackDefinition } from '@/lib/generator/prompts';
+import { listCodexProfileDefinitions } from '@/lib/generator/profiles';
 import { AtlasFigure } from '@/components/atlas-figure';
 import { ExecutionDrawer } from '@/components/execution-drawer';
 import { MarginNote } from '@/components/margin-note';
@@ -47,6 +49,7 @@ interface AuthCheckResponse {
 }
 
 const templates = getBuiltInTemplates();
+const codexProfiles = listCodexProfileDefinitions();
 const FORM_STORAGE_KEY = 'project-wizard-form-v1';
 
 export const DELIVERY_TARGET_SECTION_TITLE = 'Delivery target and repository behavior';
@@ -58,7 +61,7 @@ export const defaultFormState: CreateProjectRequest = {
   templateId: 'security-compliance',
   category: 'security-compliance',
   codexProfile: 'strict',
-  promptPackId: 'security-compliance-focused',
+  promptPackId: derivePromptPackId('security-compliance', 'security-compliance'),
   deliveryMode: 'zip',
   github: {
     repoName: 'purview-automation-starter',
@@ -69,6 +72,13 @@ export const defaultFormState: CreateProjectRequest = {
   createBranch: false,
   createWorktree: false
 };
+
+function normalizePromptPackState(state: CreateProjectRequest): CreateProjectRequest {
+  return {
+    ...state,
+    promptPackId: derivePromptPackId(state.templateId, state.category)
+  };
+}
 
 export function resolveGitHubAuthButtons(input: {
   githubRuntimeReady: boolean;
@@ -136,20 +146,26 @@ export function ProjectWizard() {
       const raw = window.localStorage.getItem(FORM_STORAGE_KEY);
       if (!raw) return;
       const parsed = JSON.parse(raw) as Partial<CreateProjectRequest>;
-      setFormState((current) => ({
-        ...current,
-        ...parsed,
-        github: {
-          repoName: parsed.github?.repoName ?? current.github?.repoName ?? defaultFormState.github!.repoName,
-          visibility: parsed.github?.visibility ?? current.github?.visibility ?? defaultFormState.github!.visibility,
-          description: parsed.github?.description ?? current.github?.description ?? defaultFormState.github!.description,
-          existingRepoFullName: parsed.github?.existingRepoFullName ?? current.github?.existingRepoFullName
-        }
-      }));
+      setFormState((current) =>
+        normalizePromptPackState({
+          ...current,
+          ...parsed,
+          github: {
+            repoName: parsed.github?.repoName ?? current.github?.repoName ?? defaultFormState.github!.repoName,
+            visibility: parsed.github?.visibility ?? current.github?.visibility ?? defaultFormState.github!.visibility,
+            description: parsed.github?.description ?? current.github?.description ?? defaultFormState.github!.description,
+            existingRepoFullName: parsed.github?.existingRepoFullName ?? current.github?.existingRepoFullName
+          }
+        })
+      );
     } catch {
       window.localStorage.removeItem(FORM_STORAGE_KEY);
     }
   }, []);
+
+  useEffect(() => {
+    setFormState((current) => normalizePromptPackState(current));
+  }, [formState.templateId, formState.category]);
 
   useEffect(() => {
     window.localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(formState));
@@ -232,6 +248,14 @@ export function ProjectWizard() {
   const downloadUrl = job?.state === 'completed' && formState.deliveryMode === 'zip' ? `/api/jobs/${job.id}/download` : null;
   const consoleState = getConsoleState(job, error);
   const showGitHubAuthControls = shouldShowGitHubSignInForMode(formState.deliveryMode);
+  const promptPackDefinition = useMemo(
+    () => getPromptPackDefinition(formState.templateId, formState.category),
+    [formState.category, formState.templateId]
+  );
+  const selectedCodexProfile = useMemo(
+    () => codexProfiles.find((profile) => profile.id === formState.codexProfile),
+    [formState.codexProfile]
+  );
 
   return (
     <form className="atlas-layout" onSubmit={submit}>
@@ -296,7 +320,9 @@ export function ProjectWizard() {
               <select
                 value={formState.templateId}
                 onChange={(event) =>
-                  setFormState((state) => ({ ...state, templateId: event.target.value as CreateProjectRequest['templateId'] }))
+                  setFormState((state) =>
+                    normalizePromptPackState({ ...state, templateId: event.target.value as CreateProjectRequest['templateId'] })
+                  )
                 }
               >
                 {templates.map((template) => (
@@ -311,7 +337,9 @@ export function ProjectWizard() {
               <select
                 value={formState.category}
                 onChange={(event) =>
-                  setFormState((state) => ({ ...state, category: event.target.value as CreateProjectRequest['category'] }))
+                  setFormState((state) =>
+                    normalizePromptPackState({ ...state, category: event.target.value as CreateProjectRequest['category'] })
+                  )
                 }
               >
                 <option value="web-platform">Web platform</option>
@@ -323,9 +351,21 @@ export function ProjectWizard() {
             </label>
             <label>
               Codex profile
-              <input value={formState.codexProfile} readOnly />
+              <select
+                value={formState.codexProfile}
+                onChange={(event) =>
+                  setFormState((state) => ({ ...state, codexProfile: event.target.value as CreateProjectRequest['codexProfile'] }))
+                }
+              >
+                {codexProfiles.map((profile) => (
+                  <option key={profile.id} value={profile.id}>
+                    {profile.label}
+                  </option>
+                ))}
+              </select>
             </label>
           </div>
+          <p className="field-hint">{selectedCodexProfile?.helpText}</p>
         </ProcedureSheet>
 
         <ProcedureSheet
@@ -351,9 +391,13 @@ export function ProjectWizard() {
             </label>
             <label>
               Prompt pack
-              <input value={formState.promptPackId} readOnly />
+              <input value={promptPackDefinition.id} readOnly />
             </label>
           </div>
+          <p className="field-hint">Prompt pack is automatically tailored from Stack template + Category.</p>
+          <p className="field-hint">
+            {promptPackDefinition.label}: {promptPackDefinition.description}
+          </p>
 
           {formState.deliveryMode === 'zip' ? <p className="field-hint">Download ZIP runs locally and does not require GitHub authentication.</p> : null}
           {formState.deliveryMode === 'github-new-repo' ? (

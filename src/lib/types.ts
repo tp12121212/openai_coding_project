@@ -1,12 +1,23 @@
-export type BuiltInTemplateId =
-  | 'full-stack-saas'
-  | 'nextjs-web-app'
-  | 'node-api'
-  | 'python-cli'
-  | 'research-docs'
-  | 'security-compliance';
+export const BUILT_IN_TEMPLATE_IDS = [
+  'full-stack-saas',
+  'nextjs-web-app',
+  'node-api',
+  'python-cli',
+  'research-docs',
+  'security-compliance'
+] as const;
 
-export type PromptPackId = 'default-engineering' | 'security-compliance-focused';
+export type BuiltInTemplateId = (typeof BUILT_IN_TEMPLATE_IDS)[number];
+
+export const PROJECT_CATEGORIES = ['web-platform', 'api-service', 'automation', 'security-compliance', 'research'] as const;
+
+export type ProjectCategory = (typeof PROJECT_CATEGORIES)[number];
+
+export const CODEX_PROFILES = ['strict', 'balanced', 'rapid'] as const;
+
+export type CodexProfile = (typeof CODEX_PROFILES)[number];
+
+export type PromptPackId = `${BuiltInTemplateId}--${ProjectCategory}`;
 
 export interface ArtifactRecord {
   path: string;
@@ -21,6 +32,7 @@ export interface ScaffoldManifest {
     slug: string;
     description: string;
     category: string;
+    codexProfile: CodexProfile;
   };
   stack: {
     templateId: BuiltInTemplateId;

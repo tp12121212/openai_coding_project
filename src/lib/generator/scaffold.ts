@@ -1,6 +1,7 @@
 import path from 'node:path';
 import { CreateProjectRequest } from './schema';
-import { getPromptPack } from './prompts';
+import { getPromptPack, getPromptPackDefinition } from './prompts';
+import { getCodexProfileDefinition } from './profiles';
 import { getTemplateById } from '../templates/library';
 import { ScaffoldManifest } from '../types';
 import { normalizeWhitespace, sha256 } from '../utils/deterministic';
@@ -52,10 +53,14 @@ export function applyExistingRepoOpsPath(pathValue: string): string {
 }
 
 function buildReadmeBody(request: CreateProjectRequest, templateName: string): string {
+  const promptPack = getPromptPackDefinition(request.templateId, request.category);
+  const codexProfile = getCodexProfileDefinition(request.codexProfile);
   return normalizeWhitespace([
     request.description,
     `Template: ${templateName}`,
     `Project category: ${request.category}`,
+    `Prompt pack: ${promptPack.label} (${promptPack.id})`,
+    `Codex profile: ${codexProfile.label} — ${codexProfile.helpText}`,
     `Delivery mode: ${request.deliveryMode}`,
     '',
     '## Getting started',
@@ -314,7 +319,9 @@ function buildBestPracticesGuide(): string {
 export function buildScaffold(request: CreateProjectRequest): ScaffoldResult {
   const template = getTemplateById(request.templateId);
   const slug = slugify(request.projectName);
-  const promptFiles = getPromptPack(request.promptPackId);
+  const promptPack = getPromptPackDefinition(request.templateId, request.category);
+  const codexProfile = getCodexProfileDefinition(request.codexProfile);
+  const promptFiles = getPromptPack(request.templateId, request.category);
 
   const fileMap: GeneratedFile[] = [
     { path: 'README.md', content: renderMarkdown(request.projectName, buildReadmeBody(request, template.name)) },
@@ -332,15 +339,35 @@ export function buildScaffold(request: CreateProjectRequest): ScaffoldResult {
     },
     {
       path: 'PROJECT_CONTEXT.md',
-      content: renderMarkdown('Project Context', `Project slug: ${slug}\nRuntime: ${template.runtime}`)
+      content: renderMarkdown(
+        'Project Context',
+        `Project slug: ${slug}\nRuntime: ${template.runtime}\nPrompt pack: ${promptPack.label} (${promptPack.id})\nPrompt pack focus: ${promptPack.description}\nCodex profile: ${codexProfile.label} — ${codexProfile.helpText}`
+      )
     },
     {
       path: 'ARCHITECTURE.md',
-      content: renderMarkdown('Architecture', `Selected stack: ${template.description}`)
+      content: renderMarkdown(
+        'Architecture',
+        [
+          `Selected stack: ${template.description}`,
+          `Prompt pack context: ${promptPack.label} (${promptPack.id})`,
+          'Template guidance:',
+          ...promptPack.templateGuidance.map((line) => `- ${line}`),
+          'Category guidance:',
+          ...promptPack.categoryGuidance.map((line) => `- ${line}`)
+        ].join('\n')
+      )
     },
     {
       path: 'IMPLEMENTATION_PLAN.md',
-      content: renderMarkdown('Implementation Plan', template.tasks.map((task) => `- ${task}`).join('\n'))
+      content: renderMarkdown(
+        'Implementation Plan',
+        [
+          ...template.tasks.map((task) => `- ${task}`),
+          `- Enforce prompt-pack context: ${promptPack.id}`,
+          `- Execute with Codex profile: ${codexProfile.label.toLowerCase()}`
+        ].join('\n')
+      )
     },
     {
       path: '.codex/config.toml',
@@ -349,7 +376,16 @@ export function buildScaffold(request: CreateProjectRequest): ScaffoldResult {
     },
     {
       path: '.codex/instructions.md',
-      content: renderMarkdown('Codex Instructions', 'Follow existing patterns, inspect modules first, run tests, and explain assumptions.')
+      content: renderMarkdown(
+        'Codex Instructions',
+        [
+          'Follow existing patterns, inspect modules first, run tests, and explain assumptions.',
+          `Active Codex profile: ${codexProfile.label} (${codexProfile.id})`,
+          codexProfile.helpText,
+          `Active prompt pack: ${promptPack.label} (${promptPack.id})`,
+          `Prompt pack focus: ${promptPack.description}`
+        ].join('\n')
+      )
     },
     {
       path: 'TASKS/00-initial-backlog.md',
@@ -397,7 +433,8 @@ export function buildScaffold(request: CreateProjectRequest): ScaffoldResult {
       name: request.projectName,
       slug,
       description: request.description,
-      category: request.category
+      category: request.category,
+      codexProfile: request.codexProfile
     },
     stack: {
       templateId: request.templateId,
@@ -413,7 +450,7 @@ export function buildScaffold(request: CreateProjectRequest): ScaffoldResult {
         .sort((a, b) => a.localeCompare(b))
     },
     prompts: {
-      packId: request.promptPackId,
+      packId: promptPack.id,
       files: files.filter((file) => file.path.startsWith('PROMPTS')).map((file) => file.path).sort((a, b) => a.localeCompare(b))
     },
     bootstrapPack: {

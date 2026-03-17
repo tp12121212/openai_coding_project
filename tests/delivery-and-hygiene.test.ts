@@ -2,6 +2,7 @@ import { describe, expect, test, vi } from 'vitest';
 import { buildScaffold } from '../src/lib/generator/scaffold';
 import { runHygieneChecks } from '../src/lib/generator/service';
 import { createBranchAndPullRequest } from '../src/lib/github/api';
+import { derivePromptPackId } from '../src/lib/generator/prompts';
 
 describe('delivery and hygiene', () => {
   test('readme and gitignore vary deterministically', () => {
@@ -12,7 +13,7 @@ describe('delivery and hygiene', () => {
       templateId: 'python-cli',
       category: 'automation',
       codexProfile: 'strict',
-      promptPackId: 'default-engineering',
+      promptPackId: derivePromptPackId('python-cli', 'automation'),
       deliveryMode: 'github-new-repo',
       initializeGit: false,
       createBranch: false,
@@ -35,7 +36,7 @@ describe('delivery and hygiene', () => {
       templateId: 'python-cli',
       category: 'automation',
       codexProfile: 'strict',
-      promptPackId: 'default-engineering',
+      promptPackId: derivePromptPackId('python-cli', 'automation'),
       deliveryMode: 'zip',
       initializeGit: false,
       createBranch: false,
@@ -58,7 +59,7 @@ describe('delivery and hygiene', () => {
       templateId: 'python-cli',
       category: 'automation',
       codexProfile: 'strict',
-      promptPackId: 'default-engineering',
+      promptPackId: derivePromptPackId('python-cli', 'automation'),
       deliveryMode: 'github-existing-repo',
       initializeGit: false,
       createBranch: false,

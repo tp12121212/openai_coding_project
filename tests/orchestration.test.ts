@@ -3,6 +3,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { describe, expect, test, vi } from 'vitest';
 import { runOrchestration } from '../src/lib/orchestration/service';
+import { derivePromptPackId } from '../src/lib/generator/prompts';
 
 describe('orchestration flow', () => {
   test('zip delivery mode works without github auth', async () => {
@@ -15,7 +16,7 @@ describe('orchestration flow', () => {
         templateId: 'node-api',
         category: 'api-service',
         codexProfile: 'strict',
-        promptPackId: 'default-engineering',
+        promptPackId: derivePromptPackId('node-api', 'api-service'),
         deliveryMode: 'zip',
         initializeGit: false,
         createBranch: false,
@@ -114,7 +115,7 @@ describe('orchestration flow', () => {
         templateId: 'node-api',
         category: 'api-service',
         codexProfile: 'strict',
-        promptPackId: 'default-engineering',
+        promptPackId: derivePromptPackId('node-api', 'api-service'),
         deliveryMode: 'github-new-repo',
         initializeGit: false,
         createBranch: false,
