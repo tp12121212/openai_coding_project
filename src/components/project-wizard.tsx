@@ -223,12 +223,6 @@ export function ProjectWizard() {
     }
   }
 
-  const oauthDisabledReason = githubRuntimeReady
-    ? null
-    : `GitHub authentication is unavailable: missing ${runtimeConfig?.missing.join(', ') ?? 'runtime configuration'}.`;
-
-  const repoCreateMissingPermission = githubSessionUsable && githubAuthCheck?.repoCreateCapability === false;
-  const repoListMissingPermission = githubSessionUsable && githubAuthCheck?.repoListCapability === false;
   const buttonState = resolveGitHubAuthButtons({
     githubRuntimeReady,
     authenticated,
@@ -267,26 +261,6 @@ export function ProjectWizard() {
             <p>{selectedTemplate?.description ?? 'No template description available.'}</p>
           </MarginNote>
         </section>
-
-        <ProcedureSheet
-          title="Session and GitHub status"
-          description="Inspect runtime authentication state before selecting a GitHub delivery target. ZIP delivery can run without authentication."
-        >
-          <div className="field-cluster">
-            <div className="meta-strip">
-              <span>GitHub session: {githubSessionUsable ? 'connected' : 'not connected'}</span>
-              <span>Token status: {githubAuthCheck?.authStatus ?? 'unknown'}</span>
-              <span>Runtime auth: {githubRuntimeReady ? 'ready' : 'unavailable'}</span>
-            </div>
-            {oauthDisabledReason ? <p className="field-hint field-hint--warn">{oauthDisabledReason}</p> : null}
-            {repoCreateMissingPermission ? (
-              <p className="field-hint field-hint--warn">Connected token cannot create repositories. Re-authorize with repo scope.</p>
-            ) : null}
-            {repoListMissingPermission ? (
-              <p className="field-hint field-hint--warn">Connected token cannot list repositories for existing-repository delivery.</p>
-            ) : null}
-          </div>
-        </ProcedureSheet>
 
         <ProcedureSheet
           title="Project identity"
