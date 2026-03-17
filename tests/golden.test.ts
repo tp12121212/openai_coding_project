@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { describe, expect, test } from 'vitest';
 import { buildScaffold } from '../src/lib/generator/scaffold';
+import { derivePromptPackId } from '../src/lib/generator/prompts';
 
 describe('golden output', () => {
   test('matches expected artifact list', () => {
@@ -12,7 +13,7 @@ describe('golden output', () => {
       templateId: 'nextjs-web-app',
       category: 'web-platform',
       codexProfile: 'strict',
-      promptPackId: 'default-engineering',
+      promptPackId: derivePromptPackId('nextjs-web-app', 'web-platform'),
       deliveryMode: 'zip',
       initializeGit: false,
       createBranch: false,
