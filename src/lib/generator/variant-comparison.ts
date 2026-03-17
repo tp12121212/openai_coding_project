@@ -198,6 +198,29 @@ function changedFilesBetween(a: VariantOutput, b: VariantOutput): string[] {
 export function compareVariantOutputs(
   outputs: VariantOutput[]
 ): VariantComparisonResult {
+  const firstOutput = outputs[0];
+  if (!firstOutput) {
+    return {
+      matrix: [],
+      outputs: [],
+      uniqueOutputSetCount: 0,
+      sharedFiles: [],
+      uniqueFilesByVariant: {},
+      changedFilesByDimension: {
+        template: [],
+        category: [],
+        codexProfile: []
+      },
+      changedFileFrequency: {
+        template: [],
+        category: [],
+        codexProfile: []
+      },
+      identicalPairFindings: [],
+      noOpOptions: []
+    };
+  }
+
   const directoryHashes = new Map<string, string[]>();
   for (const output of outputs) {
     const keys = directoryHashes.get(output.directoryHash) ?? [];
@@ -209,18 +232,19 @@ export function compareVariantOutputs(
   }
 
   const fileSetUniverse = outputs.map((output) => new Set(output.fileList));
-  const sharedFiles = outputs[0].fileList
+  const sharedFiles = firstOutput.fileList
     .filter((file) => fileSetUniverse.every((set) => set.has(file)))
     .sort((a, b) => a.localeCompare(b));
+  const uniqueFilesByVariantEntries: Array<[string, string[]]> = outputs
+    .map((output): [string, string[]] => {
+      const ownFiles = output.fileList.filter(
+        (file) => fileSetUniverse.filter((set) => set.has(file)).length === 1
+      );
+      return [output.key, ownFiles.sort((a, b) => a.localeCompare(b))];
+    })
+    .sort((a, b) => a[0].localeCompare(b[0]));
   const uniqueFilesByVariant: Record<string, string[]> = Object.fromEntries(
-    outputs
-      .map((output) => {
-        const ownFiles = output.fileList.filter(
-          (file) => fileSetUniverse.filter((set) => set.has(file)).length === 1
-        );
-        return [output.key, ownFiles.sort((a, b) => a.localeCompare(b))];
-      })
-      .sort(([a], [b]) => a.localeCompare(b))
+    uniqueFilesByVariantEntries
   );
 
   const changedByDimension = {
@@ -236,6 +260,9 @@ export function compareVariantOutputs(
     for (let j = i + 1; j < outputs.length; j += 1) {
       const a = outputs[i];
       const b = outputs[j];
+      if (!a || !b) {
+        continue;
+      }
       const changedFiles = changedFilesBetween(a, b);
 
       if (a.directoryHash === b.directoryHash && a.key !== b.key) {
@@ -294,6 +321,9 @@ export function compareVariantOutputs(
     for (let j = i + 1; j < outputs.length; j += 1) {
       const a = outputs[i];
       const b = outputs[j];
+      if (!a || !b) {
+        continue;
+      }
       if (a.directoryHash !== b.directoryHash) {
         if (
           a.config.category === b.config.category &&
