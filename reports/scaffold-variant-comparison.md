@@ -1,0 +1,2755 @@
+# Scaffold Variant Comparison Report
+
+## Test matrix summary
+- Total combinations tested: 90
+- Unique normalized output sets: 90
+- Shared file count across all combinations: 21
+- Identical-output anomalies: 0
+- No-op options detected: 0
+
+## Combinations tested
+### full-stack-saas__api-service__balanced
+- Output directory: test-artifacts/scaffold-variants/full-stack-saas__api-service__balanced
+- Stack template: Full Stack SaaS (full-stack-saas)
+- Category: api-service
+- Codex profile: Balanced (balanced)
+- Prompt pack: full-stack-saas--api-service
+- Directory fingerprint: `25ccac621af6c3384946e1f3d19575453c3ba3acb64579bd2fd25aff61048e2c`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (e16b31fd0d6c91953ee58ba93c621c41adb6c39a0d561ca3133234c1395ea504)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (cd7bdeb84d3c2532a87f6ea324ddd691eeb8089f6bdf3d8bac3ef5ab0c8c5163)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (49ad2f46955721298ebf47fb8f19560581b08bcc6afe98ea7252d63143a6388b)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (394f8e93b95b5980ed61842179a9627314afbd2e3e8c102fe24cb1c779351cff)
+  - project.scaffold.json (d94c21a77b16ba31a8afc3eb2bf599eeb91b8f6dc1e03295e7331bc8b0914f25)
+  - PROMPTS/01-bootstrap-and-inventory.md (a18175ec0e641d8209d8ebd485c3fc620f341f157c25db1f7e1587d78f5fc293)
+  - PROMPTS/02-design-plan.md (aae6bbfab7608032e8665b2938b5ddba08684d72eebab07a0d28a6e6083c6c40)
+  - PROMPTS/03-implement-feature.md (9b8b51a4d7302d191cdb6115bbaa6a51df4a9e36efd33a0bedd7d7130933ed18)
+  - PROMPTS/04-fix-bug.md (7c3d39ee572957514ae6bdd80910eb11d501b938c6309a2d5c1c5c9c6938379b)
+  - PROMPTS/05-validate-and-test.md (207ed8c1d69bfa56dbff49c3010954ec4f2a515717e6145b016e84204dd06743)
+  - PROMPTS/06-deep-codebase-review.md (6ed818fe07a15c7620e056a2cc3d89226b73572e1122367e9be18251bce15c3e)
+  - PROMPTS/07-release-readiness.md (4d82f41fd07e6d4ab657717e4cd9f5546b444fd9109630329a6a472d7fe2b0d3)
+  - README.md (f489400e145a2cdcb94bdd1c6d3745052175b4877e53bf95bebb7cd5bd9f1e67)
+  - TASKS/00-initial-backlog.md (d7137d7bbeb10edd9592eacb5370e4340083619d874239bcbbf3b768e2028fa0)
+
+### full-stack-saas__api-service__rapid
+- Output directory: test-artifacts/scaffold-variants/full-stack-saas__api-service__rapid
+- Stack template: Full Stack SaaS (full-stack-saas)
+- Category: api-service
+- Codex profile: Rapid (rapid)
+- Prompt pack: full-stack-saas--api-service
+- Directory fingerprint: `20acca3c1340ecd0a93edeb3a9e25dc639573d77b5d44071e8a13b55425026f1`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (230441bd35048a0d691e984b5cc046b6716218b99453a9b46b310440d6b0ee7b)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (cd7bdeb84d3c2532a87f6ea324ddd691eeb8089f6bdf3d8bac3ef5ab0c8c5163)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (4cb5f2aeec6d12e10f510caf2d1ac5b103f7fee07467ef70614b3bbe099be868)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (d99be4869cc143e28de0bb23fe5188ce7e3becb55f41f6c49294d2e850d80ab5)
+  - project.scaffold.json (536dc7efc3997d6cc77c2416447cd77bb3b765e6b79f73b8f4f59b8035fbce78)
+  - PROMPTS/01-bootstrap-and-inventory.md (a18175ec0e641d8209d8ebd485c3fc620f341f157c25db1f7e1587d78f5fc293)
+  - PROMPTS/02-design-plan.md (aae6bbfab7608032e8665b2938b5ddba08684d72eebab07a0d28a6e6083c6c40)
+  - PROMPTS/03-implement-feature.md (9b8b51a4d7302d191cdb6115bbaa6a51df4a9e36efd33a0bedd7d7130933ed18)
+  - PROMPTS/04-fix-bug.md (7c3d39ee572957514ae6bdd80910eb11d501b938c6309a2d5c1c5c9c6938379b)
+  - PROMPTS/05-validate-and-test.md (207ed8c1d69bfa56dbff49c3010954ec4f2a515717e6145b016e84204dd06743)
+  - PROMPTS/06-deep-codebase-review.md (6ed818fe07a15c7620e056a2cc3d89226b73572e1122367e9be18251bce15c3e)
+  - PROMPTS/07-release-readiness.md (4d82f41fd07e6d4ab657717e4cd9f5546b444fd9109630329a6a472d7fe2b0d3)
+  - README.md (1a7173c5959e7bd751a3031598f21d004cb3f0b05ea2b5713d0990f17a0bae5a)
+  - TASKS/00-initial-backlog.md (d7137d7bbeb10edd9592eacb5370e4340083619d874239bcbbf3b768e2028fa0)
+
+### full-stack-saas__api-service__strict
+- Output directory: test-artifacts/scaffold-variants/full-stack-saas__api-service__strict
+- Stack template: Full Stack SaaS (full-stack-saas)
+- Category: api-service
+- Codex profile: Strict (strict)
+- Prompt pack: full-stack-saas--api-service
+- Directory fingerprint: `5408a02e0d7da6ad724918ee3094cc53bd4975b1a699b588866645fa510b3b89`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (0aa23c6e46696ab93aa281dad9914e57e4d341356c3dd325fa6ce875b86d81bb)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (cd7bdeb84d3c2532a87f6ea324ddd691eeb8089f6bdf3d8bac3ef5ab0c8c5163)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (4fad54449d9b402e6a4b107c34fe43c76d0c6485ba3d3f18ab6ba8d561235dc5)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (2d3ac1ef6bb619724380375b76916b60f05dfbca89e40d4605d4798093e99c8a)
+  - project.scaffold.json (06383196f184fb9d6a0c60e69bc3a9fdb03021f14f8cc0324bdf3300d2a6d7f3)
+  - PROMPTS/01-bootstrap-and-inventory.md (a18175ec0e641d8209d8ebd485c3fc620f341f157c25db1f7e1587d78f5fc293)
+  - PROMPTS/02-design-plan.md (aae6bbfab7608032e8665b2938b5ddba08684d72eebab07a0d28a6e6083c6c40)
+  - PROMPTS/03-implement-feature.md (9b8b51a4d7302d191cdb6115bbaa6a51df4a9e36efd33a0bedd7d7130933ed18)
+  - PROMPTS/04-fix-bug.md (7c3d39ee572957514ae6bdd80910eb11d501b938c6309a2d5c1c5c9c6938379b)
+  - PROMPTS/05-validate-and-test.md (207ed8c1d69bfa56dbff49c3010954ec4f2a515717e6145b016e84204dd06743)
+  - PROMPTS/06-deep-codebase-review.md (6ed818fe07a15c7620e056a2cc3d89226b73572e1122367e9be18251bce15c3e)
+  - PROMPTS/07-release-readiness.md (4d82f41fd07e6d4ab657717e4cd9f5546b444fd9109630329a6a472d7fe2b0d3)
+  - README.md (f7823f28c349bee528d8af05d188089436fb30147f80163b33f8a7431e03992a)
+  - TASKS/00-initial-backlog.md (d7137d7bbeb10edd9592eacb5370e4340083619d874239bcbbf3b768e2028fa0)
+
+### full-stack-saas__automation__balanced
+- Output directory: test-artifacts/scaffold-variants/full-stack-saas__automation__balanced
+- Stack template: Full Stack SaaS (full-stack-saas)
+- Category: automation
+- Codex profile: Balanced (balanced)
+- Prompt pack: full-stack-saas--automation
+- Directory fingerprint: `5efbaf2ecd0a0c42258d709cca5056e2ec6b78395338e6a530526ac884fe33a6`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (028b30f318a2bcbacc56ce288706af1d9657ca310daaa7a707b52c0fe45b2cda)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (0dd84a4e1d73154592bf986543902b97542d4c6df1bba51f3c231c8745eb6f3e)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (42a1d75d75ff03a975547f27cb054b10f4a00be795f40d9edae4c78f2c14033d)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (27ea3f4ad782df56b33cbf56e36cda23330529d9778f1aa399b7d9184db665af)
+  - project.scaffold.json (b7b0b152120c4c70df85ded1e683441bd52ffed2fd0b32378b009e7500acb13f)
+  - PROMPTS/01-bootstrap-and-inventory.md (bcd03babfff8de8def2b9f1d5539275f0b0e37aa1453cc5c49509dd19f4f11e2)
+  - PROMPTS/02-design-plan.md (90419e38870d096ceebc6cabca5c2ef765e98723ac34b029aff2105723d09e04)
+  - PROMPTS/03-implement-feature.md (ea8760ee0ba91f360976451e6b88f0180cb1eeb713270199dd1f9232f5627d46)
+  - PROMPTS/04-fix-bug.md (7938f34a089a4158984df006dd4dba015efa572d73ce4c10555613ca491e6832)
+  - PROMPTS/05-validate-and-test.md (961033947f754bed64577687106da78f09e6c038567f010b493cb4b2d0b5ff49)
+  - PROMPTS/06-deep-codebase-review.md (a31c9fb4899525b38e46b9339e241b5f3d4b162da8b78634e71f4f6d8dd742c1)
+  - PROMPTS/07-release-readiness.md (2286960fa31e9a026b6e0f03b77989d9e58ea78bd3ac67da0eeb1f8b72f2665f)
+  - README.md (7ff7c9961aceb72b92e4038bb77e9314c2e67d82d2a3b6c56447b018a238603d)
+  - TASKS/00-initial-backlog.md (d7137d7bbeb10edd9592eacb5370e4340083619d874239bcbbf3b768e2028fa0)
+
+### full-stack-saas__automation__rapid
+- Output directory: test-artifacts/scaffold-variants/full-stack-saas__automation__rapid
+- Stack template: Full Stack SaaS (full-stack-saas)
+- Category: automation
+- Codex profile: Rapid (rapid)
+- Prompt pack: full-stack-saas--automation
+- Directory fingerprint: `68c48bb2e743fe8aa3fe51715d6b0e68685df7d9bbe588f926471f8b873da2c1`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (c86b8a94e19e0e6c6c483836d107742d3fc9633f67a6b3f195247339a792a86f)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (0dd84a4e1d73154592bf986543902b97542d4c6df1bba51f3c231c8745eb6f3e)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (cd5040ce6fdf51817a37e05b3bc0279f41553ce008960aeda930304e0de8923d)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (d1d1bc0e3254b76f3ee302e5f4ce23672c51571c55080d827d2d873df35909cb)
+  - project.scaffold.json (270acb8728be04ca7c0cd50516442730812c1c2faff2d309918a9156e53a3782)
+  - PROMPTS/01-bootstrap-and-inventory.md (bcd03babfff8de8def2b9f1d5539275f0b0e37aa1453cc5c49509dd19f4f11e2)
+  - PROMPTS/02-design-plan.md (90419e38870d096ceebc6cabca5c2ef765e98723ac34b029aff2105723d09e04)
+  - PROMPTS/03-implement-feature.md (ea8760ee0ba91f360976451e6b88f0180cb1eeb713270199dd1f9232f5627d46)
+  - PROMPTS/04-fix-bug.md (7938f34a089a4158984df006dd4dba015efa572d73ce4c10555613ca491e6832)
+  - PROMPTS/05-validate-and-test.md (961033947f754bed64577687106da78f09e6c038567f010b493cb4b2d0b5ff49)
+  - PROMPTS/06-deep-codebase-review.md (a31c9fb4899525b38e46b9339e241b5f3d4b162da8b78634e71f4f6d8dd742c1)
+  - PROMPTS/07-release-readiness.md (2286960fa31e9a026b6e0f03b77989d9e58ea78bd3ac67da0eeb1f8b72f2665f)
+  - README.md (4fe1c279ababe4757f781a287adcf2c858249a64d2beaa886a3179af75cfbe99)
+  - TASKS/00-initial-backlog.md (d7137d7bbeb10edd9592eacb5370e4340083619d874239bcbbf3b768e2028fa0)
+
+### full-stack-saas__automation__strict
+- Output directory: test-artifacts/scaffold-variants/full-stack-saas__automation__strict
+- Stack template: Full Stack SaaS (full-stack-saas)
+- Category: automation
+- Codex profile: Strict (strict)
+- Prompt pack: full-stack-saas--automation
+- Directory fingerprint: `3c763357c43a56fbcfc3c77cc543ee8bbe383e58faed803893038f52d8ea469f`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (ee20fee6e3672ad782f832d880838ab3976236bc82da8705994a1956e780e27c)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (0dd84a4e1d73154592bf986543902b97542d4c6df1bba51f3c231c8745eb6f3e)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (b3265a7b47f54d7ded697d82426d32bf629de6e9a9427ec8bc0a8f861943277e)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (c3affd35e0fd4f1bce900de2ec8b454591859fefeab4bda8b951033d23e970d8)
+  - project.scaffold.json (25c095046f1657cf0f8208d858b18a8fddda61b9476ab7149f848ddd8fd85177)
+  - PROMPTS/01-bootstrap-and-inventory.md (bcd03babfff8de8def2b9f1d5539275f0b0e37aa1453cc5c49509dd19f4f11e2)
+  - PROMPTS/02-design-plan.md (90419e38870d096ceebc6cabca5c2ef765e98723ac34b029aff2105723d09e04)
+  - PROMPTS/03-implement-feature.md (ea8760ee0ba91f360976451e6b88f0180cb1eeb713270199dd1f9232f5627d46)
+  - PROMPTS/04-fix-bug.md (7938f34a089a4158984df006dd4dba015efa572d73ce4c10555613ca491e6832)
+  - PROMPTS/05-validate-and-test.md (961033947f754bed64577687106da78f09e6c038567f010b493cb4b2d0b5ff49)
+  - PROMPTS/06-deep-codebase-review.md (a31c9fb4899525b38e46b9339e241b5f3d4b162da8b78634e71f4f6d8dd742c1)
+  - PROMPTS/07-release-readiness.md (2286960fa31e9a026b6e0f03b77989d9e58ea78bd3ac67da0eeb1f8b72f2665f)
+  - README.md (5b306547b813d1bb77f68b77042c22f6546c8b4339e9004ced086e4cece68484)
+  - TASKS/00-initial-backlog.md (d7137d7bbeb10edd9592eacb5370e4340083619d874239bcbbf3b768e2028fa0)
+
+### full-stack-saas__research__balanced
+- Output directory: test-artifacts/scaffold-variants/full-stack-saas__research__balanced
+- Stack template: Full Stack SaaS (full-stack-saas)
+- Category: research
+- Codex profile: Balanced (balanced)
+- Prompt pack: full-stack-saas--research
+- Directory fingerprint: `d3e5ea5f48222d3d16c7b8d3d61cdc35c9a5814e0e1bcb4403cd5d2f596cbec2`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (c905e5ff15eac3fe6c0fe472df414c544f5e3fe9b619f212aa6bcb638de2db12)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (7c337e1a1f852fe205afa5899f72d407876fbb40c724c7187dce1694d2e16c66)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (757f384503937330b7033c432ae0477301c1914a01fe5772c08448527dc78aea)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (f8878772d8125b7626e9862ed7e30150649fad7b0f463bd6367915ec02f28358)
+  - project.scaffold.json (23addcc19d67635e2fbbd752db30cafa3a2c96e242f080a6bd5b9f985bbf5daf)
+  - PROMPTS/01-bootstrap-and-inventory.md (cee15e8ba4ce1f2234188db4b33ca2990808b8a7e6e7c56c25fe164fa89c5cc9)
+  - PROMPTS/02-design-plan.md (5c6f01274e61801b2aa6a2b2fa8d87c8a98074bdeb3c196ea8fa72774b8dafeb)
+  - PROMPTS/03-implement-feature.md (526b95914242e3477dbe2b9c54c6520bccdddde0645f8ec3c337400ff5f76bc6)
+  - PROMPTS/04-fix-bug.md (5929b5e2bdbf38cdc90347539bfe0df9383d1c31ed8a2faff302eaf5b946cf41)
+  - PROMPTS/05-validate-and-test.md (1941db213f9074d13243af742ed316651779c52d5afbee7bd0418123fa1add19)
+  - PROMPTS/06-deep-codebase-review.md (4361345566793eee939f262be5f45a0f90429594c8588b91acb184d02de69785)
+  - PROMPTS/07-release-readiness.md (a570ad66a607ceb9ce47f8c2107b57b5eaa4fe27c905b149733a7780db6349e0)
+  - README.md (d3c4ce2717c001971c3530afc194268f4bc9d2be6a47688085968f549de32d76)
+  - TASKS/00-initial-backlog.md (d7137d7bbeb10edd9592eacb5370e4340083619d874239bcbbf3b768e2028fa0)
+
+### full-stack-saas__research__rapid
+- Output directory: test-artifacts/scaffold-variants/full-stack-saas__research__rapid
+- Stack template: Full Stack SaaS (full-stack-saas)
+- Category: research
+- Codex profile: Rapid (rapid)
+- Prompt pack: full-stack-saas--research
+- Directory fingerprint: `5b183c1ad55f59dde8c8de26bacb8fe31f9236af0ae2456d5cb340896654868d`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (d2149668993761bcc3dd0e9082cf608d725ec323605d9e5718e5dcc1477f09e1)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (7c337e1a1f852fe205afa5899f72d407876fbb40c724c7187dce1694d2e16c66)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (8e1818cde8daaafc893e681a34bd4c89e5ce0751a783cf030f384d7f79b2efb8)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (e8edc388f20d015049fcbb7d9bc75446ba1cd55a40a0fa4a8b03d16f442ed6a5)
+  - project.scaffold.json (fdf9c4bb0c0bc607ba832527baa9928891ab76ee17cf9e6542ca8262f98c8be1)
+  - PROMPTS/01-bootstrap-and-inventory.md (cee15e8ba4ce1f2234188db4b33ca2990808b8a7e6e7c56c25fe164fa89c5cc9)
+  - PROMPTS/02-design-plan.md (5c6f01274e61801b2aa6a2b2fa8d87c8a98074bdeb3c196ea8fa72774b8dafeb)
+  - PROMPTS/03-implement-feature.md (526b95914242e3477dbe2b9c54c6520bccdddde0645f8ec3c337400ff5f76bc6)
+  - PROMPTS/04-fix-bug.md (5929b5e2bdbf38cdc90347539bfe0df9383d1c31ed8a2faff302eaf5b946cf41)
+  - PROMPTS/05-validate-and-test.md (1941db213f9074d13243af742ed316651779c52d5afbee7bd0418123fa1add19)
+  - PROMPTS/06-deep-codebase-review.md (4361345566793eee939f262be5f45a0f90429594c8588b91acb184d02de69785)
+  - PROMPTS/07-release-readiness.md (a570ad66a607ceb9ce47f8c2107b57b5eaa4fe27c905b149733a7780db6349e0)
+  - README.md (74dc33bfeca29e08b2ff7c218175b3e4cbc12cd7139149b37b5deb97faca7769)
+  - TASKS/00-initial-backlog.md (d7137d7bbeb10edd9592eacb5370e4340083619d874239bcbbf3b768e2028fa0)
+
+### full-stack-saas__research__strict
+- Output directory: test-artifacts/scaffold-variants/full-stack-saas__research__strict
+- Stack template: Full Stack SaaS (full-stack-saas)
+- Category: research
+- Codex profile: Strict (strict)
+- Prompt pack: full-stack-saas--research
+- Directory fingerprint: `3b7b839eb583ddfc2221c7ed728a6231cba909db4c14aa1a9018d28287bc2d2f`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (3e59a0325d3a1ab2cd96da150dae76986e84f1efae1e460a3e596b4430a477aa)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (7c337e1a1f852fe205afa5899f72d407876fbb40c724c7187dce1694d2e16c66)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (eb9a0581ca70286454e8f1a79b13252d5eb69f59efdb5be59ca93a160d009787)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (f22548715c47a4d49e61c138dd2711ab89aac04d22523f188681db4ee309ef57)
+  - project.scaffold.json (8923f001d91c46851ff3261849b0a685628f16723cfe0391f73ba79b33abd4bc)
+  - PROMPTS/01-bootstrap-and-inventory.md (cee15e8ba4ce1f2234188db4b33ca2990808b8a7e6e7c56c25fe164fa89c5cc9)
+  - PROMPTS/02-design-plan.md (5c6f01274e61801b2aa6a2b2fa8d87c8a98074bdeb3c196ea8fa72774b8dafeb)
+  - PROMPTS/03-implement-feature.md (526b95914242e3477dbe2b9c54c6520bccdddde0645f8ec3c337400ff5f76bc6)
+  - PROMPTS/04-fix-bug.md (5929b5e2bdbf38cdc90347539bfe0df9383d1c31ed8a2faff302eaf5b946cf41)
+  - PROMPTS/05-validate-and-test.md (1941db213f9074d13243af742ed316651779c52d5afbee7bd0418123fa1add19)
+  - PROMPTS/06-deep-codebase-review.md (4361345566793eee939f262be5f45a0f90429594c8588b91acb184d02de69785)
+  - PROMPTS/07-release-readiness.md (a570ad66a607ceb9ce47f8c2107b57b5eaa4fe27c905b149733a7780db6349e0)
+  - README.md (8c442fac7c4fcf4ad06b3b92b0e5b672bb9069e4891485f5b6fcb6b40fbd1e6d)
+  - TASKS/00-initial-backlog.md (d7137d7bbeb10edd9592eacb5370e4340083619d874239bcbbf3b768e2028fa0)
+
+### full-stack-saas__security-compliance__balanced
+- Output directory: test-artifacts/scaffold-variants/full-stack-saas__security-compliance__balanced
+- Stack template: Full Stack SaaS (full-stack-saas)
+- Category: security-compliance
+- Codex profile: Balanced (balanced)
+- Prompt pack: full-stack-saas--security-compliance
+- Directory fingerprint: `71fadfbec4063e8c4dc7b87e8f071aee9fe5b0d65383f428930b178fa686dd66`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (ce1414a93910a6a607edcddac4a234bb236b4c30611054e8cc1778a583f82247)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (991a3b1cc34bbc0a181fa5cb80f0e112218c1f970f49448e1624cb3f079da9cf)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (14f230b1cecae1676bee87d35d8220164073ef18c07acf28018d44a9379f77cd)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (29cd5283ccf76d1a8ac820c3fd1d62a659d680f0f55467f3318d936fe7251fdd)
+  - project.scaffold.json (1f9671d22dc7a55c553dcc5ec6cb269f7c450d282d52b5114b55c9a46cdc0da2)
+  - PROMPTS/01-bootstrap-and-inventory.md (2dfeae58ff70fe442a0255f27aa72faa879f6e39627d7230a45109a75fb0333e)
+  - PROMPTS/02-design-plan.md (c9e7f8b8de5054b6f4be692412691b1bd80bf0ea023ac2cfbdf88b24c523d0e2)
+  - PROMPTS/03-implement-feature.md (7ecce02a37912685abf24ef069ed2ea128bde315c7918520abfd09f9e4b63492)
+  - PROMPTS/04-fix-bug.md (79fd8328deafdfbb224aea66e97f124cbdab5e65ab104b1dbf6af24ff1f24a5b)
+  - PROMPTS/05-validate-and-test.md (5254368ae9a6b238494e5918f112dc9529938462124de8b577c3628f2d0d6f06)
+  - PROMPTS/06-deep-codebase-review.md (55b369d8988eeb5295761e3d918c48903c5f530117428844c06ac1e62341eb79)
+  - PROMPTS/07-release-readiness.md (59f33dfc85596b538f64197a548f5d508e4dee2f18de4f4d32820f78e121daf7)
+  - README.md (b47e7c62e5cf874a784fc18be73cdd3ca85e4672a23be72cd905704d423af5ae)
+  - TASKS/00-initial-backlog.md (d7137d7bbeb10edd9592eacb5370e4340083619d874239bcbbf3b768e2028fa0)
+
+### full-stack-saas__security-compliance__rapid
+- Output directory: test-artifacts/scaffold-variants/full-stack-saas__security-compliance__rapid
+- Stack template: Full Stack SaaS (full-stack-saas)
+- Category: security-compliance
+- Codex profile: Rapid (rapid)
+- Prompt pack: full-stack-saas--security-compliance
+- Directory fingerprint: `f2c2adf64d4a90f9bbd10dd2bb155582594c792c38b9a21fbd5f18479a9cd702`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (55e0fdb4fab4f02256be03cacbaedeb5d40c74e683b1b106d0e79965ff02b0a6)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (991a3b1cc34bbc0a181fa5cb80f0e112218c1f970f49448e1624cb3f079da9cf)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (e13bb88d67b7961f32a994df200a1dd4d6b611df2c91dbe37d07da77be054663)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (103f7246d41403e94f29fc75405a68226270012bb9283c53bb839742780ba146)
+  - project.scaffold.json (7e661b187626463af40cf9057bd391de9cd7fe81d9e5106bcef339b2d787cad1)
+  - PROMPTS/01-bootstrap-and-inventory.md (2dfeae58ff70fe442a0255f27aa72faa879f6e39627d7230a45109a75fb0333e)
+  - PROMPTS/02-design-plan.md (c9e7f8b8de5054b6f4be692412691b1bd80bf0ea023ac2cfbdf88b24c523d0e2)
+  - PROMPTS/03-implement-feature.md (7ecce02a37912685abf24ef069ed2ea128bde315c7918520abfd09f9e4b63492)
+  - PROMPTS/04-fix-bug.md (79fd8328deafdfbb224aea66e97f124cbdab5e65ab104b1dbf6af24ff1f24a5b)
+  - PROMPTS/05-validate-and-test.md (5254368ae9a6b238494e5918f112dc9529938462124de8b577c3628f2d0d6f06)
+  - PROMPTS/06-deep-codebase-review.md (55b369d8988eeb5295761e3d918c48903c5f530117428844c06ac1e62341eb79)
+  - PROMPTS/07-release-readiness.md (59f33dfc85596b538f64197a548f5d508e4dee2f18de4f4d32820f78e121daf7)
+  - README.md (66ddcb75f9b6aa2b7dedeec07d8eff963dbcd69754faf240b4628dfadecae35d)
+  - TASKS/00-initial-backlog.md (d7137d7bbeb10edd9592eacb5370e4340083619d874239bcbbf3b768e2028fa0)
+
+### full-stack-saas__security-compliance__strict
+- Output directory: test-artifacts/scaffold-variants/full-stack-saas__security-compliance__strict
+- Stack template: Full Stack SaaS (full-stack-saas)
+- Category: security-compliance
+- Codex profile: Strict (strict)
+- Prompt pack: full-stack-saas--security-compliance
+- Directory fingerprint: `5a9c370ce3196450ebf5ebb01ba7885a522d67524bdde329e428e129e1af30ed`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (7ef6e59925443e1e130daf97ea0b9a22870ee4b2d7bb69af8b8547ab7313cba1)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (991a3b1cc34bbc0a181fa5cb80f0e112218c1f970f49448e1624cb3f079da9cf)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (c3c9706cac40c487737ea246c44d8ac86b55a7f6644d6bd6a16a56f5a42864e0)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (28170a8049d722dfe610d14f9adc198ad3bf8b2d258905d22571d98a54e8a747)
+  - project.scaffold.json (e24d898dcc3bbfc4a824c6f14799a9606af054c967aa2dab731a75961019cf8f)
+  - PROMPTS/01-bootstrap-and-inventory.md (2dfeae58ff70fe442a0255f27aa72faa879f6e39627d7230a45109a75fb0333e)
+  - PROMPTS/02-design-plan.md (c9e7f8b8de5054b6f4be692412691b1bd80bf0ea023ac2cfbdf88b24c523d0e2)
+  - PROMPTS/03-implement-feature.md (7ecce02a37912685abf24ef069ed2ea128bde315c7918520abfd09f9e4b63492)
+  - PROMPTS/04-fix-bug.md (79fd8328deafdfbb224aea66e97f124cbdab5e65ab104b1dbf6af24ff1f24a5b)
+  - PROMPTS/05-validate-and-test.md (5254368ae9a6b238494e5918f112dc9529938462124de8b577c3628f2d0d6f06)
+  - PROMPTS/06-deep-codebase-review.md (55b369d8988eeb5295761e3d918c48903c5f530117428844c06ac1e62341eb79)
+  - PROMPTS/07-release-readiness.md (59f33dfc85596b538f64197a548f5d508e4dee2f18de4f4d32820f78e121daf7)
+  - README.md (9b06e09b321153e051b883bb93580959cffba1389470adbed9ca3de9814fe56f)
+  - TASKS/00-initial-backlog.md (d7137d7bbeb10edd9592eacb5370e4340083619d874239bcbbf3b768e2028fa0)
+
+### full-stack-saas__web-platform__balanced
+- Output directory: test-artifacts/scaffold-variants/full-stack-saas__web-platform__balanced
+- Stack template: Full Stack SaaS (full-stack-saas)
+- Category: web-platform
+- Codex profile: Balanced (balanced)
+- Prompt pack: full-stack-saas--web-platform
+- Directory fingerprint: `20b60d5efe3f72bb6fb67e979f3e43af1ac6e0000f8930fe62901d4195e07af6`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (da49bb333a885fd8342b33ce9fdd9b70472172c8528adfa2709143243f40f36a)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (7e11c83fca4a722aa480d754d0e7a5cac9cecf2c40dcba287538d5ef185f3c0e)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (20019c88b96dd68eac28c3d16e375a5e57126dbbfab1e062ffa21ba5a1980e25)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (821c282eebbd4819414d98edffd31ed905b33f6e81b204f97e266ee360c4e466)
+  - project.scaffold.json (81842d96df0fbf324dce22c1d4334ad15276eeffa4b7d1c486013f6ff0ae5f8b)
+  - PROMPTS/01-bootstrap-and-inventory.md (f22764fa95b9d192d1c33b3c5aa11f3dc8cf72d852e0a7b7825cebfe441c34b2)
+  - PROMPTS/02-design-plan.md (daad695276c86287c322dd66c125cb9679d189ad67386dd2a815d020ca4db74e)
+  - PROMPTS/03-implement-feature.md (77bc69e34b862e50edb60289c1592a3ed6c7f0346eb2a69bbc3394709a55c696)
+  - PROMPTS/04-fix-bug.md (ab3935b3c7b4b174a8a8b498a175329537a20f3f786b33daebfbba9c0f73ef18)
+  - PROMPTS/05-validate-and-test.md (6bd47e1571df0545da31036be05f59896f1ddc8487156e6a5c0960716c94c194)
+  - PROMPTS/06-deep-codebase-review.md (0b7d71438e37c3cf5e89ca2a8c480595125c35e783305ffb0f71f1b2545bbb8c)
+  - PROMPTS/07-release-readiness.md (1084a4eaf76785b87b3ef34e91a7921be323611e31dc4c3cf3735edb088d1ac4)
+  - README.md (52059105c85bd2e84aacaa2f2e6baa5f742e3b5041395265175bb3fcb11070fc)
+  - TASKS/00-initial-backlog.md (d7137d7bbeb10edd9592eacb5370e4340083619d874239bcbbf3b768e2028fa0)
+
+### full-stack-saas__web-platform__rapid
+- Output directory: test-artifacts/scaffold-variants/full-stack-saas__web-platform__rapid
+- Stack template: Full Stack SaaS (full-stack-saas)
+- Category: web-platform
+- Codex profile: Rapid (rapid)
+- Prompt pack: full-stack-saas--web-platform
+- Directory fingerprint: `8950f6dc746a54d4bd21bf204bb584d75c7709d2a5e0ebe38ebfc5b5653fc82c`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (6400a0ca8dc79cbd26798b26f9deff5b126ccca4e4988e9a5ce943578540824e)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (7e11c83fca4a722aa480d754d0e7a5cac9cecf2c40dcba287538d5ef185f3c0e)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (393b19e89b5c45d34db67bcf6499354a5de6e71f61eb784339f6cd29b9c9997d)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (d0b239e6f01f46299fa96a3a2fd1be0941073b72a331b5544d80d2d8a39ee0d9)
+  - project.scaffold.json (1e45543d1d61d1ee815e57888be980362ff63da821b517b748a143310a1e1b61)
+  - PROMPTS/01-bootstrap-and-inventory.md (f22764fa95b9d192d1c33b3c5aa11f3dc8cf72d852e0a7b7825cebfe441c34b2)
+  - PROMPTS/02-design-plan.md (daad695276c86287c322dd66c125cb9679d189ad67386dd2a815d020ca4db74e)
+  - PROMPTS/03-implement-feature.md (77bc69e34b862e50edb60289c1592a3ed6c7f0346eb2a69bbc3394709a55c696)
+  - PROMPTS/04-fix-bug.md (ab3935b3c7b4b174a8a8b498a175329537a20f3f786b33daebfbba9c0f73ef18)
+  - PROMPTS/05-validate-and-test.md (6bd47e1571df0545da31036be05f59896f1ddc8487156e6a5c0960716c94c194)
+  - PROMPTS/06-deep-codebase-review.md (0b7d71438e37c3cf5e89ca2a8c480595125c35e783305ffb0f71f1b2545bbb8c)
+  - PROMPTS/07-release-readiness.md (1084a4eaf76785b87b3ef34e91a7921be323611e31dc4c3cf3735edb088d1ac4)
+  - README.md (663b67aea65a7ea217a3fc0e99c94c9dd76893acb84490f277b2d5ffeb41d6f4)
+  - TASKS/00-initial-backlog.md (d7137d7bbeb10edd9592eacb5370e4340083619d874239bcbbf3b768e2028fa0)
+
+### full-stack-saas__web-platform__strict
+- Output directory: test-artifacts/scaffold-variants/full-stack-saas__web-platform__strict
+- Stack template: Full Stack SaaS (full-stack-saas)
+- Category: web-platform
+- Codex profile: Strict (strict)
+- Prompt pack: full-stack-saas--web-platform
+- Directory fingerprint: `f40e26325a82675617cbaf2a57800588c88131cac7ea5a5e1c1df8b54feb822b`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (6015002153abfc8a7bd78be3d338caa670335a99a7169f8ea0738fcffd89fa2c)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (7e11c83fca4a722aa480d754d0e7a5cac9cecf2c40dcba287538d5ef185f3c0e)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (7e5ec4feb7527e26d7dd1e2a21056778091b08818ae0d1c5ff8a7f460daa853b)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (86b67ed70d28600640d87b45860af8bf0387904ce710c498402c0c4fe5c749b1)
+  - project.scaffold.json (50fe59bf04c4275e1f71426b13e22c6ab7fa5364102a71d40a79f741f9c9d6d1)
+  - PROMPTS/01-bootstrap-and-inventory.md (f22764fa95b9d192d1c33b3c5aa11f3dc8cf72d852e0a7b7825cebfe441c34b2)
+  - PROMPTS/02-design-plan.md (daad695276c86287c322dd66c125cb9679d189ad67386dd2a815d020ca4db74e)
+  - PROMPTS/03-implement-feature.md (77bc69e34b862e50edb60289c1592a3ed6c7f0346eb2a69bbc3394709a55c696)
+  - PROMPTS/04-fix-bug.md (ab3935b3c7b4b174a8a8b498a175329537a20f3f786b33daebfbba9c0f73ef18)
+  - PROMPTS/05-validate-and-test.md (6bd47e1571df0545da31036be05f59896f1ddc8487156e6a5c0960716c94c194)
+  - PROMPTS/06-deep-codebase-review.md (0b7d71438e37c3cf5e89ca2a8c480595125c35e783305ffb0f71f1b2545bbb8c)
+  - PROMPTS/07-release-readiness.md (1084a4eaf76785b87b3ef34e91a7921be323611e31dc4c3cf3735edb088d1ac4)
+  - README.md (49f3381f719e17e77b631415df12c1d5d3c53f7efd27a3be180b6b81743a8488)
+  - TASKS/00-initial-backlog.md (d7137d7bbeb10edd9592eacb5370e4340083619d874239bcbbf3b768e2028fa0)
+
+### nextjs-web-app__api-service__balanced
+- Output directory: test-artifacts/scaffold-variants/nextjs-web-app__api-service__balanced
+- Stack template: Next.js Web App (nextjs-web-app)
+- Category: api-service
+- Codex profile: Balanced (balanced)
+- Prompt pack: nextjs-web-app--api-service
+- Directory fingerprint: `180f586db0920a757ed3370b265884d37d8d364c8171207f222bb251ea1881e2`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (abac52b51c5852e2ec788a7fb7bf7af0b979204e5978e1134d1984a3336c4386)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (a85d47abb35cbfb2c076b8d44a36d256c45ad60f1b18a0ccc3ab5c0eb71ccf9a)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (76478b493fd4b3a86867b2064d5643c2fd526315e406d0cdffa4bd611006c853)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (91d1e758c4d1cb6ca97b3609177db280c812f64ded7ea4524772d7cd0981301f)
+  - project.scaffold.json (9ccb83e8e0bc420732fd22ed94edc1da54ac5e111d0e2214605a583db1c7a4c6)
+  - PROMPTS/01-bootstrap-and-inventory.md (a63b16803647769b908d889e9048e4d5b224fff64831b79fffc66f08f6f455f9)
+  - PROMPTS/02-design-plan.md (ad520c7fe398d2fd7b0b5df245955c039136bd15373fcadddbe7120e4fc20153)
+  - PROMPTS/03-implement-feature.md (62f9767ba6b34f7059f05e83cfc320981052449296285c4f11f88850aec8d760)
+  - PROMPTS/04-fix-bug.md (38bd2bfcc8484e9a0b0b1ba50d848695ab89084696c7d9f6c63820765e768527)
+  - PROMPTS/05-validate-and-test.md (95f5c5994238b4f72af19e4a61f955f4faa3f5ee2daf4bdf2ee5bcfc322fa612)
+  - PROMPTS/06-deep-codebase-review.md (1dfea4d6f2f04415df31e8dda9744762b17517ef31482c9a90ca4add1319516b)
+  - PROMPTS/07-release-readiness.md (49db0bf0825528db0590d9120bfe90c34e7183126d7766b74b645ebc88fb1db6)
+  - README.md (aa33c2e5980a82ab39db7379f282b6b25049ed56f5a7b6f437e255b7439526da)
+  - TASKS/00-initial-backlog.md (793d22ea85a9ced68d841583a9becef73b115f122742132093335b1c4bd5cd9b)
+
+### nextjs-web-app__api-service__rapid
+- Output directory: test-artifacts/scaffold-variants/nextjs-web-app__api-service__rapid
+- Stack template: Next.js Web App (nextjs-web-app)
+- Category: api-service
+- Codex profile: Rapid (rapid)
+- Prompt pack: nextjs-web-app--api-service
+- Directory fingerprint: `05afb1eb10dc7c8780430e5dd531dcbe78cd161e0b14fd38cb0c9e2c926a9789`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (221c90db91a751fe8680f50a4b97718b1e547e9ae7cf82ded73551f9f6f94271)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (a85d47abb35cbfb2c076b8d44a36d256c45ad60f1b18a0ccc3ab5c0eb71ccf9a)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (9e43a06dbb77cc68d58d4716cd520ba818af182fffbba6bb910e19ffe9eff9c7)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (7a9543dbf83c1d8e7d593ebd4c174ba8975696db69a6ae6de1097660f6413dcb)
+  - project.scaffold.json (6f86627efc1392d29d8ceb68a992efcdbf59bfe81a6509ac3a6d5de8ee3a94e7)
+  - PROMPTS/01-bootstrap-and-inventory.md (a63b16803647769b908d889e9048e4d5b224fff64831b79fffc66f08f6f455f9)
+  - PROMPTS/02-design-plan.md (ad520c7fe398d2fd7b0b5df245955c039136bd15373fcadddbe7120e4fc20153)
+  - PROMPTS/03-implement-feature.md (62f9767ba6b34f7059f05e83cfc320981052449296285c4f11f88850aec8d760)
+  - PROMPTS/04-fix-bug.md (38bd2bfcc8484e9a0b0b1ba50d848695ab89084696c7d9f6c63820765e768527)
+  - PROMPTS/05-validate-and-test.md (95f5c5994238b4f72af19e4a61f955f4faa3f5ee2daf4bdf2ee5bcfc322fa612)
+  - PROMPTS/06-deep-codebase-review.md (1dfea4d6f2f04415df31e8dda9744762b17517ef31482c9a90ca4add1319516b)
+  - PROMPTS/07-release-readiness.md (49db0bf0825528db0590d9120bfe90c34e7183126d7766b74b645ebc88fb1db6)
+  - README.md (ff180b363bc343f3101953dc2b432478208d9e0644e8e5cd176ff383387b8131)
+  - TASKS/00-initial-backlog.md (793d22ea85a9ced68d841583a9becef73b115f122742132093335b1c4bd5cd9b)
+
+### nextjs-web-app__api-service__strict
+- Output directory: test-artifacts/scaffold-variants/nextjs-web-app__api-service__strict
+- Stack template: Next.js Web App (nextjs-web-app)
+- Category: api-service
+- Codex profile: Strict (strict)
+- Prompt pack: nextjs-web-app--api-service
+- Directory fingerprint: `0add17e1c0fe9bfe9543caa719113f7cd24ad9eb93e45deabce7b3573c6412e3`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (acf3bbc61226a3d726da959673cbb1bdece79a6c49fc7eba175abf2858b86f1d)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (a85d47abb35cbfb2c076b8d44a36d256c45ad60f1b18a0ccc3ab5c0eb71ccf9a)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (708f6622cecc73d65fde718642b31bf4580db645a1b23d9a5f02346ba14f876f)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (6dbff6205d210d1017838361c120651235a7efe134f73c4fd3f921c9c7237ac0)
+  - project.scaffold.json (78a4a6734c3b9a2a43693cfd703dff16f66408acccd0f218e8f36fcdee799f03)
+  - PROMPTS/01-bootstrap-and-inventory.md (a63b16803647769b908d889e9048e4d5b224fff64831b79fffc66f08f6f455f9)
+  - PROMPTS/02-design-plan.md (ad520c7fe398d2fd7b0b5df245955c039136bd15373fcadddbe7120e4fc20153)
+  - PROMPTS/03-implement-feature.md (62f9767ba6b34f7059f05e83cfc320981052449296285c4f11f88850aec8d760)
+  - PROMPTS/04-fix-bug.md (38bd2bfcc8484e9a0b0b1ba50d848695ab89084696c7d9f6c63820765e768527)
+  - PROMPTS/05-validate-and-test.md (95f5c5994238b4f72af19e4a61f955f4faa3f5ee2daf4bdf2ee5bcfc322fa612)
+  - PROMPTS/06-deep-codebase-review.md (1dfea4d6f2f04415df31e8dda9744762b17517ef31482c9a90ca4add1319516b)
+  - PROMPTS/07-release-readiness.md (49db0bf0825528db0590d9120bfe90c34e7183126d7766b74b645ebc88fb1db6)
+  - README.md (a05a053ceb06e47287f3f2e66ea4c2c65d7f8ae6cefcffde558edd060fe42309)
+  - TASKS/00-initial-backlog.md (793d22ea85a9ced68d841583a9becef73b115f122742132093335b1c4bd5cd9b)
+
+### nextjs-web-app__automation__balanced
+- Output directory: test-artifacts/scaffold-variants/nextjs-web-app__automation__balanced
+- Stack template: Next.js Web App (nextjs-web-app)
+- Category: automation
+- Codex profile: Balanced (balanced)
+- Prompt pack: nextjs-web-app--automation
+- Directory fingerprint: `c0e563bc058a22e51d8c48b9a681f8985632df1ce0b9e01a0c4c401926905cec`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (42b8943c2cc6cc2d0a712913cc39cb4b11fb8d7bb43e576ba0c58300fbc39768)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (757f358fc0c529f1167d38bd5575acb7e3a1a84ded0aed78208f808e8fff9c02)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (c6f70aa6669cd637374455b3ba04879810168b0e4bc100dc79e000834025098b)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (b0a2093f73d906cc84c17040dfa6dc17c3e0ab41f8c992fd00e447072091b86d)
+  - project.scaffold.json (65013d5794603e3cd9ceb0bbfd1f4069a1e65de9a070cd6f785adb64737fadc9)
+  - PROMPTS/01-bootstrap-and-inventory.md (109404c9b6a55b37e732b49f012eae3ba74f799a72a3b80d7eb266eb67f3ba88)
+  - PROMPTS/02-design-plan.md (c342fee4d91cbcc556639ca5c1d80eaeb38804ea3cf47f17830c35222fc77d53)
+  - PROMPTS/03-implement-feature.md (3eac5f11aeda0e91a998d11872ab8bba363036216cbfbc650ee0c3f3f202c7e5)
+  - PROMPTS/04-fix-bug.md (52b827c5c8ddeb83031329ba4977705f5b1419437084fb5e9839cee0829315f0)
+  - PROMPTS/05-validate-and-test.md (14f768827c24480cb995b1c5b273bb8a60ab788f13bf4392165e9a7ed60e2478)
+  - PROMPTS/06-deep-codebase-review.md (5ccb93264b8695a3fc448609fa0bf47d321dbaf8d61a45c603ade2148ba6737a)
+  - PROMPTS/07-release-readiness.md (79f2c4719e98e7aba49d5335cab8c515b5978aa1be35651cd9aebb5b9304da9a)
+  - README.md (8a4375687c6fe6653a169221953a5d583d711235d77206ecd3c69bef973cd60e)
+  - TASKS/00-initial-backlog.md (793d22ea85a9ced68d841583a9becef73b115f122742132093335b1c4bd5cd9b)
+
+### nextjs-web-app__automation__rapid
+- Output directory: test-artifacts/scaffold-variants/nextjs-web-app__automation__rapid
+- Stack template: Next.js Web App (nextjs-web-app)
+- Category: automation
+- Codex profile: Rapid (rapid)
+- Prompt pack: nextjs-web-app--automation
+- Directory fingerprint: `a9c2e0c6a4a38cd4b03fc70eaae962bc17f078b319c01a4908d7582695e38224`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (abd22e0359d1e8a9878727cd1129ecd0f22ff5050da0f2341120fc54607a7f55)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (757f358fc0c529f1167d38bd5575acb7e3a1a84ded0aed78208f808e8fff9c02)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (d0714662c384f7799036abfacf558a4737a1da45dcf4dacdad3f3b77d51e8076)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (6adc742138cdba51c95a2771b79f79be8dab47c2cfc0c122734b633bdd053fae)
+  - project.scaffold.json (f78d66927dae26862bd8901df2933ace9c91cb1f731400880e395ab09a34042c)
+  - PROMPTS/01-bootstrap-and-inventory.md (109404c9b6a55b37e732b49f012eae3ba74f799a72a3b80d7eb266eb67f3ba88)
+  - PROMPTS/02-design-plan.md (c342fee4d91cbcc556639ca5c1d80eaeb38804ea3cf47f17830c35222fc77d53)
+  - PROMPTS/03-implement-feature.md (3eac5f11aeda0e91a998d11872ab8bba363036216cbfbc650ee0c3f3f202c7e5)
+  - PROMPTS/04-fix-bug.md (52b827c5c8ddeb83031329ba4977705f5b1419437084fb5e9839cee0829315f0)
+  - PROMPTS/05-validate-and-test.md (14f768827c24480cb995b1c5b273bb8a60ab788f13bf4392165e9a7ed60e2478)
+  - PROMPTS/06-deep-codebase-review.md (5ccb93264b8695a3fc448609fa0bf47d321dbaf8d61a45c603ade2148ba6737a)
+  - PROMPTS/07-release-readiness.md (79f2c4719e98e7aba49d5335cab8c515b5978aa1be35651cd9aebb5b9304da9a)
+  - README.md (a34e58b1f7b7a4894e78410c3e2788f205bc862a5c8c6316864daede3d8e4ea2)
+  - TASKS/00-initial-backlog.md (793d22ea85a9ced68d841583a9becef73b115f122742132093335b1c4bd5cd9b)
+
+### nextjs-web-app__automation__strict
+- Output directory: test-artifacts/scaffold-variants/nextjs-web-app__automation__strict
+- Stack template: Next.js Web App (nextjs-web-app)
+- Category: automation
+- Codex profile: Strict (strict)
+- Prompt pack: nextjs-web-app--automation
+- Directory fingerprint: `091ac14c3f0109684fa21e2c707c90df773fd50c24ff435081818b83677471f4`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (dc7447791d062e872a50717e2a0163980a76c69024ddcbdf4c6a4ab0d23a6170)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (757f358fc0c529f1167d38bd5575acb7e3a1a84ded0aed78208f808e8fff9c02)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (fdcb26ee4c33cf97cdd20b2928eac746a1f4f04e1b3a97c1601ff6e57040e295)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (ce502131c6b86a0dd7104c235f4e5a398c9be8d43717970b15eea9b1967e4bbb)
+  - project.scaffold.json (f91ae7c436ee1a033dcf8886ea7fd3f09a1f2934c3899d11e8bef49d8ab69c1d)
+  - PROMPTS/01-bootstrap-and-inventory.md (109404c9b6a55b37e732b49f012eae3ba74f799a72a3b80d7eb266eb67f3ba88)
+  - PROMPTS/02-design-plan.md (c342fee4d91cbcc556639ca5c1d80eaeb38804ea3cf47f17830c35222fc77d53)
+  - PROMPTS/03-implement-feature.md (3eac5f11aeda0e91a998d11872ab8bba363036216cbfbc650ee0c3f3f202c7e5)
+  - PROMPTS/04-fix-bug.md (52b827c5c8ddeb83031329ba4977705f5b1419437084fb5e9839cee0829315f0)
+  - PROMPTS/05-validate-and-test.md (14f768827c24480cb995b1c5b273bb8a60ab788f13bf4392165e9a7ed60e2478)
+  - PROMPTS/06-deep-codebase-review.md (5ccb93264b8695a3fc448609fa0bf47d321dbaf8d61a45c603ade2148ba6737a)
+  - PROMPTS/07-release-readiness.md (79f2c4719e98e7aba49d5335cab8c515b5978aa1be35651cd9aebb5b9304da9a)
+  - README.md (926f02f943ce698e3780156b5a80e1f6ec9621411e928753670d14cc3021413b)
+  - TASKS/00-initial-backlog.md (793d22ea85a9ced68d841583a9becef73b115f122742132093335b1c4bd5cd9b)
+
+### nextjs-web-app__research__balanced
+- Output directory: test-artifacts/scaffold-variants/nextjs-web-app__research__balanced
+- Stack template: Next.js Web App (nextjs-web-app)
+- Category: research
+- Codex profile: Balanced (balanced)
+- Prompt pack: nextjs-web-app--research
+- Directory fingerprint: `d48de6053225cc4e64632bf7b8c9afc94be2ebd66ad30523a7d7a0bd43a11e65`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (f0cb89ff9c1f1294cd44b29adbb7165ede4d8c17b0e2c1a0e35d634c309cf177)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (01985fd6b2ce03a278bb111efd32da8a31092c180427546e1b31e5806fe19ccd)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (6220618ff054f3a9447ddff4a3b887d82f1a0d72f29aafd96b6451cfca41e4b6)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (8e4c5f41ff8d6d3512ed53d01e6217773dd259e946edeec1725a641ae7f8cb4d)
+  - project.scaffold.json (26228f8edf23daa920ccb5f7a2c63a6b23ab924d3651746b3f550e37d9b2ae3d)
+  - PROMPTS/01-bootstrap-and-inventory.md (63b889b7b4fb95ff59d0a629ace25719411324869626a5f1188b366af3fbbeb9)
+  - PROMPTS/02-design-plan.md (5d269c9b7878f074dc066d37cd1feb822266f50b4c94e3bbe6c3bd96070ecc68)
+  - PROMPTS/03-implement-feature.md (d502fb5e91976b1ad3f4041c00beae261c74ffb197c74d8807c168e85c126719)
+  - PROMPTS/04-fix-bug.md (8184851cbb93e466eea6b42b3b9d8f577fdb2ebdcd6c8c8026863f494380631f)
+  - PROMPTS/05-validate-and-test.md (e003b0cc894c27eae9666e41db3050666739f3d2d7fafaba4449fb9647cca039)
+  - PROMPTS/06-deep-codebase-review.md (dfe9f91d10b65cb306f5b0747137abc34c0cba0181b8672bd8f906e65ce914d4)
+  - PROMPTS/07-release-readiness.md (47db0301fa4ac9d575d648a227af27b7b820c7323130993ffa3857fa3dced306)
+  - README.md (5243ed7f7d6c1f2f75362702fa083b00165838bf6c52c1ae71fbfa0e9fa41f3e)
+  - TASKS/00-initial-backlog.md (793d22ea85a9ced68d841583a9becef73b115f122742132093335b1c4bd5cd9b)
+
+### nextjs-web-app__research__rapid
+- Output directory: test-artifacts/scaffold-variants/nextjs-web-app__research__rapid
+- Stack template: Next.js Web App (nextjs-web-app)
+- Category: research
+- Codex profile: Rapid (rapid)
+- Prompt pack: nextjs-web-app--research
+- Directory fingerprint: `ee5dcada0a8cafb3112aa718ee511d21bfc956a1bda4a91a01865bb8d0bfced6`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (d51a382e6d1c2f39b454244db54853507d2a90c11c01793a55a15067b8ba291e)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (01985fd6b2ce03a278bb111efd32da8a31092c180427546e1b31e5806fe19ccd)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (809e8469cd49945dedf39fc9b4aa0d904058f0a62b1ca02055cddf396ef5ae52)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (457c0e15b4e357a631e56ca635ce7f3e2d7f28d602a78153de22f7973068cf36)
+  - project.scaffold.json (5f198c7e9dea14a232cfbdbf87303c48a8bc522d763cdbce29c54fe7041799e4)
+  - PROMPTS/01-bootstrap-and-inventory.md (63b889b7b4fb95ff59d0a629ace25719411324869626a5f1188b366af3fbbeb9)
+  - PROMPTS/02-design-plan.md (5d269c9b7878f074dc066d37cd1feb822266f50b4c94e3bbe6c3bd96070ecc68)
+  - PROMPTS/03-implement-feature.md (d502fb5e91976b1ad3f4041c00beae261c74ffb197c74d8807c168e85c126719)
+  - PROMPTS/04-fix-bug.md (8184851cbb93e466eea6b42b3b9d8f577fdb2ebdcd6c8c8026863f494380631f)
+  - PROMPTS/05-validate-and-test.md (e003b0cc894c27eae9666e41db3050666739f3d2d7fafaba4449fb9647cca039)
+  - PROMPTS/06-deep-codebase-review.md (dfe9f91d10b65cb306f5b0747137abc34c0cba0181b8672bd8f906e65ce914d4)
+  - PROMPTS/07-release-readiness.md (47db0301fa4ac9d575d648a227af27b7b820c7323130993ffa3857fa3dced306)
+  - README.md (91342df13a8c768eea96ba220df661ec06a3dfdee5db6ba586c886d92515e814)
+  - TASKS/00-initial-backlog.md (793d22ea85a9ced68d841583a9becef73b115f122742132093335b1c4bd5cd9b)
+
+### nextjs-web-app__research__strict
+- Output directory: test-artifacts/scaffold-variants/nextjs-web-app__research__strict
+- Stack template: Next.js Web App (nextjs-web-app)
+- Category: research
+- Codex profile: Strict (strict)
+- Prompt pack: nextjs-web-app--research
+- Directory fingerprint: `911435b8bb2f8b257f7983488c47dc36cfb77608c31128217f45074f1ef1f59e`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (44213998d76a3e1b19d38f3ccbec7f9be1b3ac50716cda16193a680fafdca7da)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (01985fd6b2ce03a278bb111efd32da8a31092c180427546e1b31e5806fe19ccd)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (ca0b4b39978bf5238ceb44bef48ab64dcca2a9b309d8474a925d38c3640ec645)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (da8eef3a98ee7154ce28a755bcf5a3395171a48aef20516b3d4d41c5960b15de)
+  - project.scaffold.json (979f97f972a5c4d8d5c2b27c7a70f172f1de9412d7bd20cbca8f5fca0af11458)
+  - PROMPTS/01-bootstrap-and-inventory.md (63b889b7b4fb95ff59d0a629ace25719411324869626a5f1188b366af3fbbeb9)
+  - PROMPTS/02-design-plan.md (5d269c9b7878f074dc066d37cd1feb822266f50b4c94e3bbe6c3bd96070ecc68)
+  - PROMPTS/03-implement-feature.md (d502fb5e91976b1ad3f4041c00beae261c74ffb197c74d8807c168e85c126719)
+  - PROMPTS/04-fix-bug.md (8184851cbb93e466eea6b42b3b9d8f577fdb2ebdcd6c8c8026863f494380631f)
+  - PROMPTS/05-validate-and-test.md (e003b0cc894c27eae9666e41db3050666739f3d2d7fafaba4449fb9647cca039)
+  - PROMPTS/06-deep-codebase-review.md (dfe9f91d10b65cb306f5b0747137abc34c0cba0181b8672bd8f906e65ce914d4)
+  - PROMPTS/07-release-readiness.md (47db0301fa4ac9d575d648a227af27b7b820c7323130993ffa3857fa3dced306)
+  - README.md (7894cf641f0d80f20aed88cc5d13ce516d8e91c7539ed403c5c3964522c4c7a6)
+  - TASKS/00-initial-backlog.md (793d22ea85a9ced68d841583a9becef73b115f122742132093335b1c4bd5cd9b)
+
+### nextjs-web-app__security-compliance__balanced
+- Output directory: test-artifacts/scaffold-variants/nextjs-web-app__security-compliance__balanced
+- Stack template: Next.js Web App (nextjs-web-app)
+- Category: security-compliance
+- Codex profile: Balanced (balanced)
+- Prompt pack: nextjs-web-app--security-compliance
+- Directory fingerprint: `64a95b4108dec02daf5cbef61dc4ffae7b63ad4d18fe2ef540e82b8254b15e0d`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (ab83c93671edfd5c428a9782dd09df48402d2e4a23a1e6b3f1174d11a3debe87)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (25d7cca3fcd5e6ae81b800c06d2175c88fffcadeadff6d4720ab0bc94546bb73)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (f49645e444c8a4d08740a43388039e6f5882083d0f414d0fe9e050afbe493622)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (e98775a2feb1356cb63d2a5daf90ce21bf11cb0469d4d2e85c792c3d139f83ab)
+  - project.scaffold.json (f11eb6c89ac50ba1d07f2baf34cab9842dcfbc8ef8675db26adaf7c3344710fc)
+  - PROMPTS/01-bootstrap-and-inventory.md (f5c7944ca330b048d62dd287ca12a03709cbb63b502cb5895d944cd1b27da07e)
+  - PROMPTS/02-design-plan.md (ed74865325e362f4a33b907e756dc9e09398e93167258302a88b41d28fbb1535)
+  - PROMPTS/03-implement-feature.md (07e5329d409bc49b28983818688d61d38b03b09220560fbcfa75cdcf374be4e2)
+  - PROMPTS/04-fix-bug.md (096edbeaca21b5c4f4faa0160a886aad95bb15372d910c3845d82d3b948f3c87)
+  - PROMPTS/05-validate-and-test.md (557418bb55d2014ea489acc5730289a5c5bb0b4474c08e0637270d5b96cb11c4)
+  - PROMPTS/06-deep-codebase-review.md (5e54468a6b414577ecf044b259b95e8fd2ae7f853ca4c81c68a5603fc6d637fb)
+  - PROMPTS/07-release-readiness.md (afa2ecaaf3d6d2511b693474a0004e76d08d71663ee74a1dabd940e3bbdc8e32)
+  - README.md (8c7ae83ffc5baf1a8381d148e7bfb413e209d2ebe3b51f15480e28119fed75f1)
+  - TASKS/00-initial-backlog.md (793d22ea85a9ced68d841583a9becef73b115f122742132093335b1c4bd5cd9b)
+
+### nextjs-web-app__security-compliance__rapid
+- Output directory: test-artifacts/scaffold-variants/nextjs-web-app__security-compliance__rapid
+- Stack template: Next.js Web App (nextjs-web-app)
+- Category: security-compliance
+- Codex profile: Rapid (rapid)
+- Prompt pack: nextjs-web-app--security-compliance
+- Directory fingerprint: `985d129210b091e19ee81a0da40ed645dc5dcbc997395f9c1f7d601b2dc1e1fb`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (e550e6c8d54088d3fc68ded751ad390429498038084b3270153473e5b399d4f4)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (25d7cca3fcd5e6ae81b800c06d2175c88fffcadeadff6d4720ab0bc94546bb73)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (d1e151b7fa898266f9e36bb338ab90437be09bae1ff8708eaf476a4e98804944)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (59b867af25fefad615dff4a76f44a58d57a714e897de5cb2f13ce71031295a42)
+  - project.scaffold.json (ad819ae41c4adb08a95bdbbfeac0e19f689418365a18197e82af646e2a8bd16b)
+  - PROMPTS/01-bootstrap-and-inventory.md (f5c7944ca330b048d62dd287ca12a03709cbb63b502cb5895d944cd1b27da07e)
+  - PROMPTS/02-design-plan.md (ed74865325e362f4a33b907e756dc9e09398e93167258302a88b41d28fbb1535)
+  - PROMPTS/03-implement-feature.md (07e5329d409bc49b28983818688d61d38b03b09220560fbcfa75cdcf374be4e2)
+  - PROMPTS/04-fix-bug.md (096edbeaca21b5c4f4faa0160a886aad95bb15372d910c3845d82d3b948f3c87)
+  - PROMPTS/05-validate-and-test.md (557418bb55d2014ea489acc5730289a5c5bb0b4474c08e0637270d5b96cb11c4)
+  - PROMPTS/06-deep-codebase-review.md (5e54468a6b414577ecf044b259b95e8fd2ae7f853ca4c81c68a5603fc6d637fb)
+  - PROMPTS/07-release-readiness.md (afa2ecaaf3d6d2511b693474a0004e76d08d71663ee74a1dabd940e3bbdc8e32)
+  - README.md (7f38ca591225511092b776609f699428d61b4978c9387e8c171d56c3ba9cb772)
+  - TASKS/00-initial-backlog.md (793d22ea85a9ced68d841583a9becef73b115f122742132093335b1c4bd5cd9b)
+
+### nextjs-web-app__security-compliance__strict
+- Output directory: test-artifacts/scaffold-variants/nextjs-web-app__security-compliance__strict
+- Stack template: Next.js Web App (nextjs-web-app)
+- Category: security-compliance
+- Codex profile: Strict (strict)
+- Prompt pack: nextjs-web-app--security-compliance
+- Directory fingerprint: `34a11ffe1e29b1516dde821130f5257344b9467609346b4a076bec5c1248dc85`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (59544f67f571343f41afcaa04de8ec25927a1616a137dccf6c84c29b86874bd1)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (25d7cca3fcd5e6ae81b800c06d2175c88fffcadeadff6d4720ab0bc94546bb73)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (2e3631baa6ba40f3349a226994ee682b24b6a9fc77240b9793f73368ae5bcd8a)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (1cfca90c08998c8d27673dda1b58399d2dde55ee4d084dbf80b8e1fa44b041fd)
+  - project.scaffold.json (c10b456d3587d0921d2e75413d98b215ee95d3fb142c3b87ffdbf1af949c5c2d)
+  - PROMPTS/01-bootstrap-and-inventory.md (f5c7944ca330b048d62dd287ca12a03709cbb63b502cb5895d944cd1b27da07e)
+  - PROMPTS/02-design-plan.md (ed74865325e362f4a33b907e756dc9e09398e93167258302a88b41d28fbb1535)
+  - PROMPTS/03-implement-feature.md (07e5329d409bc49b28983818688d61d38b03b09220560fbcfa75cdcf374be4e2)
+  - PROMPTS/04-fix-bug.md (096edbeaca21b5c4f4faa0160a886aad95bb15372d910c3845d82d3b948f3c87)
+  - PROMPTS/05-validate-and-test.md (557418bb55d2014ea489acc5730289a5c5bb0b4474c08e0637270d5b96cb11c4)
+  - PROMPTS/06-deep-codebase-review.md (5e54468a6b414577ecf044b259b95e8fd2ae7f853ca4c81c68a5603fc6d637fb)
+  - PROMPTS/07-release-readiness.md (afa2ecaaf3d6d2511b693474a0004e76d08d71663ee74a1dabd940e3bbdc8e32)
+  - README.md (27e2f721de90f815c458d0909773d3e021785d2b414daf789f9fe09876a488ed)
+  - TASKS/00-initial-backlog.md (793d22ea85a9ced68d841583a9becef73b115f122742132093335b1c4bd5cd9b)
+
+### nextjs-web-app__web-platform__balanced
+- Output directory: test-artifacts/scaffold-variants/nextjs-web-app__web-platform__balanced
+- Stack template: Next.js Web App (nextjs-web-app)
+- Category: web-platform
+- Codex profile: Balanced (balanced)
+- Prompt pack: nextjs-web-app--web-platform
+- Directory fingerprint: `6321033f4fc89f4142cf588abbd522fb887afc2bfee3c683333340a170c80946`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (9430f0e61018b3d196efa28ddec92980152f506d720ee91930f3de71bddc36e7)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (1e11c966709b9f0b83423e804197ea9345b73f11b55f81cbc9351933dad06ced)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (78646a2a99c040b9da0d9f1f7cf9150939c26e125d4e5972cd4b835ce5819214)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (34505f46e8fb5393a498a520d7329b72f639f73369b32f039cfefd404472c3e4)
+  - project.scaffold.json (0f23fa2cd93e515d10a28193e63f4fbea6f0d6582c1381581451dfedbd7d6864)
+  - PROMPTS/01-bootstrap-and-inventory.md (76ca5908bd8518a6819832087c2345dcb48b72fc578c302429183d567e6547e0)
+  - PROMPTS/02-design-plan.md (76c43aeea3c33c067dd01c9f9d9acb1dd7d24128c1015f03300f7630d7bf30b8)
+  - PROMPTS/03-implement-feature.md (eab920fa57105b6ef0df2a38775719b7421b30847cc8fc98d6489b635918e1c0)
+  - PROMPTS/04-fix-bug.md (d1ca6316f60933e5eab5aa073af1dbb61ce10f19dc7951eb858a6b85a33f0924)
+  - PROMPTS/05-validate-and-test.md (22fafcb523343615ed8557fcb5842b79f6808366dbf51179c0046a8b882d64ff)
+  - PROMPTS/06-deep-codebase-review.md (d68afff98dea32e8041f8925d226f323a3b1b1303ea9c6a241b024363eaf271c)
+  - PROMPTS/07-release-readiness.md (8e7e107f17601572a12a0f6ee2a5da46cfa5fbb13a3e89c8988ef23f9f3d7078)
+  - README.md (9ff3a5a513af32fa569c5e665ea3dd67b9e7d5bbda30b48457cc5a6d1d2181fc)
+  - TASKS/00-initial-backlog.md (793d22ea85a9ced68d841583a9becef73b115f122742132093335b1c4bd5cd9b)
+
+### nextjs-web-app__web-platform__rapid
+- Output directory: test-artifacts/scaffold-variants/nextjs-web-app__web-platform__rapid
+- Stack template: Next.js Web App (nextjs-web-app)
+- Category: web-platform
+- Codex profile: Rapid (rapid)
+- Prompt pack: nextjs-web-app--web-platform
+- Directory fingerprint: `7cba977091a946fbf64a703bd93cd91d5720eb0fc735533ca85a6e816ed1c1ef`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (b882c353602b46a76289f33bb5de5f47de06d73fda683099afa2ac98fbddf818)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (1e11c966709b9f0b83423e804197ea9345b73f11b55f81cbc9351933dad06ced)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (d1bee3e6946e1ccd505f0f88d75d834a46b2261cad2d0cb0b93d9d0413e7cb74)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (f8e2145f3cf3071be51317c7f68666befa796ace82619c587588b7ff0b26a526)
+  - project.scaffold.json (9c218ab3463c85353613c63202fbef386513dbe7c50f9875aa8e35c89fd300bd)
+  - PROMPTS/01-bootstrap-and-inventory.md (76ca5908bd8518a6819832087c2345dcb48b72fc578c302429183d567e6547e0)
+  - PROMPTS/02-design-plan.md (76c43aeea3c33c067dd01c9f9d9acb1dd7d24128c1015f03300f7630d7bf30b8)
+  - PROMPTS/03-implement-feature.md (eab920fa57105b6ef0df2a38775719b7421b30847cc8fc98d6489b635918e1c0)
+  - PROMPTS/04-fix-bug.md (d1ca6316f60933e5eab5aa073af1dbb61ce10f19dc7951eb858a6b85a33f0924)
+  - PROMPTS/05-validate-and-test.md (22fafcb523343615ed8557fcb5842b79f6808366dbf51179c0046a8b882d64ff)
+  - PROMPTS/06-deep-codebase-review.md (d68afff98dea32e8041f8925d226f323a3b1b1303ea9c6a241b024363eaf271c)
+  - PROMPTS/07-release-readiness.md (8e7e107f17601572a12a0f6ee2a5da46cfa5fbb13a3e89c8988ef23f9f3d7078)
+  - README.md (af75b4097e155b11355a07b2391271603a95288a472ce5deb3b5348663498966)
+  - TASKS/00-initial-backlog.md (793d22ea85a9ced68d841583a9becef73b115f122742132093335b1c4bd5cd9b)
+
+### nextjs-web-app__web-platform__strict
+- Output directory: test-artifacts/scaffold-variants/nextjs-web-app__web-platform__strict
+- Stack template: Next.js Web App (nextjs-web-app)
+- Category: web-platform
+- Codex profile: Strict (strict)
+- Prompt pack: nextjs-web-app--web-platform
+- Directory fingerprint: `8bfef5156bf2a21be096bcbd9fb5af8d7b92d1616d4b4135d226f8fa8493e4e9`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (37c7adec32ad671aff4b82b4ddb86fc663172d703aea91539266f5c5a777732e)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (1e11c966709b9f0b83423e804197ea9345b73f11b55f81cbc9351933dad06ced)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (974f635d3ae75304ed7a31540628c3daad8e8e449aa853c5cf307966ae971105)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (2630de22e759ac60f0b81e2c20941f44cdc219b351e62b45dbe52de0af1acedb)
+  - project.scaffold.json (797b2f3825c64aff1bcb924b1c2bc66c855def9bf8079f526a5e8509cc41db90)
+  - PROMPTS/01-bootstrap-and-inventory.md (76ca5908bd8518a6819832087c2345dcb48b72fc578c302429183d567e6547e0)
+  - PROMPTS/02-design-plan.md (76c43aeea3c33c067dd01c9f9d9acb1dd7d24128c1015f03300f7630d7bf30b8)
+  - PROMPTS/03-implement-feature.md (eab920fa57105b6ef0df2a38775719b7421b30847cc8fc98d6489b635918e1c0)
+  - PROMPTS/04-fix-bug.md (d1ca6316f60933e5eab5aa073af1dbb61ce10f19dc7951eb858a6b85a33f0924)
+  - PROMPTS/05-validate-and-test.md (22fafcb523343615ed8557fcb5842b79f6808366dbf51179c0046a8b882d64ff)
+  - PROMPTS/06-deep-codebase-review.md (d68afff98dea32e8041f8925d226f323a3b1b1303ea9c6a241b024363eaf271c)
+  - PROMPTS/07-release-readiness.md (8e7e107f17601572a12a0f6ee2a5da46cfa5fbb13a3e89c8988ef23f9f3d7078)
+  - README.md (4a733be22c69534a80e6bc1e18bb725ac2b4516ceb072aadaf91e6c75725bb14)
+  - TASKS/00-initial-backlog.md (793d22ea85a9ced68d841583a9becef73b115f122742132093335b1c4bd5cd9b)
+
+### node-api__api-service__balanced
+- Output directory: test-artifacts/scaffold-variants/node-api__api-service__balanced
+- Stack template: Node API Service (node-api)
+- Category: api-service
+- Codex profile: Balanced (balanced)
+- Prompt pack: node-api--api-service
+- Directory fingerprint: `6535c3d9404c1fc89583088e75e93db64a61fd81ff1a0eb1b0649adb5a3cf437`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (1f5c4482d804aeb7385c2080895c97de24ebafbcc297cbc6a524427e11727e72)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (81aa81cb758c7c6af72e97355d59d9af537165b46570a029cbc800fb54d8800d)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (eb822eb7b6ceaedb6263da0ad118f463d866de133aa8574dadb852b6ea516697)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (c3fa76b27d11ec946c658aedb1f1ff7e38bf21913380dcc7ffdbdf8f6333fa24)
+  - project.scaffold.json (231628ec6e002f014533cffcf61d077637be7eb43435c5d5e9e22c2572ce6b81)
+  - PROMPTS/01-bootstrap-and-inventory.md (964a0529e5f7c7ecac20a90895cb2e9d29c6b11772a37987ecd4cc456281653e)
+  - PROMPTS/02-design-plan.md (2619f41f93a56da5d0e3e9235e337f9b03b57a58e5c3c5e006beb41bbd89828c)
+  - PROMPTS/03-implement-feature.md (781715a821d0901caabaf5bf047481b2266ddfc5fa9724a4cde3198a472b5bd6)
+  - PROMPTS/04-fix-bug.md (4238e46a75b945041a6a9e23db706f91e27981ae20911d1c1e8fd360fa8b0525)
+  - PROMPTS/05-validate-and-test.md (2a1a1c557e9178924998689a7b4a5f669912ed5410c36aea170ff012979a739a)
+  - PROMPTS/06-deep-codebase-review.md (f24782b51a90771f3f35890728facf6f209c8730a5135a0be951f1e6808b9d5e)
+  - PROMPTS/07-release-readiness.md (b0f1cb5dbf3151e87906a02fe6156b1b18a5fdd6af17c439a3c716fd22a791a9)
+  - README.md (8d50ba1866e3d259bd4e36a7812c7702e88790e25eab448bd6066067cc9b2ceb)
+  - TASKS/00-initial-backlog.md (342bb6ef83d064705289e57d4381493868a59b91096d95ab2ddcc84cfc672460)
+
+### node-api__api-service__rapid
+- Output directory: test-artifacts/scaffold-variants/node-api__api-service__rapid
+- Stack template: Node API Service (node-api)
+- Category: api-service
+- Codex profile: Rapid (rapid)
+- Prompt pack: node-api--api-service
+- Directory fingerprint: `75a4a830679cfa36121032237a21b4fc6c43d12d58c008d4e87f99ea887584c5`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (37c59f29cd694c13be0e271952d3bdce32d3bf15b0beda602ac71103699e04a0)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (81aa81cb758c7c6af72e97355d59d9af537165b46570a029cbc800fb54d8800d)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (f28308a495bdfe8a73bb0fe15fefd2b7a23f385304de95f10270e7f6209803a7)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (602219fd8877e3fdf377c8c590fdab14fedeec5e24d35b8a621e9bbe5c141acf)
+  - project.scaffold.json (e3282e2b87ff48308d1104e207229b60e7066af8d587c9d79020ce989de2d6a6)
+  - PROMPTS/01-bootstrap-and-inventory.md (964a0529e5f7c7ecac20a90895cb2e9d29c6b11772a37987ecd4cc456281653e)
+  - PROMPTS/02-design-plan.md (2619f41f93a56da5d0e3e9235e337f9b03b57a58e5c3c5e006beb41bbd89828c)
+  - PROMPTS/03-implement-feature.md (781715a821d0901caabaf5bf047481b2266ddfc5fa9724a4cde3198a472b5bd6)
+  - PROMPTS/04-fix-bug.md (4238e46a75b945041a6a9e23db706f91e27981ae20911d1c1e8fd360fa8b0525)
+  - PROMPTS/05-validate-and-test.md (2a1a1c557e9178924998689a7b4a5f669912ed5410c36aea170ff012979a739a)
+  - PROMPTS/06-deep-codebase-review.md (f24782b51a90771f3f35890728facf6f209c8730a5135a0be951f1e6808b9d5e)
+  - PROMPTS/07-release-readiness.md (b0f1cb5dbf3151e87906a02fe6156b1b18a5fdd6af17c439a3c716fd22a791a9)
+  - README.md (baa0b5dc6ce9bb449c2183cd289995fb45f70baf9542a75c89337f7e6b58e956)
+  - TASKS/00-initial-backlog.md (342bb6ef83d064705289e57d4381493868a59b91096d95ab2ddcc84cfc672460)
+
+### node-api__api-service__strict
+- Output directory: test-artifacts/scaffold-variants/node-api__api-service__strict
+- Stack template: Node API Service (node-api)
+- Category: api-service
+- Codex profile: Strict (strict)
+- Prompt pack: node-api--api-service
+- Directory fingerprint: `79efac88c9f40d2a011385a21a9531d94095d175b203efe700bafd1d3a63d4b8`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (73f0114497333eaf7e286d128969d2290ba9658671e14ba5bd9d3f71e9f1430c)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (81aa81cb758c7c6af72e97355d59d9af537165b46570a029cbc800fb54d8800d)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (17ee9a66060b88714b587a627a52dbb02be210cfe88a773dcf322803d6d6a08c)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (0ea7bcf394cc4cdae087338c48fe9e4af13209096d35b42ca61571bcfc852826)
+  - project.scaffold.json (4691f099114e4af8d4dbddec4518ef78dffcfe49bd4ba1df320d1fbaaa0af0f3)
+  - PROMPTS/01-bootstrap-and-inventory.md (964a0529e5f7c7ecac20a90895cb2e9d29c6b11772a37987ecd4cc456281653e)
+  - PROMPTS/02-design-plan.md (2619f41f93a56da5d0e3e9235e337f9b03b57a58e5c3c5e006beb41bbd89828c)
+  - PROMPTS/03-implement-feature.md (781715a821d0901caabaf5bf047481b2266ddfc5fa9724a4cde3198a472b5bd6)
+  - PROMPTS/04-fix-bug.md (4238e46a75b945041a6a9e23db706f91e27981ae20911d1c1e8fd360fa8b0525)
+  - PROMPTS/05-validate-and-test.md (2a1a1c557e9178924998689a7b4a5f669912ed5410c36aea170ff012979a739a)
+  - PROMPTS/06-deep-codebase-review.md (f24782b51a90771f3f35890728facf6f209c8730a5135a0be951f1e6808b9d5e)
+  - PROMPTS/07-release-readiness.md (b0f1cb5dbf3151e87906a02fe6156b1b18a5fdd6af17c439a3c716fd22a791a9)
+  - README.md (a10214dcc1e2ce6df520355832924a15aef294a9fed19bfcfec3c300401a974f)
+  - TASKS/00-initial-backlog.md (342bb6ef83d064705289e57d4381493868a59b91096d95ab2ddcc84cfc672460)
+
+### node-api__automation__balanced
+- Output directory: test-artifacts/scaffold-variants/node-api__automation__balanced
+- Stack template: Node API Service (node-api)
+- Category: automation
+- Codex profile: Balanced (balanced)
+- Prompt pack: node-api--automation
+- Directory fingerprint: `f6bf1655a14a6e8d10a84bae699c344e57cccb96da9d5f66e527ee86b2a4bb01`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (6517fb3afd9415bbbf7a14210b9280e3feafcf773e76074b500ab2c60e429955)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (159483dca74f33c9a78bfbb1c4bea335521efc722b395a13390ff35462dbecbb)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (46bb76290de3d467360a2dd0f4565c345cbb0f2b3538f8dba2a90cc9d377124a)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (0074bc9b895bea695d4f7826b3725470ff5352fecfe9abfea712daaaa4cf0bc9)
+  - project.scaffold.json (02188d05178bedf12c07ef41fd422225f0925e80b98834518ce8c40871627946)
+  - PROMPTS/01-bootstrap-and-inventory.md (43a013524fc2c596528a5ec0e30336a2d7ac4d5f102c284c725ed97f443b0666)
+  - PROMPTS/02-design-plan.md (627e675f52d212733b50a0e0544d44626ff0a41d9b1711c3c7c64b183ee4691f)
+  - PROMPTS/03-implement-feature.md (42e80fa2f279c9ca5ef64d8bab211da6dbe2bee6fe25ec9a3e9012773025ae2e)
+  - PROMPTS/04-fix-bug.md (16050dfd3c4cc2d7defcef804bac1de8610fa530b7c99da08101997c74593197)
+  - PROMPTS/05-validate-and-test.md (691c3cac7c58240477f732d2b5a95331c8cb1df01fa7258a24046169cf6175ef)
+  - PROMPTS/06-deep-codebase-review.md (2eafbcb738c2366ef34575b006b17d3584274bf0899037676af6721221c975a3)
+  - PROMPTS/07-release-readiness.md (d0ec39e2f02dcaf276948a38fcb07b7d4c0afca12091fb6dbed02407129edf08)
+  - README.md (55006b4589b7b40931de864563c1a56f486298bec9294b9ea2676a5bbcb182b0)
+  - TASKS/00-initial-backlog.md (342bb6ef83d064705289e57d4381493868a59b91096d95ab2ddcc84cfc672460)
+
+### node-api__automation__rapid
+- Output directory: test-artifacts/scaffold-variants/node-api__automation__rapid
+- Stack template: Node API Service (node-api)
+- Category: automation
+- Codex profile: Rapid (rapid)
+- Prompt pack: node-api--automation
+- Directory fingerprint: `0060ffb5633f59cd26b70b58e583083af4ea7aba92bf0c09a25ce5f1d677139c`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (c2f5153bc1dd979038fe9e0345b53359472defc575eadf9a2070452db6349f54)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (159483dca74f33c9a78bfbb1c4bea335521efc722b395a13390ff35462dbecbb)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (1175bc55c7961fd453a490bc9464ca734f7b67d5ee31544be82b370e83a9d022)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (5ee178cb453e2fe1747fde031ca2a3711458cc01ec980abddf31ff850b897bac)
+  - project.scaffold.json (35b7e10425f4b0a9baeddde90530309b11088cdb89552579a3dd61edd660c9a1)
+  - PROMPTS/01-bootstrap-and-inventory.md (43a013524fc2c596528a5ec0e30336a2d7ac4d5f102c284c725ed97f443b0666)
+  - PROMPTS/02-design-plan.md (627e675f52d212733b50a0e0544d44626ff0a41d9b1711c3c7c64b183ee4691f)
+  - PROMPTS/03-implement-feature.md (42e80fa2f279c9ca5ef64d8bab211da6dbe2bee6fe25ec9a3e9012773025ae2e)
+  - PROMPTS/04-fix-bug.md (16050dfd3c4cc2d7defcef804bac1de8610fa530b7c99da08101997c74593197)
+  - PROMPTS/05-validate-and-test.md (691c3cac7c58240477f732d2b5a95331c8cb1df01fa7258a24046169cf6175ef)
+  - PROMPTS/06-deep-codebase-review.md (2eafbcb738c2366ef34575b006b17d3584274bf0899037676af6721221c975a3)
+  - PROMPTS/07-release-readiness.md (d0ec39e2f02dcaf276948a38fcb07b7d4c0afca12091fb6dbed02407129edf08)
+  - README.md (161a8cdd2b7637cf6512180fcb8281a1ccbd9754e418ab77728f04f5129c075c)
+  - TASKS/00-initial-backlog.md (342bb6ef83d064705289e57d4381493868a59b91096d95ab2ddcc84cfc672460)
+
+### node-api__automation__strict
+- Output directory: test-artifacts/scaffold-variants/node-api__automation__strict
+- Stack template: Node API Service (node-api)
+- Category: automation
+- Codex profile: Strict (strict)
+- Prompt pack: node-api--automation
+- Directory fingerprint: `a87c8642de34b8f9d8d3da2041b565e6841c6d57b8a64d542d63d4ab1371ceea`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (00c97549fc07d1e106d887b2c483a4536647bb9aa2de84a70055941db39d118d)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (159483dca74f33c9a78bfbb1c4bea335521efc722b395a13390ff35462dbecbb)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (473a533dfd798f482b711df7ca55b262416b874c6d5b82041507a051587d3663)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (03d5fcb2b6b8f23f86db59102a91d7c46f0250237a1159e19c30b30e7dda0fa0)
+  - project.scaffold.json (680a30b2e7e50def328f5dbc54c21772c580bdedb473441c7938f4ae5c1d8596)
+  - PROMPTS/01-bootstrap-and-inventory.md (43a013524fc2c596528a5ec0e30336a2d7ac4d5f102c284c725ed97f443b0666)
+  - PROMPTS/02-design-plan.md (627e675f52d212733b50a0e0544d44626ff0a41d9b1711c3c7c64b183ee4691f)
+  - PROMPTS/03-implement-feature.md (42e80fa2f279c9ca5ef64d8bab211da6dbe2bee6fe25ec9a3e9012773025ae2e)
+  - PROMPTS/04-fix-bug.md (16050dfd3c4cc2d7defcef804bac1de8610fa530b7c99da08101997c74593197)
+  - PROMPTS/05-validate-and-test.md (691c3cac7c58240477f732d2b5a95331c8cb1df01fa7258a24046169cf6175ef)
+  - PROMPTS/06-deep-codebase-review.md (2eafbcb738c2366ef34575b006b17d3584274bf0899037676af6721221c975a3)
+  - PROMPTS/07-release-readiness.md (d0ec39e2f02dcaf276948a38fcb07b7d4c0afca12091fb6dbed02407129edf08)
+  - README.md (a5281e6368018c1217a1f9680864b59af53e99dca29936a1534d4bb11eb52474)
+  - TASKS/00-initial-backlog.md (342bb6ef83d064705289e57d4381493868a59b91096d95ab2ddcc84cfc672460)
+
+### node-api__research__balanced
+- Output directory: test-artifacts/scaffold-variants/node-api__research__balanced
+- Stack template: Node API Service (node-api)
+- Category: research
+- Codex profile: Balanced (balanced)
+- Prompt pack: node-api--research
+- Directory fingerprint: `aaacddde7d97de69df17309522e2fc4865ba6d01f55146b4dfb69826c4386803`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (a7b58bea2e3004d294242c009e28742c47214ae9e23bb88453aaeb37e2f2ac6d)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (369b085aa9c2680ecd87d935f0fd7b458130760b3a7e17242038d673f91d5ed3)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (151499755dd7203acd0673f707105d882a155648ab38d60291d287091fd07025)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (e8e92487a5511acd357005304589e36669dec430898582ba7eb16eb9ddc5f0bb)
+  - project.scaffold.json (245de69fc212c369fd86436f78908e65a0589080793f8dc51986bc88e5f1dde2)
+  - PROMPTS/01-bootstrap-and-inventory.md (510c0d17bdd64fa4bfc36ab9a43da025b34bd315cd2fc8b0fe31952e49caef48)
+  - PROMPTS/02-design-plan.md (ef78eca54c29b1578f764e97e8d498a4b8b9d4b81b2d30d7f937654ad9306dae)
+  - PROMPTS/03-implement-feature.md (5eb3512a8ebab9f966c352b53b4df12ae0ca0cff173cae4bc886896ff2338c34)
+  - PROMPTS/04-fix-bug.md (715002ba952e7da9e82691d7bd6874016d91d122ed38b8e615b2446e2418e679)
+  - PROMPTS/05-validate-and-test.md (992789f2577b12f9124708399bffcf338cc785c89c293ee7b0131997e0d00129)
+  - PROMPTS/06-deep-codebase-review.md (1ee2b58ab0251478610256cb0d153e123e5f56b31bcf2c4bf9bab3d1c5492ebd)
+  - PROMPTS/07-release-readiness.md (69529ca9a3716bb65546e428f7dc693d5c4918521fc264fefdba3670b5dfde4d)
+  - README.md (7a5041176f7f1abff0689668944084a1c5003a3b3d4465a627a89396fb9be136)
+  - TASKS/00-initial-backlog.md (342bb6ef83d064705289e57d4381493868a59b91096d95ab2ddcc84cfc672460)
+
+### node-api__research__rapid
+- Output directory: test-artifacts/scaffold-variants/node-api__research__rapid
+- Stack template: Node API Service (node-api)
+- Category: research
+- Codex profile: Rapid (rapid)
+- Prompt pack: node-api--research
+- Directory fingerprint: `822ac9c2638dc2ce776dd61b6abe7c777620061ea1f09e719d32498456466932`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (8ca80fa5a960414c33e4becfc28cddf97a35fec1cf434d14c7126b6f02dbc7ff)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (369b085aa9c2680ecd87d935f0fd7b458130760b3a7e17242038d673f91d5ed3)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (ca8139283fb027adbd0f399a812e1d89402a82be0ec0eee4c6ee691e1055b6e4)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (35e360b5d2a8bce5bd83fdedd647bfbcf11c5ed3959cc93e2c3e870edd7ac79b)
+  - project.scaffold.json (79ecfe20a03d1d0d05da87b2053665441ad304e93ba1131d91865888ea4e98b5)
+  - PROMPTS/01-bootstrap-and-inventory.md (510c0d17bdd64fa4bfc36ab9a43da025b34bd315cd2fc8b0fe31952e49caef48)
+  - PROMPTS/02-design-plan.md (ef78eca54c29b1578f764e97e8d498a4b8b9d4b81b2d30d7f937654ad9306dae)
+  - PROMPTS/03-implement-feature.md (5eb3512a8ebab9f966c352b53b4df12ae0ca0cff173cae4bc886896ff2338c34)
+  - PROMPTS/04-fix-bug.md (715002ba952e7da9e82691d7bd6874016d91d122ed38b8e615b2446e2418e679)
+  - PROMPTS/05-validate-and-test.md (992789f2577b12f9124708399bffcf338cc785c89c293ee7b0131997e0d00129)
+  - PROMPTS/06-deep-codebase-review.md (1ee2b58ab0251478610256cb0d153e123e5f56b31bcf2c4bf9bab3d1c5492ebd)
+  - PROMPTS/07-release-readiness.md (69529ca9a3716bb65546e428f7dc693d5c4918521fc264fefdba3670b5dfde4d)
+  - README.md (5e32a91898c0c484f57152b58203f1fd10a09e69f02fb039a5978b7fa7e416e6)
+  - TASKS/00-initial-backlog.md (342bb6ef83d064705289e57d4381493868a59b91096d95ab2ddcc84cfc672460)
+
+### node-api__research__strict
+- Output directory: test-artifacts/scaffold-variants/node-api__research__strict
+- Stack template: Node API Service (node-api)
+- Category: research
+- Codex profile: Strict (strict)
+- Prompt pack: node-api--research
+- Directory fingerprint: `a7d232e66b83d844a85f46474e2d733d3cd970248f039f91e66f049af2b0734a`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (c87249b0e18192ff6e04053bd5975c4a6ada1c2f65d4da1fa6febf819c7e88f6)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (369b085aa9c2680ecd87d935f0fd7b458130760b3a7e17242038d673f91d5ed3)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (a475e104bba335b91ffec5ba505dcab4419c8d03e1ff9481c362920e6588f356)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (8d3fad4010d66b8879714603216bf4923b8c869cb2279fe955fa8b345bc4507b)
+  - project.scaffold.json (5193427bc496f58f74fd7c0594bd4aa44dde535f42e8976ac91be030b756e271)
+  - PROMPTS/01-bootstrap-and-inventory.md (510c0d17bdd64fa4bfc36ab9a43da025b34bd315cd2fc8b0fe31952e49caef48)
+  - PROMPTS/02-design-plan.md (ef78eca54c29b1578f764e97e8d498a4b8b9d4b81b2d30d7f937654ad9306dae)
+  - PROMPTS/03-implement-feature.md (5eb3512a8ebab9f966c352b53b4df12ae0ca0cff173cae4bc886896ff2338c34)
+  - PROMPTS/04-fix-bug.md (715002ba952e7da9e82691d7bd6874016d91d122ed38b8e615b2446e2418e679)
+  - PROMPTS/05-validate-and-test.md (992789f2577b12f9124708399bffcf338cc785c89c293ee7b0131997e0d00129)
+  - PROMPTS/06-deep-codebase-review.md (1ee2b58ab0251478610256cb0d153e123e5f56b31bcf2c4bf9bab3d1c5492ebd)
+  - PROMPTS/07-release-readiness.md (69529ca9a3716bb65546e428f7dc693d5c4918521fc264fefdba3670b5dfde4d)
+  - README.md (fdfa6b5fcf0c4aeecbaf4ef3d1e4e23e71fce95c70ad4b390e90d0e390e41e99)
+  - TASKS/00-initial-backlog.md (342bb6ef83d064705289e57d4381493868a59b91096d95ab2ddcc84cfc672460)
+
+### node-api__security-compliance__balanced
+- Output directory: test-artifacts/scaffold-variants/node-api__security-compliance__balanced
+- Stack template: Node API Service (node-api)
+- Category: security-compliance
+- Codex profile: Balanced (balanced)
+- Prompt pack: node-api--security-compliance
+- Directory fingerprint: `7a63ffe7b41eafa3fbe3fc4f717ae2d25ed6cace662d7d599cb313402ea4e9fc`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (e248da185152f580ffc244fcc892e31e1987b55de340dc55538e80ecb0ed667f)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (c049b09d77c90bdfa0440d3b10378016312c1314a9e24b26bff956b85aa05852)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (d7107cc2659cc2c63c8ac6f1e2930acdb21aa97dd77f351987fd72536c9d27a7)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (5aad1fd9f6d0932f21c61837fc004f77096d38c7883645bdca01f2d872796c6a)
+  - project.scaffold.json (fe8425bf768297f1c6e0b9721363043cfe50bc561dfa1bac1c7b604e618d0ba0)
+  - PROMPTS/01-bootstrap-and-inventory.md (3e8173a3ef70cbefcafee695298d245903d8390d256bd8c0808b0881679090da)
+  - PROMPTS/02-design-plan.md (44be2f96f805959a70869bf9a3c0aad01dad7a2aa6b6bca9f167c8d05cd22605)
+  - PROMPTS/03-implement-feature.md (29391543af2ea21e46ae7edc2c6f5432090e79bb1ecca785df106f4c8204cba0)
+  - PROMPTS/04-fix-bug.md (1ea1baa678ffe18a32b82ad7864eaee08ed27eb1b14a5e41e660a6019002945f)
+  - PROMPTS/05-validate-and-test.md (402ba5350ad6cb120b1e8c91ef06eb096b94f2660bd2f34975638115922a31c8)
+  - PROMPTS/06-deep-codebase-review.md (588c091401b889ec1ce7bee5b4f3c427d8fceaa191728a20f6a57886d7ab33d7)
+  - PROMPTS/07-release-readiness.md (6e46d353542d13c3472019fb0d90d78b700436165b80241e34b98b3bfa00c143)
+  - README.md (7c22a3f53227df674a2d605f5aa26571744a62c7bd379f62f1ed854e58bdd84e)
+  - TASKS/00-initial-backlog.md (342bb6ef83d064705289e57d4381493868a59b91096d95ab2ddcc84cfc672460)
+
+### node-api__security-compliance__rapid
+- Output directory: test-artifacts/scaffold-variants/node-api__security-compliance__rapid
+- Stack template: Node API Service (node-api)
+- Category: security-compliance
+- Codex profile: Rapid (rapid)
+- Prompt pack: node-api--security-compliance
+- Directory fingerprint: `01fe645afd02167b4e12ddda2391cc8d893dce8abe5d0654596aa39437df2452`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (1cbbf9e8179ed7bb7af4e7d3d92b58160a0d23afe755fca92859d39e1ab1b7ce)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (c049b09d77c90bdfa0440d3b10378016312c1314a9e24b26bff956b85aa05852)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (d55614fe7b9fb60ed65665b9f983dc6d083e88bfed3415aa9447d9c31eb1fd82)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (e291c54745e1a079b94b6b0200713449acd826bf8b44eadacf7a55665fb295d7)
+  - project.scaffold.json (32f255ce13e40bcd93381c6883a52e363f1406e67f8b9f9a28bb5eb0fa61f894)
+  - PROMPTS/01-bootstrap-and-inventory.md (3e8173a3ef70cbefcafee695298d245903d8390d256bd8c0808b0881679090da)
+  - PROMPTS/02-design-plan.md (44be2f96f805959a70869bf9a3c0aad01dad7a2aa6b6bca9f167c8d05cd22605)
+  - PROMPTS/03-implement-feature.md (29391543af2ea21e46ae7edc2c6f5432090e79bb1ecca785df106f4c8204cba0)
+  - PROMPTS/04-fix-bug.md (1ea1baa678ffe18a32b82ad7864eaee08ed27eb1b14a5e41e660a6019002945f)
+  - PROMPTS/05-validate-and-test.md (402ba5350ad6cb120b1e8c91ef06eb096b94f2660bd2f34975638115922a31c8)
+  - PROMPTS/06-deep-codebase-review.md (588c091401b889ec1ce7bee5b4f3c427d8fceaa191728a20f6a57886d7ab33d7)
+  - PROMPTS/07-release-readiness.md (6e46d353542d13c3472019fb0d90d78b700436165b80241e34b98b3bfa00c143)
+  - README.md (44983dd48bb7c7dc891b473b19fb090a86186306a232bcd339590a56d7cb8d87)
+  - TASKS/00-initial-backlog.md (342bb6ef83d064705289e57d4381493868a59b91096d95ab2ddcc84cfc672460)
+
+### node-api__security-compliance__strict
+- Output directory: test-artifacts/scaffold-variants/node-api__security-compliance__strict
+- Stack template: Node API Service (node-api)
+- Category: security-compliance
+- Codex profile: Strict (strict)
+- Prompt pack: node-api--security-compliance
+- Directory fingerprint: `9eea03b2aa82ae4b62cde4863b5d3f7a498bb709b1b1c25908d5800a1db57c4a`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (df77954945fd47196aadbf3f406b11861e9d383d51e7a004a6414ab1068b4714)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (c049b09d77c90bdfa0440d3b10378016312c1314a9e24b26bff956b85aa05852)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (b407ae9c215d40c67718bce38bce2d6a126b86d12ef546f50972e76b61285cc3)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (0203f2921736fb67adf97e5977d2b1056f305154517a9ea73560f1b306f2fb65)
+  - project.scaffold.json (f85d78b223dc2c798157bd45902667dfa4f03a085fd718cef586c418c998ee08)
+  - PROMPTS/01-bootstrap-and-inventory.md (3e8173a3ef70cbefcafee695298d245903d8390d256bd8c0808b0881679090da)
+  - PROMPTS/02-design-plan.md (44be2f96f805959a70869bf9a3c0aad01dad7a2aa6b6bca9f167c8d05cd22605)
+  - PROMPTS/03-implement-feature.md (29391543af2ea21e46ae7edc2c6f5432090e79bb1ecca785df106f4c8204cba0)
+  - PROMPTS/04-fix-bug.md (1ea1baa678ffe18a32b82ad7864eaee08ed27eb1b14a5e41e660a6019002945f)
+  - PROMPTS/05-validate-and-test.md (402ba5350ad6cb120b1e8c91ef06eb096b94f2660bd2f34975638115922a31c8)
+  - PROMPTS/06-deep-codebase-review.md (588c091401b889ec1ce7bee5b4f3c427d8fceaa191728a20f6a57886d7ab33d7)
+  - PROMPTS/07-release-readiness.md (6e46d353542d13c3472019fb0d90d78b700436165b80241e34b98b3bfa00c143)
+  - README.md (055385db58d10092ae31ce68bebf5010b87104862edec6ccef6de2d0d1f4e71a)
+  - TASKS/00-initial-backlog.md (342bb6ef83d064705289e57d4381493868a59b91096d95ab2ddcc84cfc672460)
+
+### node-api__web-platform__balanced
+- Output directory: test-artifacts/scaffold-variants/node-api__web-platform__balanced
+- Stack template: Node API Service (node-api)
+- Category: web-platform
+- Codex profile: Balanced (balanced)
+- Prompt pack: node-api--web-platform
+- Directory fingerprint: `aa840dde27ff2630edb3c49ccf4b8206256296f94af199da13a5e612b032042c`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (8c20b6bcc34154d0dafeb9abf36ebbc4c56210126280385c82545516f28a7005)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (fdcf840c8c537573a8f7cd63b9d6f99db73e597162f6bbcf0c0f13c24e03cf07)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (2be7bd30344e272841195c8ba1e0847121c7ce0bbad3c17fa29d8141ef9f43dc)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (3fdd4b45420b5da68eb1e43837fddb5e6fa32d81e4cde8af31dc704f59c568ff)
+  - project.scaffold.json (30421944f8b4dbe5a7b2b2fda933262508692e2b257eb63b71bf2f89d5b317cf)
+  - PROMPTS/01-bootstrap-and-inventory.md (1a168c95bbe42e22d7f91b620147295a2d5a735c2c269d16a92cab97b277e817)
+  - PROMPTS/02-design-plan.md (739340472c9c58746780206e4b3d7ba8f214679d8a75f26ce8895064a4018112)
+  - PROMPTS/03-implement-feature.md (69c41088fc85e9283be2deb97bea4e730d66dbf46ce243837d0007aeab3e4f15)
+  - PROMPTS/04-fix-bug.md (fd6e8b2d69dc2930bd9df8eaab90f364a499d0e728ebe4091118221cfd3b709f)
+  - PROMPTS/05-validate-and-test.md (86fcea9a3d35625f29392aa434b09b166f3fcef6bd26655f9889aee1d9622375)
+  - PROMPTS/06-deep-codebase-review.md (7d6a8f6321993624bbdbf7877ec37a3b475460c4622bef89eafe72d80e9c0269)
+  - PROMPTS/07-release-readiness.md (a247c2d69216b7e3ca278bc43c554974cfc3b51be082d94cc8a16cd8fbc4c0b3)
+  - README.md (bd0935f1ec4cb98ecea7974fbd9d169bf5f033a6986095f031b0349ad15e9ab3)
+  - TASKS/00-initial-backlog.md (342bb6ef83d064705289e57d4381493868a59b91096d95ab2ddcc84cfc672460)
+
+### node-api__web-platform__rapid
+- Output directory: test-artifacts/scaffold-variants/node-api__web-platform__rapid
+- Stack template: Node API Service (node-api)
+- Category: web-platform
+- Codex profile: Rapid (rapid)
+- Prompt pack: node-api--web-platform
+- Directory fingerprint: `8853b05296d54c4a4f855d378688b0704d134a697ce392cf4f204f73571144fe`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (7246ff5ff8fd37c0817e221e245cd5e0c7c2da63a9d404d2a5c89c765585b447)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (fdcf840c8c537573a8f7cd63b9d6f99db73e597162f6bbcf0c0f13c24e03cf07)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (b04614d1f4fd13fe74b6640f758c97c5e1f1a7845e49f9d614f5c9e276e9a0b4)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (2d7601b2f71156b5de15eaa500981f2b2dc65e53ae9e533585441b94fa76d6de)
+  - project.scaffold.json (e0693dc5176ec7768d36e5539633b2b78aa31c99b14aa17fd6f05f663c591791)
+  - PROMPTS/01-bootstrap-and-inventory.md (1a168c95bbe42e22d7f91b620147295a2d5a735c2c269d16a92cab97b277e817)
+  - PROMPTS/02-design-plan.md (739340472c9c58746780206e4b3d7ba8f214679d8a75f26ce8895064a4018112)
+  - PROMPTS/03-implement-feature.md (69c41088fc85e9283be2deb97bea4e730d66dbf46ce243837d0007aeab3e4f15)
+  - PROMPTS/04-fix-bug.md (fd6e8b2d69dc2930bd9df8eaab90f364a499d0e728ebe4091118221cfd3b709f)
+  - PROMPTS/05-validate-and-test.md (86fcea9a3d35625f29392aa434b09b166f3fcef6bd26655f9889aee1d9622375)
+  - PROMPTS/06-deep-codebase-review.md (7d6a8f6321993624bbdbf7877ec37a3b475460c4622bef89eafe72d80e9c0269)
+  - PROMPTS/07-release-readiness.md (a247c2d69216b7e3ca278bc43c554974cfc3b51be082d94cc8a16cd8fbc4c0b3)
+  - README.md (f0876cc062348a9dcc0032eeda90cff721b915c9b6ff24bd892279c682ae7dde)
+  - TASKS/00-initial-backlog.md (342bb6ef83d064705289e57d4381493868a59b91096d95ab2ddcc84cfc672460)
+
+### node-api__web-platform__strict
+- Output directory: test-artifacts/scaffold-variants/node-api__web-platform__strict
+- Stack template: Node API Service (node-api)
+- Category: web-platform
+- Codex profile: Strict (strict)
+- Prompt pack: node-api--web-platform
+- Directory fingerprint: `21e7ad0c08cc37eae7da13bf843932c102e671971eb06a648d0a4530f10acf47`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (3655b24f473fa87007b89fcc6effa03d8acb5a179f747fd5182c3be324acca17)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (fdcf840c8c537573a8f7cd63b9d6f99db73e597162f6bbcf0c0f13c24e03cf07)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (7d53b5680a45644ffe81d7f041eef6881f7a3c04312fc63585576e4b5b3f7005)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (4a5ea17ac427dc1a2b9e1e7bb951872699f50b54c5e7322f1f6659e3711a1e10)
+  - project.scaffold.json (cedc413e2bd400ef5071a712f0133accc7534451e3a9adef0a4131264ca2ebe2)
+  - PROMPTS/01-bootstrap-and-inventory.md (1a168c95bbe42e22d7f91b620147295a2d5a735c2c269d16a92cab97b277e817)
+  - PROMPTS/02-design-plan.md (739340472c9c58746780206e4b3d7ba8f214679d8a75f26ce8895064a4018112)
+  - PROMPTS/03-implement-feature.md (69c41088fc85e9283be2deb97bea4e730d66dbf46ce243837d0007aeab3e4f15)
+  - PROMPTS/04-fix-bug.md (fd6e8b2d69dc2930bd9df8eaab90f364a499d0e728ebe4091118221cfd3b709f)
+  - PROMPTS/05-validate-and-test.md (86fcea9a3d35625f29392aa434b09b166f3fcef6bd26655f9889aee1d9622375)
+  - PROMPTS/06-deep-codebase-review.md (7d6a8f6321993624bbdbf7877ec37a3b475460c4622bef89eafe72d80e9c0269)
+  - PROMPTS/07-release-readiness.md (a247c2d69216b7e3ca278bc43c554974cfc3b51be082d94cc8a16cd8fbc4c0b3)
+  - README.md (2e8696d2674d3fbadd5eb77c5d6ac7b663f5c646a06f61f7fc87cb563a5e3ca5)
+  - TASKS/00-initial-backlog.md (342bb6ef83d064705289e57d4381493868a59b91096d95ab2ddcc84cfc672460)
+
+### python-cli__api-service__balanced
+- Output directory: test-artifacts/scaffold-variants/python-cli__api-service__balanced
+- Stack template: Python CLI (python-cli)
+- Category: api-service
+- Codex profile: Balanced (balanced)
+- Prompt pack: python-cli--api-service
+- Directory fingerprint: `70ee42d6ae5d585b045b7af9de9882d0bbf762cd9417293bd5df24efd6273143`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (c3e4252a53cb61425382aa1913caf13beae160000ffbb0f9350e939af701a474)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (9b8874303af248371e8823338f5ffb57760a2cc41391284a249181267b7e7328)
+  - ARCHITECTURE.md (fe1e4cf0a1b374efe895c7d31dfc265df64de35ca95a21be771d5c5ddb4eda76)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (fb9db8015b0c3cf37f197463cca755cbe7398cc192da5f54f9559c3d5263e296)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (f5457f1bdc033dc92af931a624ab7576d33ad183a807027dfec2904ca2329adb)
+  - project.scaffold.json (37a2b49c4662f01b995a8e453d23ad278d50e249ca7f3176992197e76ee748a7)
+  - PROMPTS/01-bootstrap-and-inventory.md (5dc79dff5536c96b3a4b1389f2e7e08105e58004256501b41ed877a36e7b05b7)
+  - PROMPTS/02-design-plan.md (fc49c9f40c4336f075da835e8bdf31356566898e59130ac5ca9e3a3088d1b51c)
+  - PROMPTS/03-implement-feature.md (1452c923cb412fd5f7dd61fa3091ace10dcb94a8fe14518fbb852f3cbaa375f8)
+  - PROMPTS/04-fix-bug.md (0697d35d62d62a195ca9c2896107784dd7afcb905e08bd7500136c6f768d7667)
+  - PROMPTS/05-validate-and-test.md (3664484a1d68496dbf7f87968376c589518d40903ec5d411b013bbad89c751f3)
+  - PROMPTS/06-deep-codebase-review.md (87d3665a9c40e3e1c9a02133cdfcd8e8b093d34bb5cb2b74ea86e4c96b543700)
+  - PROMPTS/07-release-readiness.md (bc7cbb9db50f2f47a746e143b855e62901293cb77d25c90ea2dfc37238a93da6)
+  - README.md (12b7edf5303c40b6680052b66a479b47d0e88d38a9916dea0aacf9432f479aec)
+  - TASKS/00-initial-backlog.md (698da4f14f596515823a41136d44f1fc5ad85cbe8565f58873bd01d70d306b38)
+
+### python-cli__api-service__rapid
+- Output directory: test-artifacts/scaffold-variants/python-cli__api-service__rapid
+- Stack template: Python CLI (python-cli)
+- Category: api-service
+- Codex profile: Rapid (rapid)
+- Prompt pack: python-cli--api-service
+- Directory fingerprint: `68f44c53a7f03a69e3307bf57749080fdfaeca8e0783213f7a09c021ec7f6c39`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (d813fbc49db0d62b4ceecba76db9d61069ab8645ab22c7dee903b7b5767c9947)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (9b8874303af248371e8823338f5ffb57760a2cc41391284a249181267b7e7328)
+  - ARCHITECTURE.md (fe1e4cf0a1b374efe895c7d31dfc265df64de35ca95a21be771d5c5ddb4eda76)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (dd97c421384fed9299876b433f030fec4dad31679b6270ead8e29137b39bebb2)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (63b60968bff362121e3b258076fac1c1d5cd71651848f47a9d2abaa542b611e4)
+  - project.scaffold.json (4e3532258622013b77f049435062ef03c1961d08b8338a2e39f654d0eff75149)
+  - PROMPTS/01-bootstrap-and-inventory.md (5dc79dff5536c96b3a4b1389f2e7e08105e58004256501b41ed877a36e7b05b7)
+  - PROMPTS/02-design-plan.md (fc49c9f40c4336f075da835e8bdf31356566898e59130ac5ca9e3a3088d1b51c)
+  - PROMPTS/03-implement-feature.md (1452c923cb412fd5f7dd61fa3091ace10dcb94a8fe14518fbb852f3cbaa375f8)
+  - PROMPTS/04-fix-bug.md (0697d35d62d62a195ca9c2896107784dd7afcb905e08bd7500136c6f768d7667)
+  - PROMPTS/05-validate-and-test.md (3664484a1d68496dbf7f87968376c589518d40903ec5d411b013bbad89c751f3)
+  - PROMPTS/06-deep-codebase-review.md (87d3665a9c40e3e1c9a02133cdfcd8e8b093d34bb5cb2b74ea86e4c96b543700)
+  - PROMPTS/07-release-readiness.md (bc7cbb9db50f2f47a746e143b855e62901293cb77d25c90ea2dfc37238a93da6)
+  - README.md (583d346ff8476a72d2a6a36fa6d1920889b6aad652674bec4d131637139292ff)
+  - TASKS/00-initial-backlog.md (698da4f14f596515823a41136d44f1fc5ad85cbe8565f58873bd01d70d306b38)
+
+### python-cli__api-service__strict
+- Output directory: test-artifacts/scaffold-variants/python-cli__api-service__strict
+- Stack template: Python CLI (python-cli)
+- Category: api-service
+- Codex profile: Strict (strict)
+- Prompt pack: python-cli--api-service
+- Directory fingerprint: `1ac5eab325b4defa987c4c1c26d4ab6c71c4d8e6fb24be6eb541af22799e2318`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (17558429e8ea1c1e2c21f5e401388b4942f86df3e4102a6bbd7d723a381e6251)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (9b8874303af248371e8823338f5ffb57760a2cc41391284a249181267b7e7328)
+  - ARCHITECTURE.md (fe1e4cf0a1b374efe895c7d31dfc265df64de35ca95a21be771d5c5ddb4eda76)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (d85fae587a6c59b4a6506152c8836a1f45fe3d77e9215a53474fe136795f693b)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (3f53548ea5578963f02b804e7061e6f8d4416de80b3fe964e88bc95eae1b9665)
+  - project.scaffold.json (2cad74d177e9a86d847377ab7be9a9e069ee2016964e15de8daa732f296d7ce3)
+  - PROMPTS/01-bootstrap-and-inventory.md (5dc79dff5536c96b3a4b1389f2e7e08105e58004256501b41ed877a36e7b05b7)
+  - PROMPTS/02-design-plan.md (fc49c9f40c4336f075da835e8bdf31356566898e59130ac5ca9e3a3088d1b51c)
+  - PROMPTS/03-implement-feature.md (1452c923cb412fd5f7dd61fa3091ace10dcb94a8fe14518fbb852f3cbaa375f8)
+  - PROMPTS/04-fix-bug.md (0697d35d62d62a195ca9c2896107784dd7afcb905e08bd7500136c6f768d7667)
+  - PROMPTS/05-validate-and-test.md (3664484a1d68496dbf7f87968376c589518d40903ec5d411b013bbad89c751f3)
+  - PROMPTS/06-deep-codebase-review.md (87d3665a9c40e3e1c9a02133cdfcd8e8b093d34bb5cb2b74ea86e4c96b543700)
+  - PROMPTS/07-release-readiness.md (bc7cbb9db50f2f47a746e143b855e62901293cb77d25c90ea2dfc37238a93da6)
+  - README.md (df54b7afc9aa31760498d243d95760b970f079fb8b2f198598e4e2cbb2b666e0)
+  - TASKS/00-initial-backlog.md (698da4f14f596515823a41136d44f1fc5ad85cbe8565f58873bd01d70d306b38)
+
+### python-cli__automation__balanced
+- Output directory: test-artifacts/scaffold-variants/python-cli__automation__balanced
+- Stack template: Python CLI (python-cli)
+- Category: automation
+- Codex profile: Balanced (balanced)
+- Prompt pack: python-cli--automation
+- Directory fingerprint: `63d932fe6c993de3433016274bbd5248c4c0a88aec7c98f69d6db2aa923446ef`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (3d2726ac0c2e15d3f82658f3b75fa9b515256dff3aa78e45a26fd29f6b1239a6)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (9b8874303af248371e8823338f5ffb57760a2cc41391284a249181267b7e7328)
+  - ARCHITECTURE.md (bcb4cac18c6aa272146d8ac1cdcc5d8fb85b6e15275cd35251498c7d245f696a)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (f3ecdbc7f5a0ab611d1f87123d0f27444788f4ea6d3597df822f2388f453a11a)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (d97e732e86b4a807d81a8c44ae9157f4089b9c31ed2b4d25c95d07e458fe35aa)
+  - project.scaffold.json (b9e1a5c5149dd0739f24cf91b4e613b56692610e41efad3d1dc15427ff836a78)
+  - PROMPTS/01-bootstrap-and-inventory.md (6ab66eab8f5de203f68d5a582f73c4e5868e78097d620a65ba2ebe187304fc59)
+  - PROMPTS/02-design-plan.md (a334665e93c1a80529c43b8dedea2a10c4152ecc656a7087058e859c81f1253f)
+  - PROMPTS/03-implement-feature.md (78c368a184d7d83ec50cb921e6a71f73ce471c67b73e113d637349597fa999b9)
+  - PROMPTS/04-fix-bug.md (006a7fba4ddc3182d276574a6f2d287ca3543a339527a482487eae7456fc065f)
+  - PROMPTS/05-validate-and-test.md (72b67b141b5918be1eb21fe5b9c9a56214d988a71d004e7a45b6f050c3bbde17)
+  - PROMPTS/06-deep-codebase-review.md (e993e99a07da16bd2000641c5cdde181817eb6ebbcd403997554c797eb671ca0)
+  - PROMPTS/07-release-readiness.md (91380a421503a787371c23195f949fb60e33ac251a3a3eaca5d675208d0baef0)
+  - README.md (ea4176ac15d08af507a338400183308b8f8466e17a32efa2dc65f83affbbc75c)
+  - TASKS/00-initial-backlog.md (698da4f14f596515823a41136d44f1fc5ad85cbe8565f58873bd01d70d306b38)
+
+### python-cli__automation__rapid
+- Output directory: test-artifacts/scaffold-variants/python-cli__automation__rapid
+- Stack template: Python CLI (python-cli)
+- Category: automation
+- Codex profile: Rapid (rapid)
+- Prompt pack: python-cli--automation
+- Directory fingerprint: `7dc8c6785c1b4fb0a8408dcc20c755a23b3b3c5f586c627cfcd5c72b17eb3838`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (5a1d58c34f77cbbf64542e0342721961be13994327c03eb4529e5daa9e1475ce)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (9b8874303af248371e8823338f5ffb57760a2cc41391284a249181267b7e7328)
+  - ARCHITECTURE.md (bcb4cac18c6aa272146d8ac1cdcc5d8fb85b6e15275cd35251498c7d245f696a)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (72b334462f7ab7c7a1c4a19a9cf0a8b117992d719cecb1630ca6b6d6c5d2beab)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (ba87d65d8240f1e0cf47cb0e3bfb4ebd5d280e254f59489d1821c626c5934b06)
+  - project.scaffold.json (8798acd01d44e8b5d35e067469a71e5de266ec98d7960139d80c441ef4cfd638)
+  - PROMPTS/01-bootstrap-and-inventory.md (6ab66eab8f5de203f68d5a582f73c4e5868e78097d620a65ba2ebe187304fc59)
+  - PROMPTS/02-design-plan.md (a334665e93c1a80529c43b8dedea2a10c4152ecc656a7087058e859c81f1253f)
+  - PROMPTS/03-implement-feature.md (78c368a184d7d83ec50cb921e6a71f73ce471c67b73e113d637349597fa999b9)
+  - PROMPTS/04-fix-bug.md (006a7fba4ddc3182d276574a6f2d287ca3543a339527a482487eae7456fc065f)
+  - PROMPTS/05-validate-and-test.md (72b67b141b5918be1eb21fe5b9c9a56214d988a71d004e7a45b6f050c3bbde17)
+  - PROMPTS/06-deep-codebase-review.md (e993e99a07da16bd2000641c5cdde181817eb6ebbcd403997554c797eb671ca0)
+  - PROMPTS/07-release-readiness.md (91380a421503a787371c23195f949fb60e33ac251a3a3eaca5d675208d0baef0)
+  - README.md (6395a39a7bf21bb8f9bc6276edd63f261877f5e5f08a6d0fd1768562e7b0fd8c)
+  - TASKS/00-initial-backlog.md (698da4f14f596515823a41136d44f1fc5ad85cbe8565f58873bd01d70d306b38)
+
+### python-cli__automation__strict
+- Output directory: test-artifacts/scaffold-variants/python-cli__automation__strict
+- Stack template: Python CLI (python-cli)
+- Category: automation
+- Codex profile: Strict (strict)
+- Prompt pack: python-cli--automation
+- Directory fingerprint: `bc7d4cea6017a435e3f8fd84d4402f435949edc56bc3e6d9658bd340224fcef4`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (b7d9ddf7824880f8f3683bc13bbbbbfe48bcb4c6fbeff0be6609482e3565301d)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (9b8874303af248371e8823338f5ffb57760a2cc41391284a249181267b7e7328)
+  - ARCHITECTURE.md (bcb4cac18c6aa272146d8ac1cdcc5d8fb85b6e15275cd35251498c7d245f696a)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (40c7538600db886a15901581bbff63037a5763f44d8d4ff5ad9273ad0f6b4b09)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (8d34a898a6db8302048ea2fb975aba364271f5ee07f4a37321bb7bb80f032227)
+  - project.scaffold.json (88ace4a5dc3e3c616a3b009394cf44ed9a7dee0d9fac9f5873c5f93c5966f9c3)
+  - PROMPTS/01-bootstrap-and-inventory.md (6ab66eab8f5de203f68d5a582f73c4e5868e78097d620a65ba2ebe187304fc59)
+  - PROMPTS/02-design-plan.md (a334665e93c1a80529c43b8dedea2a10c4152ecc656a7087058e859c81f1253f)
+  - PROMPTS/03-implement-feature.md (78c368a184d7d83ec50cb921e6a71f73ce471c67b73e113d637349597fa999b9)
+  - PROMPTS/04-fix-bug.md (006a7fba4ddc3182d276574a6f2d287ca3543a339527a482487eae7456fc065f)
+  - PROMPTS/05-validate-and-test.md (72b67b141b5918be1eb21fe5b9c9a56214d988a71d004e7a45b6f050c3bbde17)
+  - PROMPTS/06-deep-codebase-review.md (e993e99a07da16bd2000641c5cdde181817eb6ebbcd403997554c797eb671ca0)
+  - PROMPTS/07-release-readiness.md (91380a421503a787371c23195f949fb60e33ac251a3a3eaca5d675208d0baef0)
+  - README.md (445fe70a09ba34d4e981a851aa3d8857b8a06c7fb0e9b810b35590b665f62b8f)
+  - TASKS/00-initial-backlog.md (698da4f14f596515823a41136d44f1fc5ad85cbe8565f58873bd01d70d306b38)
+
+### python-cli__research__balanced
+- Output directory: test-artifacts/scaffold-variants/python-cli__research__balanced
+- Stack template: Python CLI (python-cli)
+- Category: research
+- Codex profile: Balanced (balanced)
+- Prompt pack: python-cli--research
+- Directory fingerprint: `e27bccf4079dabd48827667997f24920798ff9f9bf62f05670c6e2f34f3c6253`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (b876424e644a09f11891e1e4a2d5cc3db6d55576b51b883f43d32ee435288b2b)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (9b8874303af248371e8823338f5ffb57760a2cc41391284a249181267b7e7328)
+  - ARCHITECTURE.md (c6aa8528a3643590979f7bca76e18c606cb7ec1ac8fd0cb4d4491a6b8990bc70)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (9e73e4fa467102a2883e482e7a66f4fa264fd7218abd52429e6dd038552ea5bf)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (02245c19f14e626b53b00099da2fffbfc50448d193c757a88052dd9c8a9a6a0e)
+  - project.scaffold.json (13770c685ab9511cc028a89fd9a7f3f47b364b1eb1dceb81793702275eece862)
+  - PROMPTS/01-bootstrap-and-inventory.md (bbb1ecf62fc40c7d76ce9d97c71e0efead8eb0cbcac4d4586828777c0ff83c67)
+  - PROMPTS/02-design-plan.md (f0e7498b7faf70051434b14bbfa4ce6bfeba6e0d4866e252e30edeb9b75f355a)
+  - PROMPTS/03-implement-feature.md (3001b02c702da1861458fe0c9d87b9cf6a65723b2ad654d4deb68fed5115c144)
+  - PROMPTS/04-fix-bug.md (5fe19ff1c51222863b3ddb9fc32b555fc0ad4d8d487d88e05cf0f103c7745b78)
+  - PROMPTS/05-validate-and-test.md (7fb7e5bf2dd6d46a1def1c8072652bd070abafd908b9a355d8807ce274281a5d)
+  - PROMPTS/06-deep-codebase-review.md (84b6ae4a51d3d7f6eda9bcffdb7e698409b929083973d51c51380dfcb1c9bd25)
+  - PROMPTS/07-release-readiness.md (88a1db2891736507878a9c77967844dd2135f2451a7f02672577e8bc9b7eaca1)
+  - README.md (0c79d01b5fd3b2b0593e62dee38559a94bf61ed56c8f9ccc1a99c1f32dee2970)
+  - TASKS/00-initial-backlog.md (698da4f14f596515823a41136d44f1fc5ad85cbe8565f58873bd01d70d306b38)
+
+### python-cli__research__rapid
+- Output directory: test-artifacts/scaffold-variants/python-cli__research__rapid
+- Stack template: Python CLI (python-cli)
+- Category: research
+- Codex profile: Rapid (rapid)
+- Prompt pack: python-cli--research
+- Directory fingerprint: `206b810d5aeeef8dc23e7af1e704cfc7089b25dcb3c4111436e9a0321fa5c733`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (27aa2a6e61bef722aa6f75e4c33e7f98256c18a6b207700eb9f9f98ab54ef943)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (9b8874303af248371e8823338f5ffb57760a2cc41391284a249181267b7e7328)
+  - ARCHITECTURE.md (c6aa8528a3643590979f7bca76e18c606cb7ec1ac8fd0cb4d4491a6b8990bc70)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (a91f9f366a8c897d3af0d10f289822377ad645c82f2b21b82c4c43b6c13f91c5)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (bb4987f5de30fe748d8eb24a82c85fe863e910101272afa4269ba68960462470)
+  - project.scaffold.json (8f3505c1e3698250255f646323e31bdc9f5fac1b7af346493f1392b19e874dd8)
+  - PROMPTS/01-bootstrap-and-inventory.md (bbb1ecf62fc40c7d76ce9d97c71e0efead8eb0cbcac4d4586828777c0ff83c67)
+  - PROMPTS/02-design-plan.md (f0e7498b7faf70051434b14bbfa4ce6bfeba6e0d4866e252e30edeb9b75f355a)
+  - PROMPTS/03-implement-feature.md (3001b02c702da1861458fe0c9d87b9cf6a65723b2ad654d4deb68fed5115c144)
+  - PROMPTS/04-fix-bug.md (5fe19ff1c51222863b3ddb9fc32b555fc0ad4d8d487d88e05cf0f103c7745b78)
+  - PROMPTS/05-validate-and-test.md (7fb7e5bf2dd6d46a1def1c8072652bd070abafd908b9a355d8807ce274281a5d)
+  - PROMPTS/06-deep-codebase-review.md (84b6ae4a51d3d7f6eda9bcffdb7e698409b929083973d51c51380dfcb1c9bd25)
+  - PROMPTS/07-release-readiness.md (88a1db2891736507878a9c77967844dd2135f2451a7f02672577e8bc9b7eaca1)
+  - README.md (f3d5fa2e4ba9ea3314378ddf4bdea9f72d0ca70d9ff3eda34b89c08d164a8a0e)
+  - TASKS/00-initial-backlog.md (698da4f14f596515823a41136d44f1fc5ad85cbe8565f58873bd01d70d306b38)
+
+### python-cli__research__strict
+- Output directory: test-artifacts/scaffold-variants/python-cli__research__strict
+- Stack template: Python CLI (python-cli)
+- Category: research
+- Codex profile: Strict (strict)
+- Prompt pack: python-cli--research
+- Directory fingerprint: `13ed8ddc3876ef0474da7ef377d4e6ca6085f5f892beb94bd3a281e87529a099`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (bfc722f1b7b416b5ff16709858346ce6d54909a9031f4e1307455f6338478a25)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (9b8874303af248371e8823338f5ffb57760a2cc41391284a249181267b7e7328)
+  - ARCHITECTURE.md (c6aa8528a3643590979f7bca76e18c606cb7ec1ac8fd0cb4d4491a6b8990bc70)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (7d966eb30b17298ccfac47c29f4cea26e119689cf2969f1960d91ee755cd939f)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (4bbefbe008e0e8c87cc03141212271ae63a5a50dbad896d0bc6f8a64af1e87d5)
+  - project.scaffold.json (71fd70f715624e26b3f36908c288adbf0535419e3d5a330b25a90e7083db2cb4)
+  - PROMPTS/01-bootstrap-and-inventory.md (bbb1ecf62fc40c7d76ce9d97c71e0efead8eb0cbcac4d4586828777c0ff83c67)
+  - PROMPTS/02-design-plan.md (f0e7498b7faf70051434b14bbfa4ce6bfeba6e0d4866e252e30edeb9b75f355a)
+  - PROMPTS/03-implement-feature.md (3001b02c702da1861458fe0c9d87b9cf6a65723b2ad654d4deb68fed5115c144)
+  - PROMPTS/04-fix-bug.md (5fe19ff1c51222863b3ddb9fc32b555fc0ad4d8d487d88e05cf0f103c7745b78)
+  - PROMPTS/05-validate-and-test.md (7fb7e5bf2dd6d46a1def1c8072652bd070abafd908b9a355d8807ce274281a5d)
+  - PROMPTS/06-deep-codebase-review.md (84b6ae4a51d3d7f6eda9bcffdb7e698409b929083973d51c51380dfcb1c9bd25)
+  - PROMPTS/07-release-readiness.md (88a1db2891736507878a9c77967844dd2135f2451a7f02672577e8bc9b7eaca1)
+  - README.md (33b3f7aca20a73040d7824db253cae7fcb3f5a2f3a40e338904556d393f56077)
+  - TASKS/00-initial-backlog.md (698da4f14f596515823a41136d44f1fc5ad85cbe8565f58873bd01d70d306b38)
+
+### python-cli__security-compliance__balanced
+- Output directory: test-artifacts/scaffold-variants/python-cli__security-compliance__balanced
+- Stack template: Python CLI (python-cli)
+- Category: security-compliance
+- Codex profile: Balanced (balanced)
+- Prompt pack: python-cli--security-compliance
+- Directory fingerprint: `c624b07a1a67267bb6e81ecc40be4b383f16d765c8f399a280a0e50bb58abdee`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (c193ca8deaee92b9494ee966ad9410e58e1ea22462b722a6c72e3f55cb807fe9)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (9b8874303af248371e8823338f5ffb57760a2cc41391284a249181267b7e7328)
+  - ARCHITECTURE.md (169fd33ed295f8a8461e1f5e18855388aebeb24ea95db738c25ab354f1e67b99)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (935305748620cea21abe9feab12806b29a88e485ef7f3b72a45b900c55e1bc44)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (195a634dcf13212a9561f6f781bea543f983050c0b0f4caaa8ff0c24c9b806eb)
+  - project.scaffold.json (2966ebf87444de4431562ecdc0785af65b6687b37b8b52dc3d3e383bc68d779e)
+  - PROMPTS/01-bootstrap-and-inventory.md (ef5e8481213e46de8e3d79dbec5a8d1416baf5d3e5a6209c0246ad42803fc0ce)
+  - PROMPTS/02-design-plan.md (293b3e1eda134a38e1e192e5365ff3fbe0f7e14001c612fc03d64eb1617cb4d7)
+  - PROMPTS/03-implement-feature.md (cbb3dd357e9a15d664d93494997046f059d6257114869a53337350f9f8dc20e9)
+  - PROMPTS/04-fix-bug.md (7514d006e8efc0ffafbbc36a81b49fa721fcb35ee883f7cdb7a10e59c14fc216)
+  - PROMPTS/05-validate-and-test.md (b9e4efca8c3dab741ac4b9b3fdf1471a54395e71500a5bbe6bfca629fa8f3600)
+  - PROMPTS/06-deep-codebase-review.md (f4af81a8aab9b38c77a65f43703daf4c6c9f66b3649b4a3729ab7c6b33d14b89)
+  - PROMPTS/07-release-readiness.md (6a83f14f544ad4bed65595097f7bda0f321701e4daf97ac42e989a754900d809)
+  - README.md (d72c9f9138b9ffd49b719166a11d2b2c635fb9a529d60bcb9b5ca1c14126282d)
+  - TASKS/00-initial-backlog.md (698da4f14f596515823a41136d44f1fc5ad85cbe8565f58873bd01d70d306b38)
+
+### python-cli__security-compliance__rapid
+- Output directory: test-artifacts/scaffold-variants/python-cli__security-compliance__rapid
+- Stack template: Python CLI (python-cli)
+- Category: security-compliance
+- Codex profile: Rapid (rapid)
+- Prompt pack: python-cli--security-compliance
+- Directory fingerprint: `b128d5adb6d3f0e1ae7851a4fdb0ac05789ef8a89b27578f8eb3f369036aedae`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (058135e5dd7e6918d87ceda7e79e0ca479224f63da8507f107ee548e70ecaeb6)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (9b8874303af248371e8823338f5ffb57760a2cc41391284a249181267b7e7328)
+  - ARCHITECTURE.md (169fd33ed295f8a8461e1f5e18855388aebeb24ea95db738c25ab354f1e67b99)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (94ce10fecd4d521b05910e81ce2eb6ab0ec6faedd236bfd101f41d137c9985ce)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (2db29b9a5f75619128d15b90f4228023567bf11d3e2281c836da0a0c3035a921)
+  - project.scaffold.json (c5360111717db58cdcf59efc9ac8876c9f5585d31e0158482f74bfc2a94c6380)
+  - PROMPTS/01-bootstrap-and-inventory.md (ef5e8481213e46de8e3d79dbec5a8d1416baf5d3e5a6209c0246ad42803fc0ce)
+  - PROMPTS/02-design-plan.md (293b3e1eda134a38e1e192e5365ff3fbe0f7e14001c612fc03d64eb1617cb4d7)
+  - PROMPTS/03-implement-feature.md (cbb3dd357e9a15d664d93494997046f059d6257114869a53337350f9f8dc20e9)
+  - PROMPTS/04-fix-bug.md (7514d006e8efc0ffafbbc36a81b49fa721fcb35ee883f7cdb7a10e59c14fc216)
+  - PROMPTS/05-validate-and-test.md (b9e4efca8c3dab741ac4b9b3fdf1471a54395e71500a5bbe6bfca629fa8f3600)
+  - PROMPTS/06-deep-codebase-review.md (f4af81a8aab9b38c77a65f43703daf4c6c9f66b3649b4a3729ab7c6b33d14b89)
+  - PROMPTS/07-release-readiness.md (6a83f14f544ad4bed65595097f7bda0f321701e4daf97ac42e989a754900d809)
+  - README.md (5241db61a750a7f613aad0540fc68f39499fdcce177c0bd21550a9bf6b72c9da)
+  - TASKS/00-initial-backlog.md (698da4f14f596515823a41136d44f1fc5ad85cbe8565f58873bd01d70d306b38)
+
+### python-cli__security-compliance__strict
+- Output directory: test-artifacts/scaffold-variants/python-cli__security-compliance__strict
+- Stack template: Python CLI (python-cli)
+- Category: security-compliance
+- Codex profile: Strict (strict)
+- Prompt pack: python-cli--security-compliance
+- Directory fingerprint: `63b3d490df1f690335d44c8a1125a7a4f7020720a3ae947331297ff0debc282c`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (2207a4accd7d3bfc9942eb9bf78007a5db43119b796fdfbe9510865ce019e6f1)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (9b8874303af248371e8823338f5ffb57760a2cc41391284a249181267b7e7328)
+  - ARCHITECTURE.md (169fd33ed295f8a8461e1f5e18855388aebeb24ea95db738c25ab354f1e67b99)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (32c5dc91264d8f7a4a877168c9ddbbbca28632a82d53d54de74baa598da7100a)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (4664e03f3c5cdd07e8d8b769d02d955d8ca694aff87e4378c3132bea843632c3)
+  - project.scaffold.json (99d8478d2f39c23a7585535a05641df4944e462e5daf92ef8648206489547737)
+  - PROMPTS/01-bootstrap-and-inventory.md (ef5e8481213e46de8e3d79dbec5a8d1416baf5d3e5a6209c0246ad42803fc0ce)
+  - PROMPTS/02-design-plan.md (293b3e1eda134a38e1e192e5365ff3fbe0f7e14001c612fc03d64eb1617cb4d7)
+  - PROMPTS/03-implement-feature.md (cbb3dd357e9a15d664d93494997046f059d6257114869a53337350f9f8dc20e9)
+  - PROMPTS/04-fix-bug.md (7514d006e8efc0ffafbbc36a81b49fa721fcb35ee883f7cdb7a10e59c14fc216)
+  - PROMPTS/05-validate-and-test.md (b9e4efca8c3dab741ac4b9b3fdf1471a54395e71500a5bbe6bfca629fa8f3600)
+  - PROMPTS/06-deep-codebase-review.md (f4af81a8aab9b38c77a65f43703daf4c6c9f66b3649b4a3729ab7c6b33d14b89)
+  - PROMPTS/07-release-readiness.md (6a83f14f544ad4bed65595097f7bda0f321701e4daf97ac42e989a754900d809)
+  - README.md (a6715fc9459fd225ab5e173dd2d78ed0d503841715c17a7a1ef4d2f19433d806)
+  - TASKS/00-initial-backlog.md (698da4f14f596515823a41136d44f1fc5ad85cbe8565f58873bd01d70d306b38)
+
+### python-cli__web-platform__balanced
+- Output directory: test-artifacts/scaffold-variants/python-cli__web-platform__balanced
+- Stack template: Python CLI (python-cli)
+- Category: web-platform
+- Codex profile: Balanced (balanced)
+- Prompt pack: python-cli--web-platform
+- Directory fingerprint: `ddb8dd1abd51ecd2c9106389f816df77d79b91e97985d377fa04b5b8e613f0f9`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (7a7130ae870d8050e3e01b0147e48e22ec0199cf7aae74ec1fc3f5120c66fcdb)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (9b8874303af248371e8823338f5ffb57760a2cc41391284a249181267b7e7328)
+  - ARCHITECTURE.md (abfbfca8c1aefd7c76c44b869ea04227a6bdac77ca8468d18ba6af11683ede89)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (8f03975d6d0df1d6baff2ddcca5c48afbcd6d46914e0b46b52b7148724a045a0)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (ead8551a620dfaf41898eb9c220e89bcaf3751ed88a87c12ac9a7417559fc956)
+  - project.scaffold.json (b2d58b3b0489ee7e34e7a70b17e0d2c84bc74f5e92f1b4d45a9dbb2cc2cb8620)
+  - PROMPTS/01-bootstrap-and-inventory.md (41de5680399ae2c13d84d5d235b6a281ecd1797fcb8ae6c19553038ac4a40e73)
+  - PROMPTS/02-design-plan.md (ac5443061e96eb7e465d16b9b43a94160f5ee05d530efcdd5a328979bc41895b)
+  - PROMPTS/03-implement-feature.md (cbb132bd4c9c6caa9e019816c15745b20bc7b2c92e2cca56d5bb3bf8092db2ba)
+  - PROMPTS/04-fix-bug.md (300e76c4b9f0767e844021e084180f6bacba25134d1ae996891e799b9948aee7)
+  - PROMPTS/05-validate-and-test.md (624399000f11f06ba66c390223fafef36e591628f5426db69b92915d11531abc)
+  - PROMPTS/06-deep-codebase-review.md (b33852e34016f43f83b664cfded4e1b5b606b9b02e6fa1ad58c73acd9da43279)
+  - PROMPTS/07-release-readiness.md (a23d134f1b4cea2bb989da47f255d680a8795b8db48028014dd5dd515e6dccad)
+  - README.md (019b64a8e13a8a5d28560973c3e5eb0161f10a7614170e9b5b9d57001c5ebf61)
+  - TASKS/00-initial-backlog.md (698da4f14f596515823a41136d44f1fc5ad85cbe8565f58873bd01d70d306b38)
+
+### python-cli__web-platform__rapid
+- Output directory: test-artifacts/scaffold-variants/python-cli__web-platform__rapid
+- Stack template: Python CLI (python-cli)
+- Category: web-platform
+- Codex profile: Rapid (rapid)
+- Prompt pack: python-cli--web-platform
+- Directory fingerprint: `cc524adfe0ba456032905327d7b111f294cb1471e1515007f4a57f12c53932b2`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (8d395c390eba2b8cf0cc5d2fafb4059d7aa743926884ded8e62b354f198297c2)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (9b8874303af248371e8823338f5ffb57760a2cc41391284a249181267b7e7328)
+  - ARCHITECTURE.md (abfbfca8c1aefd7c76c44b869ea04227a6bdac77ca8468d18ba6af11683ede89)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (36811bef1ab26c756f0cdbe5bc43e8df5771b9005a3409a9dbd68baefdb60e43)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (600b604ddb1f2afd8c5f1479336e7698df88a9beed89f1175552de645b9c3a75)
+  - project.scaffold.json (ded40090b973787d044595415fbac994882d6964af62912bc827a64ddabe081d)
+  - PROMPTS/01-bootstrap-and-inventory.md (41de5680399ae2c13d84d5d235b6a281ecd1797fcb8ae6c19553038ac4a40e73)
+  - PROMPTS/02-design-plan.md (ac5443061e96eb7e465d16b9b43a94160f5ee05d530efcdd5a328979bc41895b)
+  - PROMPTS/03-implement-feature.md (cbb132bd4c9c6caa9e019816c15745b20bc7b2c92e2cca56d5bb3bf8092db2ba)
+  - PROMPTS/04-fix-bug.md (300e76c4b9f0767e844021e084180f6bacba25134d1ae996891e799b9948aee7)
+  - PROMPTS/05-validate-and-test.md (624399000f11f06ba66c390223fafef36e591628f5426db69b92915d11531abc)
+  - PROMPTS/06-deep-codebase-review.md (b33852e34016f43f83b664cfded4e1b5b606b9b02e6fa1ad58c73acd9da43279)
+  - PROMPTS/07-release-readiness.md (a23d134f1b4cea2bb989da47f255d680a8795b8db48028014dd5dd515e6dccad)
+  - README.md (437e8f565564feaab2029263e62d5c6505d3b62f78f005a787bcff18b86c80b7)
+  - TASKS/00-initial-backlog.md (698da4f14f596515823a41136d44f1fc5ad85cbe8565f58873bd01d70d306b38)
+
+### python-cli__web-platform__strict
+- Output directory: test-artifacts/scaffold-variants/python-cli__web-platform__strict
+- Stack template: Python CLI (python-cli)
+- Category: web-platform
+- Codex profile: Strict (strict)
+- Prompt pack: python-cli--web-platform
+- Directory fingerprint: `f776631f9279020ecec6bbc3918cc0c0ddb681b07382f5c6082db5d8d2b9eb8d`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (b7cb9a2517eb1804c55bc540bc6071a2cbaefc8a0f3a4905a8af19733d3054a2)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (9b8874303af248371e8823338f5ffb57760a2cc41391284a249181267b7e7328)
+  - ARCHITECTURE.md (abfbfca8c1aefd7c76c44b869ea04227a6bdac77ca8468d18ba6af11683ede89)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (dd39d48e588d6d80e9b51506653f72dadbcc1710da98baf752ca62c4fae620bd)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (9227ff22ca5fc62a33f248ff2dbfe45aa0cca805cde0543b23164bf1f703e3a7)
+  - project.scaffold.json (99335e3d2043f09375228c3ec6480ce5f39104b361dacfb190117b923933823e)
+  - PROMPTS/01-bootstrap-and-inventory.md (41de5680399ae2c13d84d5d235b6a281ecd1797fcb8ae6c19553038ac4a40e73)
+  - PROMPTS/02-design-plan.md (ac5443061e96eb7e465d16b9b43a94160f5ee05d530efcdd5a328979bc41895b)
+  - PROMPTS/03-implement-feature.md (cbb132bd4c9c6caa9e019816c15745b20bc7b2c92e2cca56d5bb3bf8092db2ba)
+  - PROMPTS/04-fix-bug.md (300e76c4b9f0767e844021e084180f6bacba25134d1ae996891e799b9948aee7)
+  - PROMPTS/05-validate-and-test.md (624399000f11f06ba66c390223fafef36e591628f5426db69b92915d11531abc)
+  - PROMPTS/06-deep-codebase-review.md (b33852e34016f43f83b664cfded4e1b5b606b9b02e6fa1ad58c73acd9da43279)
+  - PROMPTS/07-release-readiness.md (a23d134f1b4cea2bb989da47f255d680a8795b8db48028014dd5dd515e6dccad)
+  - README.md (ffff729214741b15b6fb1d461dfa627fc8ceab4fb8d9034e3f609a2cf9d47dae)
+  - TASKS/00-initial-backlog.md (698da4f14f596515823a41136d44f1fc5ad85cbe8565f58873bd01d70d306b38)
+
+### research-docs__api-service__balanced
+- Output directory: test-artifacts/scaffold-variants/research-docs__api-service__balanced
+- Stack template: Research/Docs Workspace (research-docs)
+- Category: api-service
+- Codex profile: Balanced (balanced)
+- Prompt pack: research-docs--api-service
+- Directory fingerprint: `471d207f8be6876042f05403238aba507bc551854947e87c45f84bbc17a6da40`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (37c74ce3856e9e00768da86ff15c2296b1db7e99d445be2e23df3460250032ba)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (e6dc1f56a08891c463289ee6e0562e07aa802e3caec1cee9786f6e69f2fea66e)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (91ffc5d2a8c8129b1b55f02ac95e9dafee692fce26fd1d32b7108fc0a625977d)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (e57629052bf083b6f2f9218f458f9124ef68616731ce12fbcf2f43bbef3c5cd4)
+  - project.scaffold.json (46124c7f8a2633d381219f5cdde771f5e513a4e0e0f38167bf942c38c9e8f7ea)
+  - PROMPTS/01-bootstrap-and-inventory.md (9847061c6b88d4b414001f09b84ac621650a74d08fcc183ee8d3667928082f66)
+  - PROMPTS/02-design-plan.md (b5f25903d610d248fd3f53be617fbb0b94b41fa359dc457c435bc5e00a98a373)
+  - PROMPTS/03-implement-feature.md (a7835c4c8d5af04992e9372b469c3a7e46ab10d8db7b286ed4000bb585777749)
+  - PROMPTS/04-fix-bug.md (04472f5dfa3353acded3ea352c980265e7962fe7099fc345de44d158f60fa8b5)
+  - PROMPTS/05-validate-and-test.md (c50d6280e4964cc02315b27fba76725562ee19f16eaaac9c75683a9070f0f401)
+  - PROMPTS/06-deep-codebase-review.md (43dc1c7b049fd4fc2f26db494f337221aa2e0e242a6ce6205e42a42dc4ce4205)
+  - PROMPTS/07-release-readiness.md (7c9e7a9dec6a7f3658a47e18c78112a6336da43ff1764023a71f4d10851c395e)
+  - README.md (0095b6dd57de924dc100eecb658c3a5f3bab91094c851b738282a2ffc57b6b1d)
+  - TASKS/00-initial-backlog.md (599298cd441d2f4efae0f394769c887ff9919b38dc008b27684e7f9e5ba5cd51)
+
+### research-docs__api-service__rapid
+- Output directory: test-artifacts/scaffold-variants/research-docs__api-service__rapid
+- Stack template: Research/Docs Workspace (research-docs)
+- Category: api-service
+- Codex profile: Rapid (rapid)
+- Prompt pack: research-docs--api-service
+- Directory fingerprint: `07183bbb57be94ceaab55c90a10b65bdbaf6fbba9142714878d1a02488e0110a`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (b26ed11133413fd9e21fc4d44e627e5140d64be25ef71961f32a1eff6c278e7f)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (e6dc1f56a08891c463289ee6e0562e07aa802e3caec1cee9786f6e69f2fea66e)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (c2638809491708bc5abb3cf940f087f029c255f01b7381884744b1d4e9636544)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (228b431cd73992379248e94dffca022e5d7cba36567faf870f619b76f2a7962a)
+  - project.scaffold.json (9596855f164242627b6a5eda1892c8cd3ad3a271b4d70cc05d196d7b4941fa34)
+  - PROMPTS/01-bootstrap-and-inventory.md (9847061c6b88d4b414001f09b84ac621650a74d08fcc183ee8d3667928082f66)
+  - PROMPTS/02-design-plan.md (b5f25903d610d248fd3f53be617fbb0b94b41fa359dc457c435bc5e00a98a373)
+  - PROMPTS/03-implement-feature.md (a7835c4c8d5af04992e9372b469c3a7e46ab10d8db7b286ed4000bb585777749)
+  - PROMPTS/04-fix-bug.md (04472f5dfa3353acded3ea352c980265e7962fe7099fc345de44d158f60fa8b5)
+  - PROMPTS/05-validate-and-test.md (c50d6280e4964cc02315b27fba76725562ee19f16eaaac9c75683a9070f0f401)
+  - PROMPTS/06-deep-codebase-review.md (43dc1c7b049fd4fc2f26db494f337221aa2e0e242a6ce6205e42a42dc4ce4205)
+  - PROMPTS/07-release-readiness.md (7c9e7a9dec6a7f3658a47e18c78112a6336da43ff1764023a71f4d10851c395e)
+  - README.md (98e4a49d4774bb82d31f23b79f868a7c63ab94d152f27eab2ee0851086816ccf)
+  - TASKS/00-initial-backlog.md (599298cd441d2f4efae0f394769c887ff9919b38dc008b27684e7f9e5ba5cd51)
+
+### research-docs__api-service__strict
+- Output directory: test-artifacts/scaffold-variants/research-docs__api-service__strict
+- Stack template: Research/Docs Workspace (research-docs)
+- Category: api-service
+- Codex profile: Strict (strict)
+- Prompt pack: research-docs--api-service
+- Directory fingerprint: `684f2d04f3c07a2db8b047fe3fd21c07cf7f26e5276d46f47c80e3463d95b4ac`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (86a6a174247dbe6782c2f21561f4fd82ca1e49383e0ba698fce91d8515faefd9)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (e6dc1f56a08891c463289ee6e0562e07aa802e3caec1cee9786f6e69f2fea66e)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (35ce52fdebe6414632c3fd928af5bdeea86588919776e0a5605cb70a8771b1c5)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (19fb66a8d5e66c07ffa0126ccc6107eb13b0fcc4371ec8eaf5089914a921a403)
+  - project.scaffold.json (161ad50f2ccab618ec1d29a45372c64aee9cd12cdbe59fe8002a1d4c8cb572c1)
+  - PROMPTS/01-bootstrap-and-inventory.md (9847061c6b88d4b414001f09b84ac621650a74d08fcc183ee8d3667928082f66)
+  - PROMPTS/02-design-plan.md (b5f25903d610d248fd3f53be617fbb0b94b41fa359dc457c435bc5e00a98a373)
+  - PROMPTS/03-implement-feature.md (a7835c4c8d5af04992e9372b469c3a7e46ab10d8db7b286ed4000bb585777749)
+  - PROMPTS/04-fix-bug.md (04472f5dfa3353acded3ea352c980265e7962fe7099fc345de44d158f60fa8b5)
+  - PROMPTS/05-validate-and-test.md (c50d6280e4964cc02315b27fba76725562ee19f16eaaac9c75683a9070f0f401)
+  - PROMPTS/06-deep-codebase-review.md (43dc1c7b049fd4fc2f26db494f337221aa2e0e242a6ce6205e42a42dc4ce4205)
+  - PROMPTS/07-release-readiness.md (7c9e7a9dec6a7f3658a47e18c78112a6336da43ff1764023a71f4d10851c395e)
+  - README.md (8e2a5a0e6f3d10af5049a73d9c4dbd70775276670b1fe2418028daa71a594cd7)
+  - TASKS/00-initial-backlog.md (599298cd441d2f4efae0f394769c887ff9919b38dc008b27684e7f9e5ba5cd51)
+
+### research-docs__automation__balanced
+- Output directory: test-artifacts/scaffold-variants/research-docs__automation__balanced
+- Stack template: Research/Docs Workspace (research-docs)
+- Category: automation
+- Codex profile: Balanced (balanced)
+- Prompt pack: research-docs--automation
+- Directory fingerprint: `c6c3d5b648cd0d8a718ebf12f320ee22b9da64d564f6a0c370d746e6f4016946`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (e368652b75692a429ac7a6d1f136ab9d0d36dfe528af0a028a2d606c347f859e)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (84e002d6538d568cfc19418cbe64023bab5c0b212d9c9b62987c29cdb07d811e)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (9e0615bcdb7a0de57e5c06b83978a03bba9b732280525c7f245f974d9cb8bc8e)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (af8f9f117b135ba97ba8021fae8bb7a4f1973a202fd8f4fd15629ca5dcd4f658)
+  - project.scaffold.json (81053afd04489d61057569f9f7c5f7495c777576c297cee385fd6a068a0dd4b8)
+  - PROMPTS/01-bootstrap-and-inventory.md (8462fb638b51974db48406c62fe8c655788fc8fa5308aa7ba872c6c6a01d106e)
+  - PROMPTS/02-design-plan.md (79848d1418ca2ff21905a79eda967ae610735afa8950165cd408f8d9df03f48c)
+  - PROMPTS/03-implement-feature.md (3aaa4d3a7f6628829bf680df21abdd22d07c848801256d6280355198d194e335)
+  - PROMPTS/04-fix-bug.md (673cbc7adb31dd2c06f7565b18760cbcef51b51062f471b0331b712a5cfbdbb9)
+  - PROMPTS/05-validate-and-test.md (fb05c35125fb19d33bc1d3907abce7825d1744222695bad3ac7ea824eeab6ad0)
+  - PROMPTS/06-deep-codebase-review.md (d29a7e97fb6e9a2a9f6409cc93ea7171a1107a5e2aaeef091fc2642e8cfca5ad)
+  - PROMPTS/07-release-readiness.md (c87f9fd52148aa0e92d2bfcbde70e4c9665285879afac116b2d512f0aaf41f3b)
+  - README.md (c5d0a4b4e02689457ab39ebb402ab767db89f4a8c6b258c608ae3790ecb63044)
+  - TASKS/00-initial-backlog.md (599298cd441d2f4efae0f394769c887ff9919b38dc008b27684e7f9e5ba5cd51)
+
+### research-docs__automation__rapid
+- Output directory: test-artifacts/scaffold-variants/research-docs__automation__rapid
+- Stack template: Research/Docs Workspace (research-docs)
+- Category: automation
+- Codex profile: Rapid (rapid)
+- Prompt pack: research-docs--automation
+- Directory fingerprint: `1d3c5f7778765d62a144535d60614a2634c7ea5c92196440a1cc41fe6653f4fc`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (ed2044b795ad7760cbc79600c53ba48aa4c6a53eb7d856bf32af8ffa9aa373f5)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (84e002d6538d568cfc19418cbe64023bab5c0b212d9c9b62987c29cdb07d811e)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (c8af6372f7a134d1407f1aa34910b3e0c7110a11bc43e6690a48b618e0970bd7)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (9bf9f22cfac2597e7bad670724b63c28a00caea1759ae0ea4967238a8052c0c9)
+  - project.scaffold.json (5c326e3fbd074af2e8020b1fd287cfae4a5d6a0008536d0e4dcc2232a383c971)
+  - PROMPTS/01-bootstrap-and-inventory.md (8462fb638b51974db48406c62fe8c655788fc8fa5308aa7ba872c6c6a01d106e)
+  - PROMPTS/02-design-plan.md (79848d1418ca2ff21905a79eda967ae610735afa8950165cd408f8d9df03f48c)
+  - PROMPTS/03-implement-feature.md (3aaa4d3a7f6628829bf680df21abdd22d07c848801256d6280355198d194e335)
+  - PROMPTS/04-fix-bug.md (673cbc7adb31dd2c06f7565b18760cbcef51b51062f471b0331b712a5cfbdbb9)
+  - PROMPTS/05-validate-and-test.md (fb05c35125fb19d33bc1d3907abce7825d1744222695bad3ac7ea824eeab6ad0)
+  - PROMPTS/06-deep-codebase-review.md (d29a7e97fb6e9a2a9f6409cc93ea7171a1107a5e2aaeef091fc2642e8cfca5ad)
+  - PROMPTS/07-release-readiness.md (c87f9fd52148aa0e92d2bfcbde70e4c9665285879afac116b2d512f0aaf41f3b)
+  - README.md (9da5bbfe116275bb10117ace74b0a920002b8fb38f3f062f07b4b004df633b9b)
+  - TASKS/00-initial-backlog.md (599298cd441d2f4efae0f394769c887ff9919b38dc008b27684e7f9e5ba5cd51)
+
+### research-docs__automation__strict
+- Output directory: test-artifacts/scaffold-variants/research-docs__automation__strict
+- Stack template: Research/Docs Workspace (research-docs)
+- Category: automation
+- Codex profile: Strict (strict)
+- Prompt pack: research-docs--automation
+- Directory fingerprint: `f613b0efacb78dac266510e73f3bdd8ebf886483b45b28ff3616d44d22b09c75`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (978902bffe0017ad448be4646f72bfd77fd63ccaa1ce6c77315a6230b6cb21a5)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (84e002d6538d568cfc19418cbe64023bab5c0b212d9c9b62987c29cdb07d811e)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (66643610125d7e300f725c2e76d162fe954b295e065b1b10b0d35bf19f3fe626)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (0bd6022483d41ad491e61b1c2f43df44b9f9b0f36bc9f3153551140273f86594)
+  - project.scaffold.json (a1ca71fa8477498fe54bd26ac6934510f5de33c0516d8abb498cf7913942b48e)
+  - PROMPTS/01-bootstrap-and-inventory.md (8462fb638b51974db48406c62fe8c655788fc8fa5308aa7ba872c6c6a01d106e)
+  - PROMPTS/02-design-plan.md (79848d1418ca2ff21905a79eda967ae610735afa8950165cd408f8d9df03f48c)
+  - PROMPTS/03-implement-feature.md (3aaa4d3a7f6628829bf680df21abdd22d07c848801256d6280355198d194e335)
+  - PROMPTS/04-fix-bug.md (673cbc7adb31dd2c06f7565b18760cbcef51b51062f471b0331b712a5cfbdbb9)
+  - PROMPTS/05-validate-and-test.md (fb05c35125fb19d33bc1d3907abce7825d1744222695bad3ac7ea824eeab6ad0)
+  - PROMPTS/06-deep-codebase-review.md (d29a7e97fb6e9a2a9f6409cc93ea7171a1107a5e2aaeef091fc2642e8cfca5ad)
+  - PROMPTS/07-release-readiness.md (c87f9fd52148aa0e92d2bfcbde70e4c9665285879afac116b2d512f0aaf41f3b)
+  - README.md (5fcc8ad006911d1bdb26042556b016382410081b4e3b9a33eedb6972dbce7644)
+  - TASKS/00-initial-backlog.md (599298cd441d2f4efae0f394769c887ff9919b38dc008b27684e7f9e5ba5cd51)
+
+### research-docs__research__balanced
+- Output directory: test-artifacts/scaffold-variants/research-docs__research__balanced
+- Stack template: Research/Docs Workspace (research-docs)
+- Category: research
+- Codex profile: Balanced (balanced)
+- Prompt pack: research-docs--research
+- Directory fingerprint: `be3202c42be55b9ff28e6682c176532bc15fad5ae3126ec27b53a92c2f9dbb66`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (d8d25ce8e9eea320b5b73806885fd33257c197b0a2dabbbc9a11beba6e6b25b5)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (8d1027a452a31cabd29f9569aca7b954eb6a9b1f95c105604638bfc0eed30fa7)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (f1abe62ca568ad9a1f9dcd24e59f722195f6900e5ffd032b44770283d1851f28)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (3e73687cb0b0f40b68d5dd4bbeb5ae1887bd41a8c7a81c893e8335714b5b728f)
+  - project.scaffold.json (f04b31b6916caa2cf3808ae00a349e50d5fcb6e4bda8a2695c5b2ef8b6610f44)
+  - PROMPTS/01-bootstrap-and-inventory.md (5172c1e8ab2e9a8f1112441f70ee2ebbdace4f31844fbde15f7370c0d5f92c02)
+  - PROMPTS/02-design-plan.md (2386e38348b702bb4ec0c3b438872c93fbb2afd555d67a8a8731d2f5db381fb1)
+  - PROMPTS/03-implement-feature.md (4ba911b457ce06a3d1d998e8dca6d0a09e525f6e22338918bc3c76fb4eda7139)
+  - PROMPTS/04-fix-bug.md (aad3b4a2978dfb46aee851140442511630519ecbcc2342e9e36c83db7bb71bb0)
+  - PROMPTS/05-validate-and-test.md (ea37e1fe0901cee95290322130d7e3317cc7ba2499ca786e0f84cacbdba03360)
+  - PROMPTS/06-deep-codebase-review.md (66988ddc060ef2dfc5d34ff84044da291f7311c75cf7db45c350cfab6e20b05c)
+  - PROMPTS/07-release-readiness.md (7c2fdd6dba21cbdb1fb6791fe5f3794a4b8c19eb92aaaf7e7e43813b2c5a9f19)
+  - README.md (9e1e568cb310f43042c4ed0c6e1b553d8a0188b19b3261cbefbf80e1d0b871e9)
+  - TASKS/00-initial-backlog.md (599298cd441d2f4efae0f394769c887ff9919b38dc008b27684e7f9e5ba5cd51)
+
+### research-docs__research__rapid
+- Output directory: test-artifacts/scaffold-variants/research-docs__research__rapid
+- Stack template: Research/Docs Workspace (research-docs)
+- Category: research
+- Codex profile: Rapid (rapid)
+- Prompt pack: research-docs--research
+- Directory fingerprint: `99a22752a87ea43a3b484e8aeaa92170c18c576759474a1566194ac3fe597280`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (1a5fc7285b7511e429d32c4d1522fe4962b5e6ec6291f1383b08afde594e53ca)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (8d1027a452a31cabd29f9569aca7b954eb6a9b1f95c105604638bfc0eed30fa7)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (9642149cb75794b9b46de3b8b3572b2d0dc53f3aeb97faa7c647c12cac2bf6d5)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (3064d1de83dcff83b1e76f1d21da9ebecac7757767640a04e4c1e1761aab9f34)
+  - project.scaffold.json (ed8c290468d9bb82b60b8765c9d529946d61fd1b0db9a0efb5fb909a720ecc70)
+  - PROMPTS/01-bootstrap-and-inventory.md (5172c1e8ab2e9a8f1112441f70ee2ebbdace4f31844fbde15f7370c0d5f92c02)
+  - PROMPTS/02-design-plan.md (2386e38348b702bb4ec0c3b438872c93fbb2afd555d67a8a8731d2f5db381fb1)
+  - PROMPTS/03-implement-feature.md (4ba911b457ce06a3d1d998e8dca6d0a09e525f6e22338918bc3c76fb4eda7139)
+  - PROMPTS/04-fix-bug.md (aad3b4a2978dfb46aee851140442511630519ecbcc2342e9e36c83db7bb71bb0)
+  - PROMPTS/05-validate-and-test.md (ea37e1fe0901cee95290322130d7e3317cc7ba2499ca786e0f84cacbdba03360)
+  - PROMPTS/06-deep-codebase-review.md (66988ddc060ef2dfc5d34ff84044da291f7311c75cf7db45c350cfab6e20b05c)
+  - PROMPTS/07-release-readiness.md (7c2fdd6dba21cbdb1fb6791fe5f3794a4b8c19eb92aaaf7e7e43813b2c5a9f19)
+  - README.md (37f1a6750f55b1f53be4840c4e80a8709a2cac893a21ea540fc5adca2c19bbd9)
+  - TASKS/00-initial-backlog.md (599298cd441d2f4efae0f394769c887ff9919b38dc008b27684e7f9e5ba5cd51)
+
+### research-docs__research__strict
+- Output directory: test-artifacts/scaffold-variants/research-docs__research__strict
+- Stack template: Research/Docs Workspace (research-docs)
+- Category: research
+- Codex profile: Strict (strict)
+- Prompt pack: research-docs--research
+- Directory fingerprint: `3f38ab9632194ed955e7c434f3d4a27fad853665d09b20d1d2d5d272ca84f2dc`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (39dc0446a58903525493cded37c5692987114edd9ec4d939b789cfefa1194db9)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (8d1027a452a31cabd29f9569aca7b954eb6a9b1f95c105604638bfc0eed30fa7)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (94501cf58f3e12ba04597a18296d1b532dbca78ada3ff242fdba7643f3b2db47)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (c221b3fd4e97ff104f01760ede1a602f97d26bbe45963a2ebfb3048318ff1dd6)
+  - project.scaffold.json (a56ffb2cb41a78cf1eb41c9f18c28dd7b8e3af92218db2887f7b8b5e0b47692b)
+  - PROMPTS/01-bootstrap-and-inventory.md (5172c1e8ab2e9a8f1112441f70ee2ebbdace4f31844fbde15f7370c0d5f92c02)
+  - PROMPTS/02-design-plan.md (2386e38348b702bb4ec0c3b438872c93fbb2afd555d67a8a8731d2f5db381fb1)
+  - PROMPTS/03-implement-feature.md (4ba911b457ce06a3d1d998e8dca6d0a09e525f6e22338918bc3c76fb4eda7139)
+  - PROMPTS/04-fix-bug.md (aad3b4a2978dfb46aee851140442511630519ecbcc2342e9e36c83db7bb71bb0)
+  - PROMPTS/05-validate-and-test.md (ea37e1fe0901cee95290322130d7e3317cc7ba2499ca786e0f84cacbdba03360)
+  - PROMPTS/06-deep-codebase-review.md (66988ddc060ef2dfc5d34ff84044da291f7311c75cf7db45c350cfab6e20b05c)
+  - PROMPTS/07-release-readiness.md (7c2fdd6dba21cbdb1fb6791fe5f3794a4b8c19eb92aaaf7e7e43813b2c5a9f19)
+  - README.md (b0f86e6e18994e0e0eea6f01d11c659ee24c7b0daa1771c2928eaca24c4da025)
+  - TASKS/00-initial-backlog.md (599298cd441d2f4efae0f394769c887ff9919b38dc008b27684e7f9e5ba5cd51)
+
+### research-docs__security-compliance__balanced
+- Output directory: test-artifacts/scaffold-variants/research-docs__security-compliance__balanced
+- Stack template: Research/Docs Workspace (research-docs)
+- Category: security-compliance
+- Codex profile: Balanced (balanced)
+- Prompt pack: research-docs--security-compliance
+- Directory fingerprint: `b5fafd16d4a6392c8e90be5c7dd04139eb27eb7fa361a1575e408c59abf37799`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (74942d995e49cbfeb6ce33c48339a5e95f8749cf5586cba6760873e7408b4894)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (67de9f19f24ac47a323bac54b1ff67484e155920f88a59022150e793f94c5bf8)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (1054c8e7c642da3c4d6d8dce740102acd4b43cb6b7a615df995e8a0bce306e75)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (9664bf0dd5be93c2d3ca0bde65ed525291f621bd34fcaab00a6397958e7913d3)
+  - project.scaffold.json (6bff043eb7e7912c6d428c0e910eeea2972c7178d7fbf86c4944e74960e46c27)
+  - PROMPTS/01-bootstrap-and-inventory.md (c4c535eb415b3a7e1f3297936fb2dd415bd30611f583e00bdd91ba5de755e607)
+  - PROMPTS/02-design-plan.md (ed1cb4ac08456048a9ab5ccd80e50ab298eb52a187e4f44398d07f212ced207f)
+  - PROMPTS/03-implement-feature.md (32985747fff7410bd0030a103e4cdbb2104eae69d143484461b620753c4fb42c)
+  - PROMPTS/04-fix-bug.md (a07647e56b4e4490267e294f4bec9725445f0ebaa019172e413aa0861e33232a)
+  - PROMPTS/05-validate-and-test.md (0028756ce08d2022ebd2b979668b70732bc827af43ed3f7d764f345de5b5be3d)
+  - PROMPTS/06-deep-codebase-review.md (05fa4c3f3d61ce2d39537332b7a860105dd502ab9891fc1ea66247720e2ccc8b)
+  - PROMPTS/07-release-readiness.md (9876dcca70afe8ce06b8cacab14bdef65ab1f1e5d523977d27ec09b6632341fb)
+  - README.md (fac427795fdac1aed790158e37072355582c36babd04bfc6c2cb497f8d2c2496)
+  - TASKS/00-initial-backlog.md (599298cd441d2f4efae0f394769c887ff9919b38dc008b27684e7f9e5ba5cd51)
+
+### research-docs__security-compliance__rapid
+- Output directory: test-artifacts/scaffold-variants/research-docs__security-compliance__rapid
+- Stack template: Research/Docs Workspace (research-docs)
+- Category: security-compliance
+- Codex profile: Rapid (rapid)
+- Prompt pack: research-docs--security-compliance
+- Directory fingerprint: `318dc91fd052dab4a4c282f1a9e8698915f92a92f489de94e56994e075491eb9`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (273f2d935d98061f3a41328dbbe21fd245084999dd7217a0c0c6c8c859dc6d67)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (67de9f19f24ac47a323bac54b1ff67484e155920f88a59022150e793f94c5bf8)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (4d5fa21ed6ee3ccd49add415e8db1667b349c6b724aaa53bbfb4bf24ab8ed01b)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (95143ff7593ee67ec7613187e814c6be9afb90f7ffd9e324906df3c1510b6231)
+  - project.scaffold.json (f9158e47cb04e5844a4bd2d2df8ab48c11e93769d3bf8351a768e5394df26549)
+  - PROMPTS/01-bootstrap-and-inventory.md (c4c535eb415b3a7e1f3297936fb2dd415bd30611f583e00bdd91ba5de755e607)
+  - PROMPTS/02-design-plan.md (ed1cb4ac08456048a9ab5ccd80e50ab298eb52a187e4f44398d07f212ced207f)
+  - PROMPTS/03-implement-feature.md (32985747fff7410bd0030a103e4cdbb2104eae69d143484461b620753c4fb42c)
+  - PROMPTS/04-fix-bug.md (a07647e56b4e4490267e294f4bec9725445f0ebaa019172e413aa0861e33232a)
+  - PROMPTS/05-validate-and-test.md (0028756ce08d2022ebd2b979668b70732bc827af43ed3f7d764f345de5b5be3d)
+  - PROMPTS/06-deep-codebase-review.md (05fa4c3f3d61ce2d39537332b7a860105dd502ab9891fc1ea66247720e2ccc8b)
+  - PROMPTS/07-release-readiness.md (9876dcca70afe8ce06b8cacab14bdef65ab1f1e5d523977d27ec09b6632341fb)
+  - README.md (acb91ccad14faa3f0d7aff5c5a753a7c4d535601235fed81e361f57abb204bb3)
+  - TASKS/00-initial-backlog.md (599298cd441d2f4efae0f394769c887ff9919b38dc008b27684e7f9e5ba5cd51)
+
+### research-docs__security-compliance__strict
+- Output directory: test-artifacts/scaffold-variants/research-docs__security-compliance__strict
+- Stack template: Research/Docs Workspace (research-docs)
+- Category: security-compliance
+- Codex profile: Strict (strict)
+- Prompt pack: research-docs--security-compliance
+- Directory fingerprint: `8ffce7cabfe55d0af48a67d08a5886c6ab9fd73acac23092a14ad1db36a5fb2f`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (86e3d6f7898c5de62f4fa256def71d7dfc0c7a5af53023fff7bc06a61dec71b8)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (67de9f19f24ac47a323bac54b1ff67484e155920f88a59022150e793f94c5bf8)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (e981565c9720564e0661083ba0898d1f54fb45680421bd901014820f9d206775)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (5e9529bc2f31546bfbb2dd1140277796b57ad73c885f7059e05c344ad2cc9b2d)
+  - project.scaffold.json (4bfc432b81ad6adc5d4942c1d620ff757efb9bd69dd9370ddc5a5696b35dd4ba)
+  - PROMPTS/01-bootstrap-and-inventory.md (c4c535eb415b3a7e1f3297936fb2dd415bd30611f583e00bdd91ba5de755e607)
+  - PROMPTS/02-design-plan.md (ed1cb4ac08456048a9ab5ccd80e50ab298eb52a187e4f44398d07f212ced207f)
+  - PROMPTS/03-implement-feature.md (32985747fff7410bd0030a103e4cdbb2104eae69d143484461b620753c4fb42c)
+  - PROMPTS/04-fix-bug.md (a07647e56b4e4490267e294f4bec9725445f0ebaa019172e413aa0861e33232a)
+  - PROMPTS/05-validate-and-test.md (0028756ce08d2022ebd2b979668b70732bc827af43ed3f7d764f345de5b5be3d)
+  - PROMPTS/06-deep-codebase-review.md (05fa4c3f3d61ce2d39537332b7a860105dd502ab9891fc1ea66247720e2ccc8b)
+  - PROMPTS/07-release-readiness.md (9876dcca70afe8ce06b8cacab14bdef65ab1f1e5d523977d27ec09b6632341fb)
+  - README.md (be7597025086ba74d321139ef473ce371e0c8308fbfb3686d43502ee58bbc5f0)
+  - TASKS/00-initial-backlog.md (599298cd441d2f4efae0f394769c887ff9919b38dc008b27684e7f9e5ba5cd51)
+
+### research-docs__web-platform__balanced
+- Output directory: test-artifacts/scaffold-variants/research-docs__web-platform__balanced
+- Stack template: Research/Docs Workspace (research-docs)
+- Category: web-platform
+- Codex profile: Balanced (balanced)
+- Prompt pack: research-docs--web-platform
+- Directory fingerprint: `b005b143e0e46032e078ab03d79ba5ab5ae1f074ce52f110b78ec6971b3f8711`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (4c1d5f64f42ccf10cf914118ad082598bf01a12a2d61782c23b85b980966a6f3)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (ff4aca2c2adc65536b1878a0e9cb330754120c11a90d976a67d719648b96b7c1)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (7f3e926188aae9bb43d9de696a7ae37f02f16b1ff8fc66fa375fa75199e77b10)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (0adacd3561f0e689f092753d76280419d495a55cd68094f4351d613668e718c8)
+  - project.scaffold.json (b218e7a3c584c6dda9382c0dc9fb6fb8f9a60231b649c1f2171802ffd3726ac4)
+  - PROMPTS/01-bootstrap-and-inventory.md (cb019239f6487ef5ac201664cb65a267c4ecdf9ac759e7b607ad106999b49475)
+  - PROMPTS/02-design-plan.md (23fd673ac8e8bda7d8fe9a957fdfae30d9d3eefa9328042f97c2fa591f43b927)
+  - PROMPTS/03-implement-feature.md (083aaab4cfa41537d0df6e96a1d64df7a630582895cb9a5646fc47d27d1f73b9)
+  - PROMPTS/04-fix-bug.md (12ebda3128e37c0bc01823940965df47715cb3ecdd97ee37caf1bf77051b889a)
+  - PROMPTS/05-validate-and-test.md (92db7004bcdfb007cfc8f4a5b5ec6660750e7f8068c441b1b564e211b14a61ef)
+  - PROMPTS/06-deep-codebase-review.md (a43629dbbf6a767d4e2c9c335d69db0a248fc175630a62cfc233e77e0a1463f4)
+  - PROMPTS/07-release-readiness.md (9b46fa1bf2df146e39c099be8055080db57fe424d0096ee072e02ff3a2854862)
+  - README.md (2100df7ccccbfa2af93a8d76a565c61bd4e17e523901f17ba237857de6be5bef)
+  - TASKS/00-initial-backlog.md (599298cd441d2f4efae0f394769c887ff9919b38dc008b27684e7f9e5ba5cd51)
+
+### research-docs__web-platform__rapid
+- Output directory: test-artifacts/scaffold-variants/research-docs__web-platform__rapid
+- Stack template: Research/Docs Workspace (research-docs)
+- Category: web-platform
+- Codex profile: Rapid (rapid)
+- Prompt pack: research-docs--web-platform
+- Directory fingerprint: `581bb348f833d1931b97caff9e6bb25199fadabd4daf375421432de5421b653c`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (7e0cd9f5ccace29c88a391c8509a55ccddabd4cfa6e9d1ad45250ca2690c44e7)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (ff4aca2c2adc65536b1878a0e9cb330754120c11a90d976a67d719648b96b7c1)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (95e5894681f3fa47a15ad24e52b1cce2d5222684b6dcbbabd5f6968373d8c702)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (0320bd1cd0270cb0563c0bc1d259193d7c40181e51f8891347777147a5fd7e58)
+  - project.scaffold.json (5504802297dbeaaa610f7f83c002089d5c34aa478864e5f28f9e189c43c8f0b9)
+  - PROMPTS/01-bootstrap-and-inventory.md (cb019239f6487ef5ac201664cb65a267c4ecdf9ac759e7b607ad106999b49475)
+  - PROMPTS/02-design-plan.md (23fd673ac8e8bda7d8fe9a957fdfae30d9d3eefa9328042f97c2fa591f43b927)
+  - PROMPTS/03-implement-feature.md (083aaab4cfa41537d0df6e96a1d64df7a630582895cb9a5646fc47d27d1f73b9)
+  - PROMPTS/04-fix-bug.md (12ebda3128e37c0bc01823940965df47715cb3ecdd97ee37caf1bf77051b889a)
+  - PROMPTS/05-validate-and-test.md (92db7004bcdfb007cfc8f4a5b5ec6660750e7f8068c441b1b564e211b14a61ef)
+  - PROMPTS/06-deep-codebase-review.md (a43629dbbf6a767d4e2c9c335d69db0a248fc175630a62cfc233e77e0a1463f4)
+  - PROMPTS/07-release-readiness.md (9b46fa1bf2df146e39c099be8055080db57fe424d0096ee072e02ff3a2854862)
+  - README.md (3865a5e1e37e51766cfccf2902548b904e39fdffd38e4d3286aef0d1766560ed)
+  - TASKS/00-initial-backlog.md (599298cd441d2f4efae0f394769c887ff9919b38dc008b27684e7f9e5ba5cd51)
+
+### research-docs__web-platform__strict
+- Output directory: test-artifacts/scaffold-variants/research-docs__web-platform__strict
+- Stack template: Research/Docs Workspace (research-docs)
+- Category: web-platform
+- Codex profile: Strict (strict)
+- Prompt pack: research-docs--web-platform
+- Directory fingerprint: `917a3a1c5919733d1c92800623c0bdfe291ee225764a0b5d99370e898cc13c1c`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (4ee65ff965766a2c63a6e70d2ab51fe3da60a4aba4411a7e6691596b0428f519)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (ff4aca2c2adc65536b1878a0e9cb330754120c11a90d976a67d719648b96b7c1)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (69db5460a536d9d900b0419dd66bfdec4d7d037d3cafbf9af8c4ff716a56b3ea)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (e166e5e34e814d23aa3a41fc28d9a1a246ea262786da71e30f4f94cf3fc3bdd8)
+  - project.scaffold.json (792457cb6a9cc09e4732abefd7f15a51c10161b217df9d38a92aa2bb184851b5)
+  - PROMPTS/01-bootstrap-and-inventory.md (cb019239f6487ef5ac201664cb65a267c4ecdf9ac759e7b607ad106999b49475)
+  - PROMPTS/02-design-plan.md (23fd673ac8e8bda7d8fe9a957fdfae30d9d3eefa9328042f97c2fa591f43b927)
+  - PROMPTS/03-implement-feature.md (083aaab4cfa41537d0df6e96a1d64df7a630582895cb9a5646fc47d27d1f73b9)
+  - PROMPTS/04-fix-bug.md (12ebda3128e37c0bc01823940965df47715cb3ecdd97ee37caf1bf77051b889a)
+  - PROMPTS/05-validate-and-test.md (92db7004bcdfb007cfc8f4a5b5ec6660750e7f8068c441b1b564e211b14a61ef)
+  - PROMPTS/06-deep-codebase-review.md (a43629dbbf6a767d4e2c9c335d69db0a248fc175630a62cfc233e77e0a1463f4)
+  - PROMPTS/07-release-readiness.md (9b46fa1bf2df146e39c099be8055080db57fe424d0096ee072e02ff3a2854862)
+  - README.md (7ee51904f79600e7de7b6889018391d8af4f2dda0a48559c6f7dca9ef0202c47)
+  - TASKS/00-initial-backlog.md (599298cd441d2f4efae0f394769c887ff9919b38dc008b27684e7f9e5ba5cd51)
+
+### security-compliance__api-service__balanced
+- Output directory: test-artifacts/scaffold-variants/security-compliance__api-service__balanced
+- Stack template: Security/Compliance Coding Project (security-compliance)
+- Category: api-service
+- Codex profile: Balanced (balanced)
+- Prompt pack: security-compliance--api-service
+- Directory fingerprint: `1550c004994720eef5e7d5c21284aa72db1f87621760e61d46a4e2bd3414d239`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (fa950595eb3b8c74a15ff8c07d09cbf07d1458fb9d816c09e8b9716598eb5687)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (e79affd6d3766ddf6649e32ecbaf178e82abeee57e04c19805d941fe5493e57f)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (e57abdc690edb6a959addd7cd9e7d0a610a4885c781dd0f465d68c9d4222ad73)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (8a4a2c6963e5ff1438e52652e01b06f024355ff604aa8369bb79e0bb50e801f4)
+  - project.scaffold.json (4058fbb1950590a8b553a85b38f315857dbb659bffa0117419fd20348310a934)
+  - PROMPTS/01-bootstrap-and-inventory.md (117bf19d6a1f268ec5cc2117a1aee3c75dd01f93b1202c989f036a0b3f1f686a)
+  - PROMPTS/02-design-plan.md (13ea8dd498939dff48911febc3ef7750fec41acdfe1b6c7fce1d76c9b7155cb7)
+  - PROMPTS/03-implement-feature.md (59232b03695a8f51133088f67ecef4958ed0deadf343df1a19744b4bd9e8cae9)
+  - PROMPTS/04-fix-bug.md (846929b3710365edc1cf708bf68ce98986bd876cb5013fad1115dfaf76710441)
+  - PROMPTS/05-validate-and-test.md (9a6c3da0ba25b21deace88972960fcc2f0566dafd8e37ad82e1e20bc6cf379e4)
+  - PROMPTS/06-deep-codebase-review.md (741e54c837c9ee9d77743ae1fe8568b59a24b3ecf7df5377ab242eb2a4cf89e9)
+  - PROMPTS/07-release-readiness.md (4b77d9d6eea80428e4c0f1a8cc450fdfa5f053fbbd4013bd517bba07c566f65b)
+  - README.md (2be4702ebaabf006ff857a5a36b2df745f66fd8fec970465eaa0b4b9edb996f3)
+  - TASKS/00-initial-backlog.md (3d81e2868d97549d0d73c2c224f69fbd2378183c8c4895ada069ef831535f9c2)
+
+### security-compliance__api-service__rapid
+- Output directory: test-artifacts/scaffold-variants/security-compliance__api-service__rapid
+- Stack template: Security/Compliance Coding Project (security-compliance)
+- Category: api-service
+- Codex profile: Rapid (rapid)
+- Prompt pack: security-compliance--api-service
+- Directory fingerprint: `db8fb3c9a50103c69c56d0d67cfa53652c6650af727fa443a859def39f845130`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (4eec23c7e5ad80bab5272a801f9585be462a48c7b2cc2929aed2c0bd5ea6a7c8)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (e79affd6d3766ddf6649e32ecbaf178e82abeee57e04c19805d941fe5493e57f)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (308598e587d07855dd73553bab5351936c157a6533b6665122fa38a4365eb528)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (bb4c0f05ba6317d08114c158246ae8f8b80cf3ef5ddf53edf9d5be26f14d19b9)
+  - project.scaffold.json (ed314061cd3e18c2cafecfdff727ab6ea2bae8a495c7e843cbbf4aa08c5cdf94)
+  - PROMPTS/01-bootstrap-and-inventory.md (117bf19d6a1f268ec5cc2117a1aee3c75dd01f93b1202c989f036a0b3f1f686a)
+  - PROMPTS/02-design-plan.md (13ea8dd498939dff48911febc3ef7750fec41acdfe1b6c7fce1d76c9b7155cb7)
+  - PROMPTS/03-implement-feature.md (59232b03695a8f51133088f67ecef4958ed0deadf343df1a19744b4bd9e8cae9)
+  - PROMPTS/04-fix-bug.md (846929b3710365edc1cf708bf68ce98986bd876cb5013fad1115dfaf76710441)
+  - PROMPTS/05-validate-and-test.md (9a6c3da0ba25b21deace88972960fcc2f0566dafd8e37ad82e1e20bc6cf379e4)
+  - PROMPTS/06-deep-codebase-review.md (741e54c837c9ee9d77743ae1fe8568b59a24b3ecf7df5377ab242eb2a4cf89e9)
+  - PROMPTS/07-release-readiness.md (4b77d9d6eea80428e4c0f1a8cc450fdfa5f053fbbd4013bd517bba07c566f65b)
+  - README.md (82e5f0ff9f996dd231f072c844e4b0759d17f8f40f809d7a8c9bc157d86ae75a)
+  - TASKS/00-initial-backlog.md (3d81e2868d97549d0d73c2c224f69fbd2378183c8c4895ada069ef831535f9c2)
+
+### security-compliance__api-service__strict
+- Output directory: test-artifacts/scaffold-variants/security-compliance__api-service__strict
+- Stack template: Security/Compliance Coding Project (security-compliance)
+- Category: api-service
+- Codex profile: Strict (strict)
+- Prompt pack: security-compliance--api-service
+- Directory fingerprint: `4bc1b88421d516d5b22cba9955685ca3cd99adec19aa6cadba03d857c0e3781a`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (397c8f2e140efa926d2f11614c3e9a845872d64cd61a2bbe9851c575b7caead3)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (e79affd6d3766ddf6649e32ecbaf178e82abeee57e04c19805d941fe5493e57f)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (f8bc39a574fb8cf91944f8a4a12155c9012b5d5d76fadce1c5fe238cfbc5a579)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (fc56a794356c9cbd55708616711f823bddfaa8d47dc888b46ae7a7b73bdee4b3)
+  - project.scaffold.json (18c3017dc3fa361936991551d502072d7cbd21bf0f65b70935ae1c79c5bbd1e3)
+  - PROMPTS/01-bootstrap-and-inventory.md (117bf19d6a1f268ec5cc2117a1aee3c75dd01f93b1202c989f036a0b3f1f686a)
+  - PROMPTS/02-design-plan.md (13ea8dd498939dff48911febc3ef7750fec41acdfe1b6c7fce1d76c9b7155cb7)
+  - PROMPTS/03-implement-feature.md (59232b03695a8f51133088f67ecef4958ed0deadf343df1a19744b4bd9e8cae9)
+  - PROMPTS/04-fix-bug.md (846929b3710365edc1cf708bf68ce98986bd876cb5013fad1115dfaf76710441)
+  - PROMPTS/05-validate-and-test.md (9a6c3da0ba25b21deace88972960fcc2f0566dafd8e37ad82e1e20bc6cf379e4)
+  - PROMPTS/06-deep-codebase-review.md (741e54c837c9ee9d77743ae1fe8568b59a24b3ecf7df5377ab242eb2a4cf89e9)
+  - PROMPTS/07-release-readiness.md (4b77d9d6eea80428e4c0f1a8cc450fdfa5f053fbbd4013bd517bba07c566f65b)
+  - README.md (d45e17649b65a0138e62ff8e47c0ee76ac5f1acba66bffb2eec31a29720603b4)
+  - TASKS/00-initial-backlog.md (3d81e2868d97549d0d73c2c224f69fbd2378183c8c4895ada069ef831535f9c2)
+
+### security-compliance__automation__balanced
+- Output directory: test-artifacts/scaffold-variants/security-compliance__automation__balanced
+- Stack template: Security/Compliance Coding Project (security-compliance)
+- Category: automation
+- Codex profile: Balanced (balanced)
+- Prompt pack: security-compliance--automation
+- Directory fingerprint: `ed8b01582c44dc8ab92c5505ba410d5cb094e0d7104c5fde958560ff0658829c`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (8050a300c002bf313f5c07d27862c25048afb49c824832bcd378905030757d34)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (732c1226380e087b35b52e7396802934686e4a3c9c2e4a3e7bbe58be8cffa1ee)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (335b1215737d418bfe634ba2838000fee883ce26bec34aa1e45964c952d2f99f)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (f21b05ab5f14cd45e808243c4267ee98dbe3a61482a71dbe0447c9c1ee997f74)
+  - project.scaffold.json (0c729f1473a398758c0185d93bf1a440b8f11d3c25611d0086b43787d3133a46)
+  - PROMPTS/01-bootstrap-and-inventory.md (d5f2e325041f99d9a7b41ab350a0bb006d55656667a9915bd73e0f0336e687f0)
+  - PROMPTS/02-design-plan.md (dcac28c6ecf5bb370b9abeff17ebe37bd94e76eeceee45eab6b64b78f1aac1d4)
+  - PROMPTS/03-implement-feature.md (81fde714069a71dbd8eb5f495f57714929b15138ebc916be76578ce7237c20e2)
+  - PROMPTS/04-fix-bug.md (04514dfcfa97a2c6584f8ca7499a34ddeca3cb953f4da9f6d9d6cc4e345d87e3)
+  - PROMPTS/05-validate-and-test.md (75cde28891134dbc8271318b193718ab7226ac9d5b1d0b11e0317eff8fe1a157)
+  - PROMPTS/06-deep-codebase-review.md (2b0362d0d532d73da3a97aa09f2148b3a9baf30b4737d5a7c471850f211634bc)
+  - PROMPTS/07-release-readiness.md (85d4b6266455701a6f94757bc0c620213d38868065d66a261f64f2e665b085c1)
+  - README.md (7a37d15002dc97481ad8cb26ae93dc939311f60453c4a76971d946f36cbbe94c)
+  - TASKS/00-initial-backlog.md (3d81e2868d97549d0d73c2c224f69fbd2378183c8c4895ada069ef831535f9c2)
+
+### security-compliance__automation__rapid
+- Output directory: test-artifacts/scaffold-variants/security-compliance__automation__rapid
+- Stack template: Security/Compliance Coding Project (security-compliance)
+- Category: automation
+- Codex profile: Rapid (rapid)
+- Prompt pack: security-compliance--automation
+- Directory fingerprint: `1366d6abf240027f391f98a78e092112f95a295717d94fbf3d0010442b2b2113`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (e9995c862923685bc354ad6083fa7dbcc9922709c1445a31153d7a82e7134888)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (732c1226380e087b35b52e7396802934686e4a3c9c2e4a3e7bbe58be8cffa1ee)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (115ab7140f8702b2662b7480f2101b50cec978b7dfc4310a36d7ebc34d9d4d46)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (611f159810976390ba6b1006c22434995bdbddd3f2e1580fc0c0357a1f9a7abd)
+  - project.scaffold.json (577695669a183420dbb58764bdc83204a3d08c24f24d3e8e9afa85c4f16daccd)
+  - PROMPTS/01-bootstrap-and-inventory.md (d5f2e325041f99d9a7b41ab350a0bb006d55656667a9915bd73e0f0336e687f0)
+  - PROMPTS/02-design-plan.md (dcac28c6ecf5bb370b9abeff17ebe37bd94e76eeceee45eab6b64b78f1aac1d4)
+  - PROMPTS/03-implement-feature.md (81fde714069a71dbd8eb5f495f57714929b15138ebc916be76578ce7237c20e2)
+  - PROMPTS/04-fix-bug.md (04514dfcfa97a2c6584f8ca7499a34ddeca3cb953f4da9f6d9d6cc4e345d87e3)
+  - PROMPTS/05-validate-and-test.md (75cde28891134dbc8271318b193718ab7226ac9d5b1d0b11e0317eff8fe1a157)
+  - PROMPTS/06-deep-codebase-review.md (2b0362d0d532d73da3a97aa09f2148b3a9baf30b4737d5a7c471850f211634bc)
+  - PROMPTS/07-release-readiness.md (85d4b6266455701a6f94757bc0c620213d38868065d66a261f64f2e665b085c1)
+  - README.md (01deecc861e3e863bf4fb20e99c05e7f12f954904f90cd1e0c7f236063818a13)
+  - TASKS/00-initial-backlog.md (3d81e2868d97549d0d73c2c224f69fbd2378183c8c4895ada069ef831535f9c2)
+
+### security-compliance__automation__strict
+- Output directory: test-artifacts/scaffold-variants/security-compliance__automation__strict
+- Stack template: Security/Compliance Coding Project (security-compliance)
+- Category: automation
+- Codex profile: Strict (strict)
+- Prompt pack: security-compliance--automation
+- Directory fingerprint: `c3ec6603e7f45aef32b827238ba8297d1bb2f0ad16ff651cc825be6ee45f2729`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (15da7588f389c1fa6e9ff27219f7420466105dede09c4068215b4111e34b575d)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (732c1226380e087b35b52e7396802934686e4a3c9c2e4a3e7bbe58be8cffa1ee)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (bd0f1632505ebcb5deaa6a71b5b3053777168d4ba138cc6c03339f6e4dd75bcb)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (ae5247ed1969d87391a670fec61747a18af417225cebcca4e51e8a8c810b7fe3)
+  - project.scaffold.json (05b43bf5ac879c906f17f3bb5d5dd965ca87308361556d1464c5514c08fca0a1)
+  - PROMPTS/01-bootstrap-and-inventory.md (d5f2e325041f99d9a7b41ab350a0bb006d55656667a9915bd73e0f0336e687f0)
+  - PROMPTS/02-design-plan.md (dcac28c6ecf5bb370b9abeff17ebe37bd94e76eeceee45eab6b64b78f1aac1d4)
+  - PROMPTS/03-implement-feature.md (81fde714069a71dbd8eb5f495f57714929b15138ebc916be76578ce7237c20e2)
+  - PROMPTS/04-fix-bug.md (04514dfcfa97a2c6584f8ca7499a34ddeca3cb953f4da9f6d9d6cc4e345d87e3)
+  - PROMPTS/05-validate-and-test.md (75cde28891134dbc8271318b193718ab7226ac9d5b1d0b11e0317eff8fe1a157)
+  - PROMPTS/06-deep-codebase-review.md (2b0362d0d532d73da3a97aa09f2148b3a9baf30b4737d5a7c471850f211634bc)
+  - PROMPTS/07-release-readiness.md (85d4b6266455701a6f94757bc0c620213d38868065d66a261f64f2e665b085c1)
+  - README.md (aa908da96b4b954c5a6a3eb2dd65b46a2064495bac34146c5e38aa4cad890f76)
+  - TASKS/00-initial-backlog.md (3d81e2868d97549d0d73c2c224f69fbd2378183c8c4895ada069ef831535f9c2)
+
+### security-compliance__research__balanced
+- Output directory: test-artifacts/scaffold-variants/security-compliance__research__balanced
+- Stack template: Security/Compliance Coding Project (security-compliance)
+- Category: research
+- Codex profile: Balanced (balanced)
+- Prompt pack: security-compliance--research
+- Directory fingerprint: `a610ba730bdb35fb50793b5128ec4a6d8ade05f1cfa739868a0e11e699e14dc1`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (81e831367d35b97a7a9e7837df2bced1683fffd0dee30db5d80b50815689c7d8)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (5b6898d2bcc2d2da71a2f1cdfcab64ef3dd9c85dcc84e353c01deecc9bb303e8)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (344d7ae59d5e97884df06981b7ef52ea84cc43df7317527d8f27b902b95723ae)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (13fae275a90159d05335f1ef55ccf1da84aecbe5a7098334c8dddc0a1007add2)
+  - project.scaffold.json (451ea342b9f24e8dc5bb61f277b555eca47e5b98bfa6083da421f17c834bece0)
+  - PROMPTS/01-bootstrap-and-inventory.md (de1262376359655429c8039b07c74aa35f5496a43a25f816a32503654775897f)
+  - PROMPTS/02-design-plan.md (9408cf16c5dbd05f42efe3aae376bd6f72b106787ce22faf119985ea8179e7af)
+  - PROMPTS/03-implement-feature.md (202b7e0ef634b1b817e6323bb8ea78ef5e5f763f44911902f6191dcd4e95f243)
+  - PROMPTS/04-fix-bug.md (ff5ab4541cd11fb424ce5f1643c3781fcdcb1088c3938e41192c2664a2e9c067)
+  - PROMPTS/05-validate-and-test.md (7aa7e1adcf363547613e47575958d24dcda7355bc3e3cb153ec57d235c7392a4)
+  - PROMPTS/06-deep-codebase-review.md (3489ce1dc5b27f9d651989e8d500b1de05acd8d60b8fa1ef127ee9011f022625)
+  - PROMPTS/07-release-readiness.md (ece202e989ce0aa0931f46536ed376f33842257600038bad2cad42e2f04e3902)
+  - README.md (2e4c5443dce825d4c6edec06a51504117a54c75bb8f6063bf1678facb482b44c)
+  - TASKS/00-initial-backlog.md (3d81e2868d97549d0d73c2c224f69fbd2378183c8c4895ada069ef831535f9c2)
+
+### security-compliance__research__rapid
+- Output directory: test-artifacts/scaffold-variants/security-compliance__research__rapid
+- Stack template: Security/Compliance Coding Project (security-compliance)
+- Category: research
+- Codex profile: Rapid (rapid)
+- Prompt pack: security-compliance--research
+- Directory fingerprint: `4562a92f186aa56f15a131b20440969e98d62197b0fd4043a188735125b7136e`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (9c3dc6f4c86a473fd5c33dabc2598a7d9e0f25f0fe8b2d26f2c492171e011d49)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (5b6898d2bcc2d2da71a2f1cdfcab64ef3dd9c85dcc84e353c01deecc9bb303e8)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (d99cdcc2b736a7213108764223451de4d851ea0b877add671f12f6209292cab9)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (e772e16084c8771d603032edb24b70ae4a23740f0dfc7bcdadffc89c2edc8f7f)
+  - project.scaffold.json (57864db465a417decb1f299426cea84ef20f09bd927279dfcd4db3519e803d3b)
+  - PROMPTS/01-bootstrap-and-inventory.md (de1262376359655429c8039b07c74aa35f5496a43a25f816a32503654775897f)
+  - PROMPTS/02-design-plan.md (9408cf16c5dbd05f42efe3aae376bd6f72b106787ce22faf119985ea8179e7af)
+  - PROMPTS/03-implement-feature.md (202b7e0ef634b1b817e6323bb8ea78ef5e5f763f44911902f6191dcd4e95f243)
+  - PROMPTS/04-fix-bug.md (ff5ab4541cd11fb424ce5f1643c3781fcdcb1088c3938e41192c2664a2e9c067)
+  - PROMPTS/05-validate-and-test.md (7aa7e1adcf363547613e47575958d24dcda7355bc3e3cb153ec57d235c7392a4)
+  - PROMPTS/06-deep-codebase-review.md (3489ce1dc5b27f9d651989e8d500b1de05acd8d60b8fa1ef127ee9011f022625)
+  - PROMPTS/07-release-readiness.md (ece202e989ce0aa0931f46536ed376f33842257600038bad2cad42e2f04e3902)
+  - README.md (a4d6e8fee4431581926cfbe4243531dad8a4758aadd29c81ae4f121f6ed0f970)
+  - TASKS/00-initial-backlog.md (3d81e2868d97549d0d73c2c224f69fbd2378183c8c4895ada069ef831535f9c2)
+
+### security-compliance__research__strict
+- Output directory: test-artifacts/scaffold-variants/security-compliance__research__strict
+- Stack template: Security/Compliance Coding Project (security-compliance)
+- Category: research
+- Codex profile: Strict (strict)
+- Prompt pack: security-compliance--research
+- Directory fingerprint: `22d5e9312637336b02231a74f720a697dbf80e34206644c87de68fd0e516faef`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (fbcefc6317af948749efdaf708e900313852e3d1ea4fc87da0a5bb0010204841)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (5b6898d2bcc2d2da71a2f1cdfcab64ef3dd9c85dcc84e353c01deecc9bb303e8)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (a4035fbdd0da0df54eb0a94e2afa5fcd772d237b488080f95aa5c34018cf7e7c)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (5d13a9bb5c8a0ae3c5da3a19cfd017cc45757935f28f18f719c711807466d8f5)
+  - project.scaffold.json (e6ba34bf9107a5d67be81fbdf35eb798e7ff50dcd0c3ccdac18c9b2ae056eec8)
+  - PROMPTS/01-bootstrap-and-inventory.md (de1262376359655429c8039b07c74aa35f5496a43a25f816a32503654775897f)
+  - PROMPTS/02-design-plan.md (9408cf16c5dbd05f42efe3aae376bd6f72b106787ce22faf119985ea8179e7af)
+  - PROMPTS/03-implement-feature.md (202b7e0ef634b1b817e6323bb8ea78ef5e5f763f44911902f6191dcd4e95f243)
+  - PROMPTS/04-fix-bug.md (ff5ab4541cd11fb424ce5f1643c3781fcdcb1088c3938e41192c2664a2e9c067)
+  - PROMPTS/05-validate-and-test.md (7aa7e1adcf363547613e47575958d24dcda7355bc3e3cb153ec57d235c7392a4)
+  - PROMPTS/06-deep-codebase-review.md (3489ce1dc5b27f9d651989e8d500b1de05acd8d60b8fa1ef127ee9011f022625)
+  - PROMPTS/07-release-readiness.md (ece202e989ce0aa0931f46536ed376f33842257600038bad2cad42e2f04e3902)
+  - README.md (314a58c624ae62928fda78ddf98d1e16683a34a91ad9bae1d3e7d2dd884b6052)
+  - TASKS/00-initial-backlog.md (3d81e2868d97549d0d73c2c224f69fbd2378183c8c4895ada069ef831535f9c2)
+
+### security-compliance__security-compliance__balanced
+- Output directory: test-artifacts/scaffold-variants/security-compliance__security-compliance__balanced
+- Stack template: Security/Compliance Coding Project (security-compliance)
+- Category: security-compliance
+- Codex profile: Balanced (balanced)
+- Prompt pack: security-compliance--security-compliance
+- Directory fingerprint: `8526b97a63b7db6624fa4a7d8a542ac6611c020a8d292b8a2d22b21a2a7a1502`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (dd79dd5688d0f8aeda0c8e226bc82a497cdeec060da6f9494fe9b8f0a1ce559f)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (b174b15c73eff1f094c36da48173349de0ade9dc06641168116af4d75f690d30)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (d3afafeaf5bb2f6a36b287641af3c7b53e86168a583a88ddeb62ac311d48d813)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (16f384f1ed4c074d8fdff2d512431fd2cb3702a5b14a398eb3328255736f7b76)
+  - project.scaffold.json (e165b397d26475a669541cb2cbbc41a4b7995535e4df13621bf1012aa49fb7da)
+  - PROMPTS/01-bootstrap-and-inventory.md (f33cf2d06206527bfb907188a7be0a0a4411ae1e6b0ee54ea78e480c125437b5)
+  - PROMPTS/02-design-plan.md (cf192cf34289d2e9817b9a68b5141fde8f90fe99806e79d2b39897514fc468ba)
+  - PROMPTS/03-implement-feature.md (9cc61f502ea97f51c3b747ee2e8f0a38d16a7ea8a420549c45e1073e62a4f584)
+  - PROMPTS/04-fix-bug.md (6dc9b5c94e80079b471ce00a24d0ceb558a4421648a566ff8d49e59233808293)
+  - PROMPTS/05-validate-and-test.md (cd895d36711e19bbc1b651a5fc66ef73e495a5da1ebca9b82af37c23942a5c28)
+  - PROMPTS/06-deep-codebase-review.md (e97bcfe816be4587381eb8e45c6d5c7bd02219a2787f66e18dbc8c3c7b1f2c3f)
+  - PROMPTS/07-release-readiness.md (1f4735f66c74534a2a2e2175af80b16bc077755f2a1ab937c4f433fd5570c253)
+  - README.md (f64b7173b1918a855ee70ab38b2f212019f84071ed5e2bcf7881157cd6fef5b7)
+  - TASKS/00-initial-backlog.md (3d81e2868d97549d0d73c2c224f69fbd2378183c8c4895ada069ef831535f9c2)
+
+### security-compliance__security-compliance__rapid
+- Output directory: test-artifacts/scaffold-variants/security-compliance__security-compliance__rapid
+- Stack template: Security/Compliance Coding Project (security-compliance)
+- Category: security-compliance
+- Codex profile: Rapid (rapid)
+- Prompt pack: security-compliance--security-compliance
+- Directory fingerprint: `2d65c212ec1a6636e98e8640dc34090a2546a0e97fe618eb2b20017b71b91416`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (144ae16cdc3db98a38033a12088f7bffc94cbe07470aa23beaa16c365fd1d34d)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (b174b15c73eff1f094c36da48173349de0ade9dc06641168116af4d75f690d30)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (f9f9b7b4683fd8d024162a16bb7ad71890026e65c04ba265bf68cd17dfb9578d)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (8c9a3d04303f71d05156c9fb1d396c62dd81d780025c85bc52c91b0bc2fc3bd1)
+  - project.scaffold.json (bee0e3effa542fe7e3474dfa6a1a60d7176b73678c7985f313a341a4f9eab496)
+  - PROMPTS/01-bootstrap-and-inventory.md (f33cf2d06206527bfb907188a7be0a0a4411ae1e6b0ee54ea78e480c125437b5)
+  - PROMPTS/02-design-plan.md (cf192cf34289d2e9817b9a68b5141fde8f90fe99806e79d2b39897514fc468ba)
+  - PROMPTS/03-implement-feature.md (9cc61f502ea97f51c3b747ee2e8f0a38d16a7ea8a420549c45e1073e62a4f584)
+  - PROMPTS/04-fix-bug.md (6dc9b5c94e80079b471ce00a24d0ceb558a4421648a566ff8d49e59233808293)
+  - PROMPTS/05-validate-and-test.md (cd895d36711e19bbc1b651a5fc66ef73e495a5da1ebca9b82af37c23942a5c28)
+  - PROMPTS/06-deep-codebase-review.md (e97bcfe816be4587381eb8e45c6d5c7bd02219a2787f66e18dbc8c3c7b1f2c3f)
+  - PROMPTS/07-release-readiness.md (1f4735f66c74534a2a2e2175af80b16bc077755f2a1ab937c4f433fd5570c253)
+  - README.md (0cb0cc4d193540991febbb8c93c377396ba5b68e91a655cdcebfb00e608becff)
+  - TASKS/00-initial-backlog.md (3d81e2868d97549d0d73c2c224f69fbd2378183c8c4895ada069ef831535f9c2)
+
+### security-compliance__security-compliance__strict
+- Output directory: test-artifacts/scaffold-variants/security-compliance__security-compliance__strict
+- Stack template: Security/Compliance Coding Project (security-compliance)
+- Category: security-compliance
+- Codex profile: Strict (strict)
+- Prompt pack: security-compliance--security-compliance
+- Directory fingerprint: `aaa781b7b74f78970a7667bf9150f848c4b2f9c297fea9bdfb58d497b0f22fd0`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (59324922ced2a5bb2251896b3d1064446775e3cb7f8715958db04d437e3cf61f)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (b174b15c73eff1f094c36da48173349de0ade9dc06641168116af4d75f690d30)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (8ff79afc9139b5b5b6400e9fb31e55fa551535b6236bce8bd08bbf0c05086dc8)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (ef7aceb4eee0f491bc09e10e4e2d2f50bd376d0d511463e9322a6d15284393a1)
+  - project.scaffold.json (944f43835882276b3e135c3c668b7456c3984325da366bb4d3d6afab4b1ccd0e)
+  - PROMPTS/01-bootstrap-and-inventory.md (f33cf2d06206527bfb907188a7be0a0a4411ae1e6b0ee54ea78e480c125437b5)
+  - PROMPTS/02-design-plan.md (cf192cf34289d2e9817b9a68b5141fde8f90fe99806e79d2b39897514fc468ba)
+  - PROMPTS/03-implement-feature.md (9cc61f502ea97f51c3b747ee2e8f0a38d16a7ea8a420549c45e1073e62a4f584)
+  - PROMPTS/04-fix-bug.md (6dc9b5c94e80079b471ce00a24d0ceb558a4421648a566ff8d49e59233808293)
+  - PROMPTS/05-validate-and-test.md (cd895d36711e19bbc1b651a5fc66ef73e495a5da1ebca9b82af37c23942a5c28)
+  - PROMPTS/06-deep-codebase-review.md (e97bcfe816be4587381eb8e45c6d5c7bd02219a2787f66e18dbc8c3c7b1f2c3f)
+  - PROMPTS/07-release-readiness.md (1f4735f66c74534a2a2e2175af80b16bc077755f2a1ab937c4f433fd5570c253)
+  - README.md (70525deff92340edf848c9e421745c49b866899ace051709c3a58721bbf768f4)
+  - TASKS/00-initial-backlog.md (3d81e2868d97549d0d73c2c224f69fbd2378183c8c4895ada069ef831535f9c2)
+
+### security-compliance__web-platform__balanced
+- Output directory: test-artifacts/scaffold-variants/security-compliance__web-platform__balanced
+- Stack template: Security/Compliance Coding Project (security-compliance)
+- Category: web-platform
+- Codex profile: Balanced (balanced)
+- Prompt pack: security-compliance--web-platform
+- Directory fingerprint: `a3dcec52b5b5c72f1a41fd763b58bb5074cd5b1de7ae9dd3fcf4e6e7a0c7bfcd`
+- Generated file inventory:
+  - .codex/config.toml (d26f2f68213a3158936c050a5f065bdfe0ee6d838a989c766baf74f6d9129c61)
+  - .codex/instructions.md (3a11720610f2fed344836fdffab48bfdddfc99297474764ea2b3331a891c1cb7)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (fbf8c597a1fe95e904dd7ed35108054a0cd2bb28ee6daa1de9dfcbf6c844b393)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (5200d2aefa8fb0a20896b0abe21d2e1950723275429707bcacd7878a99fc2fdc)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (be63ff8a448d87e228b9ee0997c7482757d0538d0b99dfffac7fb9e927266f19)
+  - project.scaffold.json (4a7eae22a8b7454d3484256699fe80783227a25c106eeb8fcda8668a21e4206b)
+  - PROMPTS/01-bootstrap-and-inventory.md (ce5196ae6b23d4dacca5fa064f94366deeedb99be9cfd8be83443d0e73e8fb04)
+  - PROMPTS/02-design-plan.md (9b18b7a0a8e0e62cfe4557ef93bd3357c19b22c7ed76ce0b76844d097a0f5ef5)
+  - PROMPTS/03-implement-feature.md (f8634584dfa48095c8a03f21586f05cbe31ba2ab4c1ad83160decf30011f42c4)
+  - PROMPTS/04-fix-bug.md (9a64fd7b2f5d1e3aafdbe8782883bb856bb685d59b6b530953fff3b54f2484cf)
+  - PROMPTS/05-validate-and-test.md (9feb5bccd12dca6047357623d8c3de5493efd13bec945152da2ce6f53e08a801)
+  - PROMPTS/06-deep-codebase-review.md (9bcbcdaa6195693395bf7851ffbbf75ce8998e0571c650d61aba8586cf11a7e9)
+  - PROMPTS/07-release-readiness.md (5cf29339d8ce85f390bf986342d293f11d0072a5f2fb76d480827edf936a48fa)
+  - README.md (8b512c47a025e4f0c2ca503088f4a10f075a24f0bc275bd07482efbd8456f331)
+  - TASKS/00-initial-backlog.md (3d81e2868d97549d0d73c2c224f69fbd2378183c8c4895ada069ef831535f9c2)
+
+### security-compliance__web-platform__rapid
+- Output directory: test-artifacts/scaffold-variants/security-compliance__web-platform__rapid
+- Stack template: Security/Compliance Coding Project (security-compliance)
+- Category: web-platform
+- Codex profile: Rapid (rapid)
+- Prompt pack: security-compliance--web-platform
+- Directory fingerprint: `989262819ca796aed33af1eedeaaf77d5e675c07c90b4be784a8ab26c1b67ea5`
+- Generated file inventory:
+  - .codex/config.toml (1874e5fd039ab864e6b9db671d402aac390b940eddc6ba362778f2c96860a628)
+  - .codex/instructions.md (2624c41f1a035ed6b24d58f6c8dbf51d98213dd63e83c5f646f0c35b75ccf24e)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (fbf8c597a1fe95e904dd7ed35108054a0cd2bb28ee6daa1de9dfcbf6c844b393)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (5f981d37e09e5a3e802003532dd4efa2e70ae995570c7169b4d11f6371756dee)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (c80e73086ec84270ca89d4e3bb6e32d7af34f8440ca6646bd459f298c2b85fbc)
+  - project.scaffold.json (9e319fb4357e2509e758e4bf5ab843f23c3f3617c0112519e02e476f28a1622e)
+  - PROMPTS/01-bootstrap-and-inventory.md (ce5196ae6b23d4dacca5fa064f94366deeedb99be9cfd8be83443d0e73e8fb04)
+  - PROMPTS/02-design-plan.md (9b18b7a0a8e0e62cfe4557ef93bd3357c19b22c7ed76ce0b76844d097a0f5ef5)
+  - PROMPTS/03-implement-feature.md (f8634584dfa48095c8a03f21586f05cbe31ba2ab4c1ad83160decf30011f42c4)
+  - PROMPTS/04-fix-bug.md (9a64fd7b2f5d1e3aafdbe8782883bb856bb685d59b6b530953fff3b54f2484cf)
+  - PROMPTS/05-validate-and-test.md (9feb5bccd12dca6047357623d8c3de5493efd13bec945152da2ce6f53e08a801)
+  - PROMPTS/06-deep-codebase-review.md (9bcbcdaa6195693395bf7851ffbbf75ce8998e0571c650d61aba8586cf11a7e9)
+  - PROMPTS/07-release-readiness.md (5cf29339d8ce85f390bf986342d293f11d0072a5f2fb76d480827edf936a48fa)
+  - README.md (5b443ae32ecc1bb9336095b47d2b514f16b6159b0ff76b96f8d610c33f24fd1a)
+  - TASKS/00-initial-backlog.md (3d81e2868d97549d0d73c2c224f69fbd2378183c8c4895ada069ef831535f9c2)
+
+### security-compliance__web-platform__strict
+- Output directory: test-artifacts/scaffold-variants/security-compliance__web-platform__strict
+- Stack template: Security/Compliance Coding Project (security-compliance)
+- Category: web-platform
+- Codex profile: Strict (strict)
+- Prompt pack: security-compliance--web-platform
+- Directory fingerprint: `12b969869350f9536f2d30ed54a4c7f8e697c717aac4caef05839906037e67b6`
+- Generated file inventory:
+  - .codex/config.toml (837e906eb0efb708f23a46e759c2292cd02feab0ab78d52f42980f7a125638d0)
+  - .codex/instructions.md (a97cbe2fdcc1b85e4a3ab82c51fae81e8d616fa7b346f4c52c5e6359601ab0a1)
+  - .editorconfig (76565420d6347129e8c1b99ae259c764efa836509053365541eacebc5c27e188)
+  - .gitignore (eb8a8c8c60a0efebcaa086c25e3f5c3150aea1b0607f23f32e92eb5cceb2c4ce)
+  - ARCHITECTURE.md (fbf8c597a1fe95e904dd7ed35108054a0cd2bb28ee6daa1de9dfcbf6c844b393)
+  - BEST_PRACTICES_CHATGPT_CODEX.md (b40cc35849a81cf7e0cb5247dd4933a17d29f02a97c7e67a666456bbed0aac57)
+  - BOOTSTRAP/MANUAL_FINALIZATION.md (bc64cf1aab08282e08e6dd27a3b88aa4f38296a59f6ab5e01dbd582b53158237)
+  - BOOTSTRAP/PROJECT_BOOTSTRAP_PACK.md (9cf6fb0ee8f856aa67da9153a50409c15a3e899ec7fd90c98fb863f6c511cf1d)
+  - IMPLEMENTATION_PLAN.md (bd38e67aaafacb439e294aba56c1a887d6048479eeda63eaf6bbca9493fd0905)
+  - LICENSE (1316001fd9f16f302ca09ef88cdb5e91ca1a383fdd7cf6425fe53d8d58b086e8)
+  - PROJECT_CONTEXT.md (9eee1c7ae4669df7f7c133ff9307800dd5ebb6c7649e0181b9d8e6423df73b28)
+  - project.scaffold.json (42568fcb974cbf7ffcd513b80321b869a84f493fb77541a9680e7571333dd231)
+  - PROMPTS/01-bootstrap-and-inventory.md (ce5196ae6b23d4dacca5fa064f94366deeedb99be9cfd8be83443d0e73e8fb04)
+  - PROMPTS/02-design-plan.md (9b18b7a0a8e0e62cfe4557ef93bd3357c19b22c7ed76ce0b76844d097a0f5ef5)
+  - PROMPTS/03-implement-feature.md (f8634584dfa48095c8a03f21586f05cbe31ba2ab4c1ad83160decf30011f42c4)
+  - PROMPTS/04-fix-bug.md (9a64fd7b2f5d1e3aafdbe8782883bb856bb685d59b6b530953fff3b54f2484cf)
+  - PROMPTS/05-validate-and-test.md (9feb5bccd12dca6047357623d8c3de5493efd13bec945152da2ce6f53e08a801)
+  - PROMPTS/06-deep-codebase-review.md (9bcbcdaa6195693395bf7851ffbbf75ce8998e0571c650d61aba8586cf11a7e9)
+  - PROMPTS/07-release-readiness.md (5cf29339d8ce85f390bf986342d293f11d0072a5f2fb76d480827edf936a48fa)
+  - README.md (d4409ed916a44fa11fa6b13d938b68a663879078a2617097d5c2bc2c6eeed457)
+  - TASKS/00-initial-backlog.md (3d81e2868d97549d0d73c2c224f69fbd2378183c8c4895ada069ef831535f9c2)
+
+## Grouped comparisons
+### Differences caused by stack template
+- .codex/instructions.md (changed in 225 pairwise comparisons)
+- ARCHITECTURE.md (changed in 225 pairwise comparisons)
+- IMPLEMENTATION_PLAN.md (changed in 225 pairwise comparisons)
+- PROJECT_CONTEXT.md (changed in 225 pairwise comparisons)
+- project.scaffold.json (changed in 225 pairwise comparisons)
+- PROMPTS/01-bootstrap-and-inventory.md (changed in 225 pairwise comparisons)
+- PROMPTS/02-design-plan.md (changed in 225 pairwise comparisons)
+- PROMPTS/03-implement-feature.md (changed in 225 pairwise comparisons)
+- PROMPTS/04-fix-bug.md (changed in 225 pairwise comparisons)
+- PROMPTS/05-validate-and-test.md (changed in 225 pairwise comparisons)
+- PROMPTS/06-deep-codebase-review.md (changed in 225 pairwise comparisons)
+- PROMPTS/07-release-readiness.md (changed in 225 pairwise comparisons)
+- README.md (changed in 225 pairwise comparisons)
+- TASKS/00-initial-backlog.md (changed in 225 pairwise comparisons)
+- .gitignore (changed in 75 pairwise comparisons)
+
+### Differences caused by category
+- .codex/instructions.md (changed in 180 pairwise comparisons)
+- ARCHITECTURE.md (changed in 180 pairwise comparisons)
+- IMPLEMENTATION_PLAN.md (changed in 180 pairwise comparisons)
+- PROJECT_CONTEXT.md (changed in 180 pairwise comparisons)
+- project.scaffold.json (changed in 180 pairwise comparisons)
+- PROMPTS/01-bootstrap-and-inventory.md (changed in 180 pairwise comparisons)
+- PROMPTS/02-design-plan.md (changed in 180 pairwise comparisons)
+- PROMPTS/03-implement-feature.md (changed in 180 pairwise comparisons)
+- PROMPTS/04-fix-bug.md (changed in 180 pairwise comparisons)
+- PROMPTS/05-validate-and-test.md (changed in 180 pairwise comparisons)
+- PROMPTS/06-deep-codebase-review.md (changed in 180 pairwise comparisons)
+- PROMPTS/07-release-readiness.md (changed in 180 pairwise comparisons)
+- README.md (changed in 180 pairwise comparisons)
+
+### Differences caused by codex profile
+- .codex/config.toml (changed in 90 pairwise comparisons)
+- .codex/instructions.md (changed in 90 pairwise comparisons)
+- IMPLEMENTATION_PLAN.md (changed in 90 pairwise comparisons)
+- PROJECT_CONTEXT.md (changed in 90 pairwise comparisons)
+- project.scaffold.json (changed in 90 pairwise comparisons)
+- README.md (changed in 90 pairwise comparisons)
+
+## Explicit findings
+- No distinct combinations produced byte-identical normalized outputs.
+- Every configured option affected at least one generated output comparison.
+- Classification of observed differences: content-level differences were observed in markdown/json/toml files, not only naming metadata changes.
