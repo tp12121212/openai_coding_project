@@ -49,6 +49,29 @@ describe('delivery and hygiene', () => {
     expect(guide).toContain('## 6) Decision matrix');
   });
 
+
+  test('existing repo delivery appends _ops suffixes to generated paths and manifest summaries', () => {
+    const scaffold = buildScaffold({
+      schemaVersion: '3.0.0',
+      projectName: 'Deterministic',
+      description: 'Deterministic output',
+      templateId: 'python-cli',
+      category: 'automation',
+      codexProfile: 'strict',
+      promptPackId: 'default-engineering',
+      deliveryMode: 'github-existing-repo',
+      initializeGit: false,
+      createBranch: false,
+      createWorktree: false
+    });
+
+    expect(scaffold.files.some((file) => file.path.endsWith('_ops.md'))).toBe(true);
+    expect(scaffold.files.some((file) => file.path.includes('PROMPTS_ops/'))).toBe(true);
+    expect(scaffold.manifest.generatedArtifacts.every((artifact) => artifact.path.includes('_ops'))).toBe(true);
+    expect(scaffold.manifest.prompts.files.every((filePath) => filePath.includes('_ops'))).toBe(true);
+    expect(scaffold.manifest.hygiene.baselineFiles.every((filePath) => filePath.includes('_ops'))).toBe(true);
+  });
+
   test('hygiene excludes dangerous paths', () => {
     const check = runHygieneChecks([
       { path: '.env', content: 'x=y' },

@@ -1,7 +1,17 @@
 import { describe, expect, test } from 'vitest';
-import { resolveGitHubAuthButtons } from '../src/components/project-wizard';
+import {
+  defaultFormState,
+  DELIVERY_TARGET_SECTION_TITLE,
+  resolveGitHubAuthButtons,
+  shouldShowGitHubSignInForMode
+} from '../src/components/project-wizard';
 
 describe('github auth button visibility', () => {
+  test('default delivery mode is download ZIP', () => {
+    expect(defaultFormState.deliveryMode).toBe('zip');
+    expect(shouldShowGitHubSignInForMode(defaultFormState.deliveryMode)).toBe(false);
+  });
+
   test('shows sign-in when logged out', () => {
     expect(resolveGitHubAuthButtons({ githubRuntimeReady: true, authenticated: false, reauthorizeRequired: false })).toEqual({
       showSignIn: true,
@@ -24,6 +34,16 @@ describe('github auth button visibility', () => {
       showReauthorize: true,
       showSignOut: true
     });
+  });
+
+  test('shows github sign-in controls only for github delivery modes', () => {
+    expect(shouldShowGitHubSignInForMode('zip')).toBe(false);
+    expect(shouldShowGitHubSignInForMode('github-new-repo')).toBe(true);
+    expect(shouldShowGitHubSignInForMode('github-existing-repo')).toBe(true);
+  });
+
+  test('github sign-in controls are associated with delivery target section', () => {
+    expect(DELIVERY_TARGET_SECTION_TITLE).toBe('Delivery target and repository behavior');
   });
 
   test('never shows sign-in and re-authorize simultaneously', () => {

@@ -82,9 +82,9 @@ export default function HelpPage() {
   return (
     <section>
       <header className="intro-sheet intro-sheet--manual">
-        <p className="intro-sheet__kicker">Operating manual</p>
-        <h2>Handbook guidance for deterministic delivery operations</h2>
-        <p>Direct technical documentation for setup, delivery decisions, safeguards, and failure recovery.</p>
+        <p className="intro-sheet__kicker">Operations manual</p>
+        <h2>Operational guidance for scaffold generation and delivery workflows</h2>
+        <p>Use this reference to choose delivery modes, understand generated outputs, and troubleshoot GitHub integration and execution errors.</p>
       </header>
 
       <ManualLayout

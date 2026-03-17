@@ -24,7 +24,6 @@ export function ChapterRail({ title, items, activeHref }: { title: string; items
           );
         })}
       </ol>
-      <p className="chapter-rail__footnote">PR-only repository updates are enforced for existing targets.</p>
     </aside>
   );
 }
